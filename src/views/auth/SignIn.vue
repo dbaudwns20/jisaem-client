@@ -4,16 +4,19 @@
       <div class="container">
         <div class="column is-4 is-offset-4">
           <form class="box" @submit.prevent="signIn()">
-            <div class="tabs is-right is-small">
-              <ul>
-                <li>
-                  <router-link to="/sign_up">회원가입</router-link>
-                </li>
-                <li>
-                  <router-link to="/find_account">계정찾기</router-link>
-                </li>
-              </ul>
+            <div class="level-right">
+              <router-link to="/sign_up"
+                           tag="p"
+                           class="level-item">
+                회원가입
+              </router-link>
+              <router-link to="/reset_password"
+                           tag="p"
+                           class="level-item">
+                비밀번호 재설정
+              </router-link>
             </div>
+
             <div class="field">
               <label class="label">
                 이메일
@@ -48,8 +51,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: "SignIn",
-  components: {
-  },
   setup() {
     const email: string = ''
     const password: string = ''
@@ -67,5 +68,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.box {
+  min-width: 300px;
+}
 </style>

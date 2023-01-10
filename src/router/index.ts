@@ -14,7 +14,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/sign_up/manager',
         name: 'ModalSignUpManager',
-        component: () => import('../views/auth/ModalSignUpManager.vue')
+        component: () => import('../views/auth/ModalSignUpManager.vue'),
+        meta: {
+          modalTitle: "회원가입"
+        }
       },
       {
         path: '/sign_up/user',
@@ -23,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+  {
+    path: '/reset_password',
+    name: 'ResetPassword',
+    component: () => import('../views/auth/ResetPassword.vue')
+  }
 ]
 
 const router = createRouter({
