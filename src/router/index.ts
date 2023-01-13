@@ -1,37 +1,17 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import authRouter from "@/modules/auth/router"
+import dashboardRouter from "@/modules/dashboard/router"
 
-const routes: Array<RouteRecordRaw> = [
+const baseRouter: Array<RouteRecordRaw> = [
   {
-    path: '/sign_in',
-    name: 'SignIn',
-    component: () => import('../views/auth/SignIn.vue')
-  },
-  {
-    path: '/sign_up',
-    name: 'SignUp',
-    component: () => import('../views/auth/SignUp.vue'),
-    children: [
-      {
-        path: '/sign_up/manager',
-        name: 'ModalSignUpManager',
-        component: () => import('../views/auth/ModalSignUpManager.vue'),
-        meta: {
-          modalTitle: "회원가입"
-        }
-      },
-      {
-        path: '/sign_up/user',
-        name: 'ModalSignUpUser',
-        component: () => import('../views/auth/ModalSignUpUser.vue')
-      }
-    ]
-  },
-  {
-    path: '/reset_password',
-    name: 'ResetPassword',
-    component: () => import('../views/auth/ResetPassword.vue')
+    path: '/',
+    redirect: '/sign_in'
   }
 ]
+
+const routes: Array<RouteRecordRaw> = baseRouter
+  .concat(authRouter)
+  .concat(dashboardRouter)
 
 const router = createRouter({
   history: createWebHashHistory(),

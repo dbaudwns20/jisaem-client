@@ -1,3 +1,12 @@
+<!--
+<AppModal>
+    <template v-slot:modalContent>
+    .. 모달 내용
+    </template>
+</AppModal>
+
+부모컴포넌트 <router-view></router-view> 선언 필요
+-->
 <template>
   <div class="modal is-active">
     <div class="modal-background"></div>
@@ -16,23 +25,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import router from "@/router";
 
 export default defineComponent({
   name: 'AppModal',
   setup() {
-    let modalTitle: string = '제목없음'
+    let modalTitle = ref('')
     router.afterEach((to, from) => {
-      modalTitle = to.meta.modalTitle as string
+      modalTitle.value = to.meta.modalTitle as string
     })
-    return {
-      modalTitle
-    }
-  },
-  methods: {
-    closeModal(): void {
+
+    const closeModal = (): void => {
       router.go(-1)
+    }
+
+    return {
+      modalTitle,
+      closeModal
     }
   }
 })
