@@ -5,11 +5,11 @@
         <div class="column is-4 is-offset-4">
           <form class="box" @submit.prevent="signIn()" novalidate>
 
-            <Email :label="'이메일'" :placeholder="'이메일을 입력해 주세요'"
-                   :is-required="true"
-                   v-model="email" />
+            <Text :label="'아이디'" :placeholder="'아이디를 입력해주세요'"
+                  :is-required="true" icons-left="fa-solid fa-user"
+                  v-model="username" />
 
-            <Password :label="'비밀번호'" :placeholder="'비밀번호를 입력해 주세요'"
+            <Password :label="'비밀번호'" :placeholder="'비밀번호를 입력해주세요'"
                       :is-required="true"
                       v-model="password" />
 
@@ -17,18 +17,6 @@
               <button class="button is-fullwidth is-info" type="submit">로그인</button>
             </div>
 
-            <div class="level-right">
-              <router-link to="/sign_up"
-                           tag="p"
-                           class="level-item">
-                회원가입
-              </router-link>
-              <router-link to="/reset_password"
-                           tag="p"
-                           class="level-item">
-                비밀번호 재설정
-              </router-link>
-            </div>
           </form>
         </div>
       </div>
@@ -38,7 +26,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import Email from "@/components/input/Email.vue"
+import Text from "@/components/input/Text.vue"
 import Password from "@/components/input/Password.vue"
 import router from "@/router"
 import Validator from "@/utils/Validator"
@@ -46,23 +34,21 @@ import Validator from "@/utils/Validator"
 export default defineComponent({
   name: "SignIn",
   components: {
-    Email,
+    Text,
     Password
   },
   setup() {
-    let email = ref('')
-    let password = ref('')
+    const username = ref('')
+    const password = ref('')
 
     const signIn = () => {
       if (!Validator.validate()) return
-      console.log(email.value)
-      console.log(password.value)
-      if (email.value === 'dbaudwns20@gmail.com' && password.value == 'QAZwsx1@') {
+      if (username.value === 'dbaudwns20' && password.value == 'QAZwsx1@') {
         router.push("/dashboard")
       }
     }
     return {
-      email,
+      username,
       password,
       signIn
     }
