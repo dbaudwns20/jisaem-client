@@ -1,4 +1,8 @@
+const EMAIL_RULE: RegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+const PASSWORD_RULE: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/)
+
 export default {
+
   /**
    * required 속성을 갖고 있는 데이터 검증
    */
@@ -11,5 +15,19 @@ export default {
       }
     }
     return isValid
+  },
+
+  /**
+   * Email 규칙 체크
+   */
+  checkEmail(value: string): boolean {
+    return EMAIL_RULE.test(value)
+  },
+
+  /**
+   * 비밀번호 규칙 체크
+   */
+  checkPassword(value: string): boolean {
+    return PASSWORD_RULE.test(value)
   }
 }

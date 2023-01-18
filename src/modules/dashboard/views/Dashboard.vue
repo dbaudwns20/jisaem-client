@@ -1,6 +1,13 @@
 <template>
   <AppNavbar />
   <div class="container">
+    <section class="hero is-link is-small">
+      <div class="hero-body">
+        <p class="title">
+          대시보드
+        </p>
+      </div>
+    </section>
     <section class="section">
       <div class="level">
         <div class="level-left">

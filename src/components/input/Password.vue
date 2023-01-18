@@ -2,43 +2,35 @@
   <div class="field">
     <label class="label">{{ label }}</label>
     <div class="control has-icons-left has-icons-right">
-      <input class="input" type="password"
-             :class="{ 'is-success': checkClass === 'success',
-                       'is-danger': checkClass === 'danger',
-                       '': checkClass === ''}"
+      <input type="password" name="password" class="input"
+             :class="checkClass"
              :required="isRequired"
              :placeholder="placeholder"
              v-model="inputValue"
              @input="$emit('update:modelValue', $event.target.value)"
-             @invalid="checkIfIsInvalid"
+             @invalid="checkIfIsInvalid($event.target)"
              @keyup="checkOnPasswordRule($event.target.value)">
       <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
-      <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'success',
-                                                        'fas fa-exclamation-triangle': checkClass === 'danger',
+      <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
+                                                        'fas fa-exclamation-triangle': checkClass === 'is-danger',
                                                         '': checkClass === ''}"></i></span>
-      <p class="help" :class="{ 'is-success': checkClass === 'success',
-                                'is-danger': checkClass === 'danger',
-                                '': checkClass === ''}">
+      <p class="help" :class="checkClass">
         {{ checkMsg }}
       </p>
     </div>
     <div class="control has-icons-left has-icons-right" v-if="!isLogin">
-      <input class="input" type="password"
-             :class="{ 'is-success': checkConfirmClass === 'success',
-                       'is-danger': checkConfirmClass === 'danger',
-                       '': checkConfirmClass === ''}"
+      <input type="password" name="passwordConfirm" class="input"
+             :class="checkConfirmClass"
              placeholder="비밀번호를 확인해주세요"
              :required="isRequired"
              v-model="confirmPassword"
-             @invalid="checkIfIsInvalid"
+             @invalid="checkIfIsInvalid($event.target)"
              @keyup="doConfirmPassword($event.target.value)">
       <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
-      <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkConfirmClass === 'success',
-                                                        'fas fa-exclamation-triangle': checkConfirmClass === 'danger',
+      <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkConfirmClass === 'is-success',
+                                                        'fas fa-exclamation-triangle': checkConfirmClass === 'is-danger',
                                                         '': checkConfirmClass === ''}"></i></span>
-      <p class="help" :class="{ 'is-success': checkConfirmClass === 'success',
-                                'is-danger': checkConfirmClass === 'danger',
-                                '': checkConfirmClass === ''}">
+      <p class="help" :class="checkConfirmClass">
         {{ checkConfirmMsg }}
       </p>
     </div>
@@ -47,8 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-
-const PASSWORD_RULE = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/)
+import Validator from "@/utils/Validator"
 
 export default defineComponent({
   name: "Password",
@@ -76,12 +67,12 @@ export default defineComponent({
         checkClass.value = ""
         return
       }
-      if (PASSWORD_RULE.test(input)) {
+      if (Validator.checkPassword(input)) {
         checkMsg.value = props.isLogin ? "" : "사용가능한 비밀번호 입니다"
-        checkClass.value = props.isLogin ? "" : 'success'
+        checkClass.value = props.isLogin ? "" : 'is-success'
       } else {
         checkMsg.value = "영문자, 숫자, 특수문자를 포함 최소 8~20자로 입력해주세요"
-        checkClass.value = 'danger'
+        checkClass.value = 'is-danger'
       }
     }
 
@@ -97,18 +88,25 @@ export default defineComponent({
       }
       if (input == inputValue.value) {
         checkConfirmMsg.value = "비밀번호가 일치합니다."
-        checkConfirmClass.value = 'success'
+        checkConfirmClass.value = 'is-success'
       } else {
         checkConfirmMsg.value = "비밀번호가 일치하지 않습니다"
-        checkConfirmClass.value = 'danger'
+        checkConfirmClass.value = 'is-danger'
       }
     }
 
-    const checkIfIsInvalid = () => {
-      checkMsg.value = "비밀번호를 입력해주세요"
-      checkClass.value = 'danger'
-      checkConfirmMsg.value = "비밀번호를 확인해주세요"
-      checkConfirmClass.value = 'danger'
+    /**
+     * 값이 입력되었는지 체크
+     */
+    const checkIfIsInvalid = (target: HTMLInputElement) => {
+      if (!props.isRequired) return
+      if (target.name === 'password') {
+        checkMsg.value = "비밀번호를 입력해주세요"
+        checkClass.value = 'is-danger'
+      } else {
+        checkConfirmMsg.value = "비밀번호를 확인해주세요"
+        checkConfirmClass.value = 'is-danger'
+      }
     }
 
     return {

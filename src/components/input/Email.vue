@@ -2,10 +2,8 @@
   <div class="field">
     <label class="label">{{ label }}</label>
     <div class="control has-icons-left has-icons-right">
-      <input class="input" type="email"
-             :class="{ 'is-success': checkClass === 'success',
-                       'is-danger': checkClass === 'danger',
-                       '': checkClass === ''}"
+      <input type="email" class="input"
+             :class="checkClass"
              :required="isRequired"
              :placeholder="placeholder"
              v-model="inputValue"
@@ -13,22 +11,19 @@
              @invalid="checkIfIsInvalid"
              @keyup="checkEmailRule($event.target.value)">
       <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
-      <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'success',
-                                                        'fas fa-exclamation-triangle': checkClass === 'danger',
+      <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
+                                                        'fas fa-exclamation-triangle': checkClass === 'is-danger',
                                                         '': checkClass === ''}"></i></span>
     </div>
-    <p class="help" :class="{ 'is-success': checkClass === 'success',
-                              'is-danger': checkClass === 'danger',
-                              '': checkClass === ''}">
+    <p class="help" :class="checkClass">
       {{ checkMsg }}
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
-
-const EMAIL_RULE = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+import { defineComponent, ref } from 'vue'
+import Validator from "@/utils/Validator"
 
 export default defineComponent({
   name: "Email",
@@ -53,19 +48,22 @@ export default defineComponent({
         checkClass.value = ""
         return
       }
-      if (EMAIL_RULE.test(input)) {
+      if (Validator.checkEmail(input)) {
         checkMsg.value = props.isLogin ? "" : "사용가능한 이메일 입니다"
-        checkClass.value = props.isLogin ? "" : 'success'
+        checkClass.value = props.isLogin ? "" : 'is-success'
       } else {
         checkMsg.value = "유효한 이메일이 아닙니다"
-        checkClass.value = 'danger'
+        checkClass.value = 'is-danger'
       }
     }
 
-    const checkIfIsInvalid = ()=> {
+    /**
+     * 값이 입력되었는지 체크
+     */
+    const checkIfIsInvalid = (): void => {
       if (!props.isRequired) return
-      checkMsg.value = "이메일을 입력해주세요"
-      checkClass.value = 'danger'
+      checkMsg.value = props.placeholder
+      checkClass.value = 'is-danger'
     }
 
     return {
