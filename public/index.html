@@ -10,12 +10,28 @@
     <script src="https://kit.fontawesome.com/f16acb8f21.js" crossorigin="anonymous"></script>
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet" />
+    <style media="only screen">
+      html, body, #app {
+          height: 100%;
+          width: 100%;
+          margin: 0;
+          box-sizing: border-box;
+          -webkit-overflow-scrolling: touch;
+      }
+      html {
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 0;
+          overflow: auto;
+      }
+      body {
+          overflow: auto;
+      }
+    </style>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>

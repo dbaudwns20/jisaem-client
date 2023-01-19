@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import authRouter from "@/modules/auth/router"
-import dashboardRouter from "@/modules/dashboard/router"
-import classRouter from "@/modules/class/router"
+import authRouter from "./authRouter"
+import dashboardRouter from "./dashboardRouter"
+import classRouter from "./classRouter"
 
 const baseRouter: Array<RouteRecordRaw> = [
   {

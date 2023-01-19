@@ -9,8 +9,7 @@
       </div>
     </section>
     <div class="container">
-      <section class="section">
-      </section>
+      <PagingGrid :columns="column" />
     </div>
   </div>
   <AppFooter />
@@ -20,11 +19,20 @@
 import { defineComponent, ref } from 'vue'
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
+import PagingGrid from "@/components/grid/PagingGrid.vue"
+
+import ClassService from "@/services/classService"
 
 export default defineComponent({
   name: "Class",
   components: {
-    AppNavbar, AppFooter
+    AppNavbar, AppFooter, PagingGrid
+  },
+  setup() {
+    const column = ref(ClassService.setClassColumn())
+    return {
+      column
+    }
   }
 })
 </script>

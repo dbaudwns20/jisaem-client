@@ -28,8 +28,8 @@
 import { defineComponent, ref } from 'vue'
 import Text from "@/components/input/Text.vue"
 import Password from "@/components/input/Password.vue"
-import router from "@/router"
-import Validator from "@/utils/Validator"
+import router from "@/routers/router"
+import Validator from "@/utils/validator"
 
 export default defineComponent({
   name: "SignIn",

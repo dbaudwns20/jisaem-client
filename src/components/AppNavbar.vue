@@ -29,7 +29,7 @@
               <a class="button is-info">
                 <strong>내정보</strong>
               </a>
-              <a class="button is-primary">
+              <a class="button is-primary" @click="logout">
                 <strong>로그아웃</strong>
               </a>
             </div>
@@ -42,8 +42,17 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import router from "@/routers/router";
 
 export default defineComponent({
-  name: 'AppNavbar'
+  name: 'AppNavbar',
+  setup() {
+    const logout = () => {
+      router.push('/sign_in')
+    }
+    return {
+      logout
+    }
+  }
 })
 </script>

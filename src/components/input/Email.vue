@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import Validator from "@/utils/Validator"
+import Validator from "@/utils/validator"
 
 export default defineComponent({
   name: "Email",

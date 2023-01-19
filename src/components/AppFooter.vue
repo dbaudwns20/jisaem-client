@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: "AppFooter"
@@ -17,8 +17,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-$footer-padding {
-
-}
-
 </style>

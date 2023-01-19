@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import router from "@/router";
+import router from "@/routers/router";
 
 export default defineComponent({
   name: 'AppModal',
