@@ -1,93 +1,90 @@
-// package: test
-// file: test/test_message.proto
+import * as jspb from 'google-protobuf'
 
-import * as jspb from "google-protobuf";
-import * as google_protobuf_timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb";
-import * as label_label_message_pb from "../label/label_message_pb";
-import * as utils_utils_pb from "../utils/utils_pb";
-import * as class_class_message_pb from "../class/class_message_pb";
+import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
+import * as label_label_message_pb from '../label/label_message_pb';
+import * as utils_utils_pb from '../utils/utils_pb';
+import * as class_class_message_pb from '../class/class_message_pb';
+
 
 export class Test extends jspb.Message {
   getUid(): string;
-  setUid(value: string): void;
+  setUid(value: string): Test;
 
-  hasCreatedAt(): boolean;
-  clearCreatedAt(): void;
   getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): Test;
+  hasCreatedAt(): boolean;
+  clearCreatedAt(): Test;
 
-  hasUpdatedAt(): boolean;
-  clearUpdatedAt(): void;
   getUpdatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setUpdatedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+  setUpdatedAt(value?: google_protobuf_timestamp_pb.Timestamp): Test;
+  hasUpdatedAt(): boolean;
+  clearUpdatedAt(): Test;
 
   getClassUid(): string;
-  setClassUid(value: string): void;
+  setClassUid(value: string): Test;
 
   getName(): string;
-  setName(value: string): void;
+  setName(value: string): Test;
 
   getDescription(): string;
-  setDescription(value: string): void;
+  setDescription(value: string): Test;
 
   getRound(): number;
-  setRound(value: number): void;
+  setRound(value: number): Test;
 
   getAverage(): number;
-  setAverage(value: number): void;
+  setAverage(value: number): Test;
 
   getStDev(): number;
-  setStDev(value: number): void;
+  setStDev(value: number): Test;
 
   getHighScore(): number;
-  setHighScore(value: number): void;
+  setHighScore(value: number): Test;
 
   getLowScore(): number;
-  setLowScore(value: number): void;
+  setLowScore(value: number): Test;
 
-  hasTestLabel(): boolean;
-  clearTestLabel(): void;
   getTestLabel(): label_label_message_pb.Label | undefined;
-  setTestLabel(value?: label_label_message_pb.Label): void;
+  setTestLabel(value?: label_label_message_pb.Label): Test;
+  hasTestLabel(): boolean;
+  clearTestLabel(): Test;
 
-  getExposeRankType(): ExposeRankTypeMap[keyof ExposeRankTypeMap];
-  setExposeRankType(value: ExposeRankTypeMap[keyof ExposeRankTypeMap]): void;
+  getExposeRankType(): ExposeRankType;
+  setExposeRankType(value: ExposeRankType): Test;
 
-  hasStartAt(): boolean;
-  clearStartAt(): void;
   getStartAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setStartAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+  setStartAt(value?: google_protobuf_timestamp_pb.Timestamp): Test;
+  hasStartAt(): boolean;
+  clearStartAt(): Test;
 
-  hasEndAt(): boolean;
-  clearEndAt(): void;
   getEndAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setEndAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+  setEndAt(value?: google_protobuf_timestamp_pb.Timestamp): Test;
+  hasEndAt(): boolean;
+  clearEndAt(): Test;
 
-  hasClosedAt(): boolean;
-  clearClosedAt(): void;
   getClosedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setClosedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+  setClosedAt(value?: google_protobuf_timestamp_pb.Timestamp): Test;
+  hasClosedAt(): boolean;
+  clearClosedAt(): Test;
 
-  hasPublicExposedAt(): boolean;
-  clearPublicExposedAt(): void;
   getPublicExposedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setPublicExposedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+  setPublicExposedAt(value?: google_protobuf_timestamp_pb.Timestamp): Test;
+  hasPublicExposedAt(): boolean;
+  clearPublicExposedAt(): Test;
 
-  clearScoresList(): void;
   getScoresList(): Array<TestScore>;
-  setScoresList(value: Array<TestScore>): void;
+  setScoresList(value: Array<TestScore>): Test;
+  clearScoresList(): Test;
   addScores(value?: TestScore, index?: number): TestScore;
 
-  clearExpectedGradesList(): void;
   getExpectedGradesList(): Array<TestExpectedGrade>;
-  setExpectedGradesList(value: Array<TestExpectedGrade>): void;
+  setExpectedGradesList(value: Array<TestExpectedGrade>): Test;
+  clearExpectedGradesList(): Test;
   addExpectedGrades(value?: TestExpectedGrade, index?: number): TestExpectedGrade;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Test.AsObject;
   static toObject(includeInstance: boolean, msg: Test): Test.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
   static serializeBinaryToWriter(message: Test, writer: jspb.BinaryWriter): void;
   static deserializeBinary(bytes: Uint8Array): Test;
   static deserializeBinaryFromReader(message: Test, reader: jspb.BinaryReader): Test;
@@ -107,7 +104,7 @@ export namespace Test {
     highScore: number,
     lowScore: number,
     testLabel?: label_label_message_pb.Label.AsObject,
-    exposeRankType: ExposeRankTypeMap[keyof ExposeRankTypeMap],
+    exposeRankType: ExposeRankType,
     startAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     endAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     closedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
@@ -118,31 +115,29 @@ export namespace Test {
 }
 
 export class TestScore extends jspb.Message {
-  hasStudent(): boolean;
-  clearStudent(): void;
   getStudent(): class_class_message_pb.ClassParticipant | undefined;
-  setStudent(value?: class_class_message_pb.ClassParticipant): void;
+  setStudent(value?: class_class_message_pb.ClassParticipant): TestScore;
+  hasStudent(): boolean;
+  clearStudent(): TestScore;
 
   getRank(): number;
-  setRank(value: number): void;
+  setRank(value: number): TestScore;
 
   getScore(): number;
-  setScore(value: number): void;
+  setScore(value: number): TestScore;
 
   getStandardScore(): number;
-  setStandardScore(value: number): void;
+  setStandardScore(value: number): TestScore;
 
   getPercentage(): number;
-  setPercentage(value: number): void;
+  setPercentage(value: number): TestScore;
 
   getParticipated(): boolean;
-  setParticipated(value: boolean): void;
+  setParticipated(value: boolean): TestScore;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TestScore.AsObject;
   static toObject(includeInstance: boolean, msg: TestScore): TestScore.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
   static serializeBinaryToWriter(message: TestScore, writer: jspb.BinaryWriter): void;
   static deserializeBinary(bytes: Uint8Array): TestScore;
   static deserializeBinaryFromReader(message: TestScore, reader: jspb.BinaryReader): TestScore;
@@ -160,33 +155,31 @@ export namespace TestScore {
 }
 
 export class OverallTestScore extends jspb.Message {
-  hasTest(): boolean;
-  clearTest(): void;
   getTest(): Test | undefined;
-  setTest(value?: Test): void;
+  setTest(value?: Test): OverallTestScore;
+  hasTest(): boolean;
+  clearTest(): OverallTestScore;
 
-  hasStudent(): boolean;
-  clearStudent(): void;
   getStudent(): class_class_message_pb.ClassParticipant | undefined;
-  setStudent(value?: class_class_message_pb.ClassParticipant): void;
+  setStudent(value?: class_class_message_pb.ClassParticipant): OverallTestScore;
+  hasStudent(): boolean;
+  clearStudent(): OverallTestScore;
 
   getOverallRank(): number;
-  setOverallRank(value: number): void;
+  setOverallRank(value: number): OverallTestScore;
 
   getOverallAverageScore(): number;
-  setOverallAverageScore(value: number): void;
+  setOverallAverageScore(value: number): OverallTestScore;
 
   getOverallAverageStandardScore(): number;
-  setOverallAverageStandardScore(value: number): void;
+  setOverallAverageStandardScore(value: number): OverallTestScore;
 
   getOverallPercentage(): number;
-  setOverallPercentage(value: number): void;
+  setOverallPercentage(value: number): OverallTestScore;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): OverallTestScore.AsObject;
   static toObject(includeInstance: boolean, msg: OverallTestScore): OverallTestScore.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
   static serializeBinaryToWriter(message: OverallTestScore, writer: jspb.BinaryWriter): void;
   static deserializeBinary(bytes: Uint8Array): OverallTestScore;
   static deserializeBinaryFromReader(message: OverallTestScore, reader: jspb.BinaryReader): OverallTestScore;
@@ -205,16 +198,14 @@ export namespace OverallTestScore {
 
 export class TestExpectedGrade extends jspb.Message {
   getStandardScore(): number;
-  setStandardScore(value: number): void;
+  setStandardScore(value: number): TestExpectedGrade;
 
   getGrade(): number;
-  setGrade(value: number): void;
+  setGrade(value: number): TestExpectedGrade;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TestExpectedGrade.AsObject;
   static toObject(includeInstance: boolean, msg: TestExpectedGrade): TestExpectedGrade.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
   static serializeBinaryToWriter(message: TestExpectedGrade, writer: jspb.BinaryWriter): void;
   static deserializeBinary(bytes: Uint8Array): TestExpectedGrade;
   static deserializeBinaryFromReader(message: TestExpectedGrade, reader: jspb.BinaryReader): TestExpectedGrade;
@@ -227,14 +218,11 @@ export namespace TestExpectedGrade {
   }
 }
 
-export interface ExposeRankTypeMap {
-  EXPOSE_RANK_TYPE_UNSPECIFIED: 0;
-  EXPOSE_RANK_TYPE_ONLY_SELF: 1;
-  EXPOSE_RANK_TYPE_FIRST: 2;
-  EXPOSE_RANK_TYPE_SECOND: 3;
-  EXPOSE_RANK_TYPE_THIRD: 4;
-  EXPOSE_RANK_TYPE_ALL: 5;
+export enum ExposeRankType { 
+  EXPOSE_RANK_TYPE_UNSPECIFIED = 0,
+  EXPOSE_RANK_TYPE_ONLY_SELF = 1,
+  EXPOSE_RANK_TYPE_FIRST = 2,
+  EXPOSE_RANK_TYPE_SECOND = 3,
+  EXPOSE_RANK_TYPE_THIRD = 4,
+  EXPOSE_RANK_TYPE_ALL = 5,
 }
-
-export const ExposeRankType: ExposeRankTypeMap;
-
