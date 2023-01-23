@@ -30,7 +30,7 @@ import Text from "@/components/input/Text.vue"
 import Password from "@/components/input/Password.vue"
 import router from "@/routers/router"
 import Validator from "@/utils/validator"
-
+import {AuthClient} from "@/services/authService";
 export default defineComponent({
   name: "SignIn",
   components: {
@@ -40,9 +40,10 @@ export default defineComponent({
   setup() {
     const username = ref('')
     const password = ref('')
-
+    AuthClient.signInNormal("username", "password12#")
     const signIn = () => {
       if (!Validator.validate()) return
+
       if (username.value === 'dbaudwns20' && password.value == 'QAZwsx1@') {
         router.push("/dashboard")
       }

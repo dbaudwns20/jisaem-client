@@ -2,7 +2,6 @@ import * as jspb from 'google-protobuf'
 
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
 import * as label_label_message_pb from '../label/label_message_pb';
-import * as utils_utils_pb from '../utils/utils_pb';
 import * as class_class_message_pb from '../class/class_message_pb';
 
 

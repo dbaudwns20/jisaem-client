@@ -18,7 +18,7 @@ class AuthGrpcClient {
     this._signIn(SignInType.SIGN_IN_TYPE_NORMAL, username, password)
   }
 
-  _signIn(signInType: SignInType, username: string, password: string) {
+  _signIn(signInType: SignInType, username: string, password: string) { // TODO 적절한 model 리턴
     // validate
     if (username == null || username == "") return // TODO 적절한 에러 처리
     if (password == null || password == "") return // TODO 적절한 에러 처리
@@ -28,7 +28,7 @@ class AuthGrpcClient {
     req.setUsername(username)
     req.setPassword(password)
     // call api
-    this._client.signIn( // TODO 비동기?
+    this._client.signIn( // TODO async?
       req,
       null, // TODO metadata? token 넣을 수 있는 건가
       (err, res) => {
