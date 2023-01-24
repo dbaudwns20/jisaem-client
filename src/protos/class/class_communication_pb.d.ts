@@ -139,12 +139,18 @@ export class RequestClassUpdate extends jspb.Message {
 
   getName(): string;
   setName(value: string): RequestClassUpdate;
+  hasName(): boolean;
+  clearName(): RequestClassUpdate;
 
   getDescription(): string;
   setDescription(value: string): RequestClassUpdate;
+  hasDescription(): boolean;
+  clearDescription(): RequestClassUpdate;
 
   getClassLabelUid(): string;
   setClassLabelUid(value: string): RequestClassUpdate;
+  hasClassLabelUid(): boolean;
+  clearClassLabelUid(): RequestClassUpdate;
 
   getStartDate(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setStartDate(value?: google_protobuf_timestamp_pb.Timestamp): RequestClassUpdate;
@@ -158,9 +164,13 @@ export class RequestClassUpdate extends jspb.Message {
 
   getClose(): boolean;
   setClose(value: boolean): RequestClassUpdate;
+  hasClose(): boolean;
+  clearClose(): RequestClassUpdate;
 
   getPublicExpose(): boolean;
   setPublicExpose(value: boolean): RequestClassUpdate;
+  hasPublicExpose(): boolean;
+  clearPublicExpose(): RequestClassUpdate;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestClassUpdate.AsObject;
@@ -173,13 +183,48 @@ export class RequestClassUpdate extends jspb.Message {
 export namespace RequestClassUpdate {
   export type AsObject = {
     uid: string,
-    name: string,
-    description: string,
-    classLabelUid: string,
+    name?: string,
+    description?: string,
+    classLabelUid?: string,
     startDate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     endDate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    close: boolean,
-    publicExpose: boolean,
+    close?: boolean,
+    publicExpose?: boolean,
+  }
+
+  export enum NameCase { 
+    _NAME_NOT_SET = 0,
+    NAME = 2,
+  }
+
+  export enum DescriptionCase { 
+    _DESCRIPTION_NOT_SET = 0,
+    DESCRIPTION = 3,
+  }
+
+  export enum ClassLabelUidCase { 
+    _CLASS_LABEL_UID_NOT_SET = 0,
+    CLASS_LABEL_UID = 4,
+  }
+
+  export enum StartDateCase { 
+    _START_DATE_NOT_SET = 0,
+    START_DATE = 5,
+  }
+
+  export enum EndDateCase { 
+    _END_DATE_NOT_SET = 0,
+    END_DATE = 6,
+  }
+
+  export enum CloseCase { 
+    _CLOSE_NOT_SET = 0,
+    CLOSE = 7,
+  }
+
+  export enum PublicExposeCase { 
+    _PUBLIC_EXPOSE_NOT_SET = 0,
+    PUBLIC_EXPOSE = 8,
   }
 }
 

@@ -212,18 +212,28 @@ export class RequestUserUpdate extends jspb.Message {
 
   getUsername(): string;
   setUsername(value: string): RequestUserUpdate;
+  hasUsername(): boolean;
+  clearUsername(): RequestUserUpdate;
 
   getName(): string;
   setName(value: string): RequestUserUpdate;
+  hasName(): boolean;
+  clearName(): RequestUserUpdate;
 
   getPhone(): string;
   setPhone(value: string): RequestUserUpdate;
+  hasPhone(): boolean;
+  clearPhone(): RequestUserUpdate;
 
   getEmail(): string;
   setEmail(value: string): RequestUserUpdate;
+  hasEmail(): boolean;
+  clearEmail(): RequestUserUpdate;
 
   getUserLabelUid(): string;
   setUserLabelUid(value: string): RequestUserUpdate;
+  hasUserLabelUid(): boolean;
+  clearUserLabelUid(): RequestUserUpdate;
 
   getStudentInfo(): auth_auth_message_pb.StudentInfo | undefined;
   setStudentInfo(value?: auth_auth_message_pb.StudentInfo): RequestUserUpdate;
@@ -241,12 +251,42 @@ export class RequestUserUpdate extends jspb.Message {
 export namespace RequestUserUpdate {
   export type AsObject = {
     uid: string,
-    username: string,
-    name: string,
-    phone: string,
-    email: string,
-    userLabelUid: string,
+    username?: string,
+    name?: string,
+    phone?: string,
+    email?: string,
+    userLabelUid?: string,
     studentInfo?: auth_auth_message_pb.StudentInfo.AsObject,
+  }
+
+  export enum UsernameCase { 
+    _USERNAME_NOT_SET = 0,
+    USERNAME = 2,
+  }
+
+  export enum NameCase { 
+    _NAME_NOT_SET = 0,
+    NAME = 3,
+  }
+
+  export enum PhoneCase { 
+    _PHONE_NOT_SET = 0,
+    PHONE = 4,
+  }
+
+  export enum EmailCase { 
+    _EMAIL_NOT_SET = 0,
+    EMAIL = 5,
+  }
+
+  export enum UserLabelUidCase { 
+    _USER_LABEL_UID_NOT_SET = 0,
+    USER_LABEL_UID = 6,
+  }
+
+  export enum StudentInfoCase { 
+    _STUDENT_INFO_NOT_SET = 0,
+    STUDENT_INFO = 7,
   }
 }
 

@@ -76,19 +76,23 @@ export namespace ResponseLabelListGet {
 }
 
 export class RequestLabelUpdate extends jspb.Message {
-  getUidsList(): Array<string>;
-  setUidsList(value: Array<string>): RequestLabelUpdate;
-  clearUidsList(): RequestLabelUpdate;
-  addUids(value: string, index?: number): RequestLabelUpdate;
+  getUid(): string;
+  setUid(value: string): RequestLabelUpdate;
 
   getName(): string;
   setName(value: string): RequestLabelUpdate;
+  hasName(): boolean;
+  clearName(): RequestLabelUpdate;
 
   getDescription(): string;
   setDescription(value: string): RequestLabelUpdate;
+  hasDescription(): boolean;
+  clearDescription(): RequestLabelUpdate;
 
   getColor(): string;
   setColor(value: string): RequestLabelUpdate;
+  hasColor(): boolean;
+  clearColor(): RequestLabelUpdate;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestLabelUpdate.AsObject;
@@ -100,10 +104,25 @@ export class RequestLabelUpdate extends jspb.Message {
 
 export namespace RequestLabelUpdate {
   export type AsObject = {
-    uidsList: Array<string>,
-    name: string,
-    description: string,
-    color: string,
+    uid: string,
+    name?: string,
+    description?: string,
+    color?: string,
+  }
+
+  export enum NameCase { 
+    _NAME_NOT_SET = 0,
+    NAME = 2,
+  }
+
+  export enum DescriptionCase { 
+    _DESCRIPTION_NOT_SET = 0,
+    DESCRIPTION = 3,
+  }
+
+  export enum ColorCase { 
+    _COLOR_NOT_SET = 0,
+    COLOR = 4,
   }
 }
 

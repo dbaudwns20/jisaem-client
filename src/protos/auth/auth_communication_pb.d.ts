@@ -120,15 +120,23 @@ export namespace ResponseProfileGet {
 export class RequestProfileUpdate extends jspb.Message {
   getName(): string;
   setName(value: string): RequestProfileUpdate;
+  hasName(): boolean;
+  clearName(): RequestProfileUpdate;
 
   getPhone(): string;
   setPhone(value: string): RequestProfileUpdate;
+  hasPhone(): boolean;
+  clearPhone(): RequestProfileUpdate;
 
   getEmail(): string;
   setEmail(value: string): RequestProfileUpdate;
+  hasEmail(): boolean;
+  clearEmail(): RequestProfileUpdate;
 
   getUserLabelUid(): string;
   setUserLabelUid(value: string): RequestProfileUpdate;
+  hasUserLabelUid(): boolean;
+  clearUserLabelUid(): RequestProfileUpdate;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestProfileUpdate.AsObject;
@@ -140,10 +148,30 @@ export class RequestProfileUpdate extends jspb.Message {
 
 export namespace RequestProfileUpdate {
   export type AsObject = {
-    name: string,
-    phone: string,
-    email: string,
-    userLabelUid: string,
+    name?: string,
+    phone?: string,
+    email?: string,
+    userLabelUid?: string,
+  }
+
+  export enum NameCase { 
+    _NAME_NOT_SET = 0,
+    NAME = 1,
+  }
+
+  export enum PhoneCase { 
+    _PHONE_NOT_SET = 0,
+    PHONE = 2,
+  }
+
+  export enum EmailCase { 
+    _EMAIL_NOT_SET = 0,
+    EMAIL = 3,
+  }
+
+  export enum UserLabelUidCase { 
+    _USER_LABEL_UID_NOT_SET = 0,
+    USER_LABEL_UID = 4,
   }
 }
 
