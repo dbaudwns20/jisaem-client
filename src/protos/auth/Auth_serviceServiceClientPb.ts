@@ -254,5 +254,91 @@ export class AuthServiceClient {
     this.methodDescriptorPasswordUpdate);
   }
 
+  methodDescriptorUsernameUpdate = new grpcWeb.MethodDescriptor(
+    '/jisaem.auth.AuthService/UsernameUpdate',
+    grpcWeb.MethodType.UNARY,
+    auth_auth_communication_pb.RequestUsernameUpdate,
+    auth_auth_communication_pb.ResponseUsernameUpdate,
+    (request: auth_auth_communication_pb.RequestUsernameUpdate) => {
+      return request.serializeBinary();
+    },
+    auth_auth_communication_pb.ResponseUsernameUpdate.deserializeBinary
+  );
+
+  usernameUpdate(
+    request: auth_auth_communication_pb.RequestUsernameUpdate,
+    metadata: grpcWeb.Metadata | null): Promise<auth_auth_communication_pb.ResponseUsernameUpdate>;
+
+  usernameUpdate(
+    request: auth_auth_communication_pb.RequestUsernameUpdate,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: auth_auth_communication_pb.ResponseUsernameUpdate) => void): grpcWeb.ClientReadableStream<auth_auth_communication_pb.ResponseUsernameUpdate>;
+
+  usernameUpdate(
+    request: auth_auth_communication_pb.RequestUsernameUpdate,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: auth_auth_communication_pb.ResponseUsernameUpdate) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.auth.AuthService/UsernameUpdate',
+        request,
+        metadata || {},
+        this.methodDescriptorUsernameUpdate,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.auth.AuthService/UsernameUpdate',
+    request,
+    metadata || {},
+    this.methodDescriptorUsernameUpdate);
+  }
+
+  methodDescriptorUsernameDuplicationCheck = new grpcWeb.MethodDescriptor(
+    '/jisaem.auth.AuthService/UsernameDuplicationCheck',
+    grpcWeb.MethodType.UNARY,
+    auth_auth_communication_pb.RequestUsernameDuplicationCheck,
+    auth_auth_communication_pb.ResponseUsernameDuplicationCheck,
+    (request: auth_auth_communication_pb.RequestUsernameDuplicationCheck) => {
+      return request.serializeBinary();
+    },
+    auth_auth_communication_pb.ResponseUsernameDuplicationCheck.deserializeBinary
+  );
+
+  usernameDuplicationCheck(
+    request: auth_auth_communication_pb.RequestUsernameDuplicationCheck,
+    metadata: grpcWeb.Metadata | null): Promise<auth_auth_communication_pb.ResponseUsernameDuplicationCheck>;
+
+  usernameDuplicationCheck(
+    request: auth_auth_communication_pb.RequestUsernameDuplicationCheck,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: auth_auth_communication_pb.ResponseUsernameDuplicationCheck) => void): grpcWeb.ClientReadableStream<auth_auth_communication_pb.ResponseUsernameDuplicationCheck>;
+
+  usernameDuplicationCheck(
+    request: auth_auth_communication_pb.RequestUsernameDuplicationCheck,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: auth_auth_communication_pb.ResponseUsernameDuplicationCheck) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.auth.AuthService/UsernameDuplicationCheck',
+        request,
+        metadata || {},
+        this.methodDescriptorUsernameDuplicationCheck,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.auth.AuthService/UsernameDuplicationCheck',
+    request,
+    metadata || {},
+    this.methodDescriptorUsernameDuplicationCheck);
+  }
+
 }
 

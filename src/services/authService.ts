@@ -3,7 +3,9 @@ import {
   RequestPasswordUpdate,
   RequestProfileGet,
   RequestSignIn,
-  RequestSignOut
+  RequestSignOut,
+  RequestUsernameDuplicationCheck,
+  RequestUsernameUpdate
 } from "@/protos/auth/auth_communication_pb";
 import {SignInType} from "@/protos/auth/auth_message_pb";
 import GrpcService from "@/services/grpcService";
@@ -110,6 +112,35 @@ class AuthGrpcClient {
     })
   }
 
+  async usernameUpdate(username: string) {
+    let req = new RequestUsernameUpdate()
+    req.setUsername(username)
+    return await new Promise((resolve, reject) => {
+      this._client.usernameUpdate(req, GrpcService.setToken(), async (err, res) => {
+        if (err) {
+          console.log(err) // TODO 에러 핸들링
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    })
+  }
+
+  async usernameDuplicationCheck(username: string): Promise<boolean> {
+    let req = new RequestUsernameDuplicationCheck()
+    req.setUsername(username)
+    return await new Promise((resolve, reject) => {
+      this._client.usernameDuplicationCheck(req, GrpcService.setToken(), async (err, res) => {
+        if (err) {
+          console.log(err) // TODO 에러 핸들링
+          reject(err)
+        } else {
+          resolve(res.getExist()!)
+        }
+      })
+    })
+  }
 }
 
 const AuthClient: AuthGrpcClient = new AuthGrpcClient() // 초기화

@@ -118,11 +118,6 @@ export namespace ResponseProfileGet {
 }
 
 export class RequestProfileUpdate extends jspb.Message {
-  getUsername(): string;
-  setUsername(value: string): RequestProfileUpdate;
-  hasUsername(): boolean;
-  clearUsername(): RequestProfileUpdate;
-
   getName(): string;
   setName(value: string): RequestProfileUpdate;
   hasName(): boolean;
@@ -153,36 +148,30 @@ export class RequestProfileUpdate extends jspb.Message {
 
 export namespace RequestProfileUpdate {
   export type AsObject = {
-    username?: string,
     name?: string,
     phone?: string,
     email?: string,
     userLabelUid?: string,
   }
 
-  export enum UsernameCase { 
-    _USERNAME_NOT_SET = 0,
-    USERNAME = 1,
-  }
-
   export enum NameCase { 
     _NAME_NOT_SET = 0,
-    NAME = 2,
+    NAME = 1,
   }
 
   export enum PhoneCase { 
     _PHONE_NOT_SET = 0,
-    PHONE = 3,
+    PHONE = 2,
   }
 
   export enum EmailCase { 
     _EMAIL_NOT_SET = 0,
-    EMAIL = 4,
+    EMAIL = 3,
   }
 
   export enum UserLabelUidCase { 
     _USER_LABEL_UID_NOT_SET = 0,
-    USER_LABEL_UID = 5,
+    USER_LABEL_UID = 4,
   }
 }
 
@@ -233,6 +222,74 @@ export class ResponsePasswordUpdate extends jspb.Message {
 
 export namespace ResponsePasswordUpdate {
   export type AsObject = {
+  }
+}
+
+export class RequestUsernameUpdate extends jspb.Message {
+  getUsername(): string;
+  setUsername(value: string): RequestUsernameUpdate;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestUsernameUpdate.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestUsernameUpdate): RequestUsernameUpdate.AsObject;
+  static serializeBinaryToWriter(message: RequestUsernameUpdate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestUsernameUpdate;
+  static deserializeBinaryFromReader(message: RequestUsernameUpdate, reader: jspb.BinaryReader): RequestUsernameUpdate;
+}
+
+export namespace RequestUsernameUpdate {
+  export type AsObject = {
+    username: string,
+  }
+}
+
+export class ResponseUsernameUpdate extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseUsernameUpdate.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseUsernameUpdate): ResponseUsernameUpdate.AsObject;
+  static serializeBinaryToWriter(message: ResponseUsernameUpdate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseUsernameUpdate;
+  static deserializeBinaryFromReader(message: ResponseUsernameUpdate, reader: jspb.BinaryReader): ResponseUsernameUpdate;
+}
+
+export namespace ResponseUsernameUpdate {
+  export type AsObject = {
+  }
+}
+
+export class RequestUsernameDuplicationCheck extends jspb.Message {
+  getUsername(): string;
+  setUsername(value: string): RequestUsernameDuplicationCheck;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestUsernameDuplicationCheck.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestUsernameDuplicationCheck): RequestUsernameDuplicationCheck.AsObject;
+  static serializeBinaryToWriter(message: RequestUsernameDuplicationCheck, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestUsernameDuplicationCheck;
+  static deserializeBinaryFromReader(message: RequestUsernameDuplicationCheck, reader: jspb.BinaryReader): RequestUsernameDuplicationCheck;
+}
+
+export namespace RequestUsernameDuplicationCheck {
+  export type AsObject = {
+    username: string,
+  }
+}
+
+export class ResponseUsernameDuplicationCheck extends jspb.Message {
+  getExist(): boolean;
+  setExist(value: boolean): ResponseUsernameDuplicationCheck;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseUsernameDuplicationCheck.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseUsernameDuplicationCheck): ResponseUsernameDuplicationCheck.AsObject;
+  static serializeBinaryToWriter(message: ResponseUsernameDuplicationCheck, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseUsernameDuplicationCheck;
+  static deserializeBinaryFromReader(message: ResponseUsernameDuplicationCheck, reader: jspb.BinaryReader): ResponseUsernameDuplicationCheck;
+}
+
+export namespace ResponseUsernameDuplicationCheck {
+  export type AsObject = {
+    exist: boolean,
   }
 }
 

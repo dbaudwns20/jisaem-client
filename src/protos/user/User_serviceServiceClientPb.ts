@@ -383,48 +383,5 @@ export class UserServiceClient {
     this.methodDescriptorUserPasswordUpdate);
   }
 
-  methodDescriptorUsernameDuplicationCheck = new grpcWeb.MethodDescriptor(
-    '/jisaem.user.UserService/UsernameDuplicationCheck',
-    grpcWeb.MethodType.UNARY,
-    user_user_communication_pb.RequestUsernameDuplicationCheck,
-    user_user_communication_pb.ResponseUsernameDuplicationCheck,
-    (request: user_user_communication_pb.RequestUsernameDuplicationCheck) => {
-      return request.serializeBinary();
-    },
-    user_user_communication_pb.ResponseUsernameDuplicationCheck.deserializeBinary
-  );
-
-  usernameDuplicationCheck(
-    request: user_user_communication_pb.RequestUsernameDuplicationCheck,
-    metadata: grpcWeb.Metadata | null): Promise<user_user_communication_pb.ResponseUsernameDuplicationCheck>;
-
-  usernameDuplicationCheck(
-    request: user_user_communication_pb.RequestUsernameDuplicationCheck,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: user_user_communication_pb.ResponseUsernameDuplicationCheck) => void): grpcWeb.ClientReadableStream<user_user_communication_pb.ResponseUsernameDuplicationCheck>;
-
-  usernameDuplicationCheck(
-    request: user_user_communication_pb.RequestUsernameDuplicationCheck,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: user_user_communication_pb.ResponseUsernameDuplicationCheck) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/jisaem.user.UserService/UsernameDuplicationCheck',
-        request,
-        metadata || {},
-        this.methodDescriptorUsernameDuplicationCheck,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/jisaem.user.UserService/UsernameDuplicationCheck',
-    request,
-    metadata || {},
-    this.methodDescriptorUsernameDuplicationCheck);
-  }
-
 }
 
