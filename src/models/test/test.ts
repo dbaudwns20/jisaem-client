@@ -1,6 +1,5 @@
 import {Label as ProtoLabel} from "@/protos/label/label_message_pb"
 import {
-  ExposeRankType,
   Test as ProtoTest,
   TestScore as ProtoTestScore,
   TestExpectedGrade as ProtoTestExpectedGrade
@@ -11,14 +10,15 @@ import {TestScore} from "@/models/test/testScore"
 import {TestExpectedGrade} from "@/models/test/testExpectedGrade"
 
 import {Model} from "@/models/model"
+import {ExposeRankType, ExposeRankTypeFromProto} from "@/models/enum/exposeRankType";
 
 /**
  * 시험 Class
  */
 export class Test extends Model {
   uid: string
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt: Date
+  updatedAt: Date
   classUid: string
   name: string
   description: string
@@ -27,19 +27,19 @@ export class Test extends Model {
   stDev: number
   highScore: number
   lowScore: number
-  testLabel: Label
+  testLabel: Label | null
   exposeRankType: ExposeRankType
   startAt: Date
   endAt: Date
-  closedAt: Date
-  publicExposedAt: Date
+  closed: boolean
+  publicExposed: boolean
   scoresList: TestScore[]
   expectedGradesList: TestExpectedGrade[]
 
   constructor(data: ProtoTest) {
     super()
     this.uid = data.getUid()
-    this.closedAt = data.getCreatedAt()
+    this.createdAt = data.getCreatedAt()
     this.updatedAt = data.getUpdatedAt()
     this.classUid = data.getClassUid()
     this.name = data.getName()
@@ -50,11 +50,11 @@ export class Test extends Model {
     this.highScore = data.getHighScore()
     this.lowScore = data.getLowScore()
     this.testLabel = super.set(Label, data.getTestLabel() as ProtoLabel)
-    this.exposeRankType = data.getExposeRankType()
+    this.exposeRankType = ExposeRankTypeFromProto(data.getExposeRankType())
     this.startAt = data.getStartAt()
     this.endAt = data.getEndAt()
-    this.closedAt = data.getClosedAt()
-    this.publicExposedAt = data.getPublicExposedAt()
+    this.closed = data.getClosedAt() != null
+    this.publicExposed = data.getPublicExposedAt() != null
     this.scoresList = super.setList(TestScore, data.getScoresList() as ProtoTestScore[])
     this.expectedGradesList = super.setList(TestExpectedGrade, data.getExpectedGradesList() as ProtoTestExpectedGrade[])
   }

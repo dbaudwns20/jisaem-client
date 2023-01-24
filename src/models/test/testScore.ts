@@ -8,7 +8,7 @@ import {Model} from "@/models/model"
  * 시험 성적 Class
  */
 export class TestScore extends Model {
-  student?: ClassParticipant
+  student: ClassParticipant | null
   rank: number
   score: number
   standardScore: number

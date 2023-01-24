@@ -989,7 +989,7 @@ proto.jisaem.auth.ResponseProfileGet.deserializeBinaryFromReader = function(msg,
     }
     var field = reader.getFieldNumber();
     switch (field) {
-    case 2:
+    case 1:
       var value = new auth_auth_message_pb.User;
       reader.readMessage(value,auth_auth_message_pb.User.deserializeBinaryFromReader);
       msg.setUser(value);
@@ -1026,7 +1026,7 @@ proto.jisaem.auth.ResponseProfileGet.serializeBinaryToWriter = function(message,
   f = message.getUser();
   if (f != null) {
     writer.writeMessage(
-      2,
+      1,
       f,
       auth_auth_message_pb.User.serializeBinaryToWriter
     );
@@ -1035,12 +1035,12 @@ proto.jisaem.auth.ResponseProfileGet.serializeBinaryToWriter = function(message,
 
 
 /**
- * optional User user = 2;
+ * optional User user = 1;
  * @return {?proto.jisaem.auth.User}
  */
 proto.jisaem.auth.ResponseProfileGet.prototype.getUser = function() {
   return /** @type{?proto.jisaem.auth.User} */ (
-    jspb.Message.getWrapperField(this, auth_auth_message_pb.User, 2));
+    jspb.Message.getWrapperField(this, auth_auth_message_pb.User, 1));
 };
 
 
@@ -1049,7 +1049,7 @@ proto.jisaem.auth.ResponseProfileGet.prototype.getUser = function() {
  * @return {!proto.jisaem.auth.ResponseProfileGet} returns this
 */
 proto.jisaem.auth.ResponseProfileGet.prototype.setUser = function(value) {
-  return jspb.Message.setWrapperField(this, 2, value);
+  return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
@@ -1067,7 +1067,7 @@ proto.jisaem.auth.ResponseProfileGet.prototype.clearUser = function() {
  * @return {boolean}
  */
 proto.jisaem.auth.ResponseProfileGet.prototype.hasUser = function() {
-  return jspb.Message.getField(this, 2) != null;
+  return jspb.Message.getField(this, 1) != null;
 };
 
 
@@ -1103,10 +1103,11 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.toObject = function(opt_include
  */
 proto.jisaem.auth.RequestProfileUpdate.toObject = function(includeInstance, msg) {
   var f, obj = {
-    name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    phone: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    email: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    userLabelUid: jspb.Message.getFieldWithDefault(msg, 4, "")
+    username: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    name: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    phone: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    email: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    userLabelUid: jspb.Message.getFieldWithDefault(msg, 5, "")
   };
 
   if (includeInstance) {
@@ -1145,17 +1146,21 @@ proto.jisaem.auth.RequestProfileUpdate.deserializeBinaryFromReader = function(ms
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      msg.setUsername(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPhone(value);
+      msg.setName(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setEmail(value);
+      msg.setPhone(value);
       break;
     case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setEmail(value);
+      break;
+    case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setUserLabelUid(value);
       break;
@@ -1216,14 +1221,21 @@ proto.jisaem.auth.RequestProfileUpdate.serializeBinaryToWriter = function(messag
       f
     );
   }
+  f = /** @type {string} */ (jspb.Message.getField(message, 5));
+  if (f != null) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
 };
 
 
 /**
- * optional string name = 1;
+ * optional string username = 1;
  * @return {string}
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.getName = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.getUsername = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1232,7 +1244,7 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.getName = function() {
  * @param {string} value
  * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.setName = function(value) {
+proto.jisaem.auth.RequestProfileUpdate.prototype.setUsername = function(value) {
   return jspb.Message.setField(this, 1, value);
 };
 
@@ -1241,7 +1253,7 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.setName = function(value) {
  * Clears the field making it undefined.
  * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.clearName = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.clearUsername = function() {
   return jspb.Message.setField(this, 1, undefined);
 };
 
@@ -1250,16 +1262,16 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.clearName = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.hasName = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.hasUsername = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
- * optional string phone = 2;
+ * optional string name = 2;
  * @return {string}
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.getPhone = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.getName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1268,7 +1280,7 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.getPhone = function() {
  * @param {string} value
  * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.setPhone = function(value) {
+proto.jisaem.auth.RequestProfileUpdate.prototype.setName = function(value) {
   return jspb.Message.setField(this, 2, value);
 };
 
@@ -1277,7 +1289,7 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.setPhone = function(value) {
  * Clears the field making it undefined.
  * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.clearPhone = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.clearName = function() {
   return jspb.Message.setField(this, 2, undefined);
 };
 
@@ -1286,16 +1298,16 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.clearPhone = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.hasPhone = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.hasName = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
 
 /**
- * optional string email = 3;
+ * optional string phone = 3;
  * @return {string}
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.getEmail = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.getPhone = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -1304,7 +1316,7 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.getEmail = function() {
  * @param {string} value
  * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.setEmail = function(value) {
+proto.jisaem.auth.RequestProfileUpdate.prototype.setPhone = function(value) {
   return jspb.Message.setField(this, 3, value);
 };
 
@@ -1313,7 +1325,7 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.setEmail = function(value) {
  * Clears the field making it undefined.
  * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.clearEmail = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.clearPhone = function() {
   return jspb.Message.setField(this, 3, undefined);
 };
 
@@ -1322,16 +1334,16 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.clearEmail = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.hasEmail = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.hasPhone = function() {
   return jspb.Message.getField(this, 3) != null;
 };
 
 
 /**
- * optional string user_label_uid = 4;
+ * optional string email = 4;
  * @return {string}
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.getUserLabelUid = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.getEmail = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -1340,7 +1352,7 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.getUserLabelUid = function() {
  * @param {string} value
  * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.setUserLabelUid = function(value) {
+proto.jisaem.auth.RequestProfileUpdate.prototype.setEmail = function(value) {
   return jspb.Message.setField(this, 4, value);
 };
 
@@ -1349,7 +1361,7 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.setUserLabelUid = function(valu
  * Clears the field making it undefined.
  * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.clearUserLabelUid = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.clearEmail = function() {
   return jspb.Message.setField(this, 4, undefined);
 };
 
@@ -1358,8 +1370,44 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.clearUserLabelUid = function() 
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.jisaem.auth.RequestProfileUpdate.prototype.hasUserLabelUid = function() {
+proto.jisaem.auth.RequestProfileUpdate.prototype.hasEmail = function() {
   return jspb.Message.getField(this, 4) != null;
+};
+
+
+/**
+ * optional string user_label_uid = 5;
+ * @return {string}
+ */
+proto.jisaem.auth.RequestProfileUpdate.prototype.getUserLabelUid = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
+ */
+proto.jisaem.auth.RequestProfileUpdate.prototype.setUserLabelUid = function(value) {
+  return jspb.Message.setField(this, 5, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
+ */
+proto.jisaem.auth.RequestProfileUpdate.prototype.clearUserLabelUid = function() {
+  return jspb.Message.setField(this, 5, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.jisaem.auth.RequestProfileUpdate.prototype.hasUserLabelUid = function() {
+  return jspb.Message.getField(this, 5) != null;
 };
 
 
@@ -1496,8 +1544,8 @@ proto.jisaem.auth.RequestPasswordUpdate.prototype.toObject = function(opt_includ
  */
 proto.jisaem.auth.RequestPasswordUpdate.toObject = function(includeInstance, msg) {
   var f, obj = {
-    prevPassword: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    newPassword: jspb.Message.getFieldWithDefault(msg, 3, "")
+    prevPassword: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    newPassword: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1534,11 +1582,11 @@ proto.jisaem.auth.RequestPasswordUpdate.deserializeBinaryFromReader = function(m
     }
     var field = reader.getFieldNumber();
     switch (field) {
-    case 2:
+    case 1:
       var value = /** @type {string} */ (reader.readString());
       msg.setPrevPassword(value);
       break;
-    case 3:
+    case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setNewPassword(value);
       break;
@@ -1574,14 +1622,14 @@ proto.jisaem.auth.RequestPasswordUpdate.serializeBinaryToWriter = function(messa
   f = message.getPrevPassword();
   if (f.length > 0) {
     writer.writeString(
-      2,
+      1,
       f
     );
   }
   f = message.getNewPassword();
   if (f.length > 0) {
     writer.writeString(
-      3,
+      2,
       f
     );
   }
@@ -1589,11 +1637,11 @@ proto.jisaem.auth.RequestPasswordUpdate.serializeBinaryToWriter = function(messa
 
 
 /**
- * optional string prev_password = 2;
+ * optional string prev_password = 1;
  * @return {string}
  */
 proto.jisaem.auth.RequestPasswordUpdate.prototype.getPrevPassword = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
@@ -1602,16 +1650,16 @@ proto.jisaem.auth.RequestPasswordUpdate.prototype.getPrevPassword = function() {
  * @return {!proto.jisaem.auth.RequestPasswordUpdate} returns this
  */
 proto.jisaem.auth.RequestPasswordUpdate.prototype.setPrevPassword = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string new_password = 3;
+ * optional string new_password = 2;
  * @return {string}
  */
 proto.jisaem.auth.RequestPasswordUpdate.prototype.getNewPassword = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
@@ -1620,7 +1668,7 @@ proto.jisaem.auth.RequestPasswordUpdate.prototype.getNewPassword = function() {
  * @return {!proto.jisaem.auth.RequestPasswordUpdate} returns this
  */
 proto.jisaem.auth.RequestPasswordUpdate.prototype.setNewPassword = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

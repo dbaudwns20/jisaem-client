@@ -1,49 +1,117 @@
 import {AuthServiceClient} from "@/protos/auth/Auth_serviceServiceClientPb";
-import {RequestSignIn} from "@/protos/auth/auth_communication_pb";
+import {
+  RequestPasswordUpdate,
+  RequestProfileGet,
+  RequestSignIn,
+  RequestSignOut
+} from "@/protos/auth/auth_communication_pb";
 import {SignInType} from "@/protos/auth/auth_message_pb";
 import GrpcService from "@/services/grpcService";
+import {SignInInfo} from "@/models/auth/signInInfo";
+import {User} from "@/models/auth/user";
+import {UpdateUser} from "@/models/auth/updateUser";
 
 class AuthGrpcClient {
-  _client : AuthServiceClient
+  _client: AuthServiceClient
+
   constructor() {
     this._client = new AuthServiceClient(GrpcService.GRPC_HOST) // TODO credential, options 리서치
   }
-  signInParent(username: string, password: string) { // TODO 적절한 model 리턴
-    // TODO async?
-    this._signIn(SignInType.SIGN_IN_TYPE_PARENT, username, password)
+
+  async signInParent(username: string, password: string) {
+    await this._signIn(SignInType.SIGN_IN_TYPE_PARENT, username, password)
   }
 
-  signInNormal(username: string, password: string) { // TODO 적절한 model 리턴
-    // TODO async?
-    this._signIn(SignInType.SIGN_IN_TYPE_NORMAL, username, password)
+  async signInNormal(username: string, password: string) {
+    await this._signIn(SignInType.SIGN_IN_TYPE_NORMAL, username, password)
   }
 
-  _signIn(signInType: SignInType, username: string, password: string) { // TODO 적절한 model 리턴
+  async _signIn(signInType: SignInType, username: string, password: string) {
     // validate
-    if (username == null || username == "") return // TODO 적절한 에러 처리
-    if (password == null || password == "") return // TODO 적절한 에러 처리
+    if (username == null || username == "") return // TODO 에러 핸들링
+    if (password == null || password == "") return // TODO 에러 핸들링
     // set params
     let req = new RequestSignIn()
     req.setSignInType(signInType)
     req.setUsername(username)
     req.setPassword(password)
     // call api
-    this._client.signIn( // TODO async?
-      req,
-      null, // TODO metadata? token 넣을 수 있는 건가
-      (err, res) => {
-        if (err == null) {
-          // TODO getter 로 값 추출해서 models 로 컨버팅
-          let token = res.getToken()
-          let name = res.getName()
-          let authLevel = res.getAuthLevel().valueOf()
-        } else {
+    return await new Promise((resolve, reject) => {
+      this._client.signIn(req, {}, async (err, res) => {
+        if (err) {
           console.log(err) // TODO 에러 핸들링
+          reject(err)
+        } else {
+          // TODO signInInfo 가지고 있기
+          let signInInfo = new SignInInfo(res!)
+          resolve(res)
         }
       })
+    })
   }
+
+  async signOut() {
+    let req = new RequestSignOut()
+    return await new Promise((resolve, reject) => {
+      this._client.signOut(req, GrpcService.setToken(), async (err, res) => {
+        if (err) {
+          console.log(err) // TODO 에러 핸들링
+          reject(err)
+        } else {
+          // TODO 스토리지 토큰 및 정보 제거하기
+          resolve(res)
+        }
+      })
+    })
+  }
+
+  async profileGet(): Promise<User> {
+    let req = new RequestProfileGet()
+    return await new Promise((resolve, reject) => {
+      this._client.profileGet(req, GrpcService.setToken(), async (err, res) => {
+        if (err) {
+          console.log(err) // TODO 에러 핸들링
+          reject(err)
+        } else {
+          let profile = new User(res.getUser()!)
+          resolve(profile)
+        }
+      })
+    })
+  }
+
+  async profileUpdate(update: UpdateUser) {
+    // TODO vue의 computed를 사용하는게 효율적인지 모르겠음
+    return await new Promise((resolve, reject) => {
+      this._client.profileUpdate(update.getRequestProfileUpdate(), GrpcService.setToken(), async (err, res) => {
+        if (err) {
+          console.log(err) // TODO 에러 핸들링
+          reject(err)
+        } else {
+          resolve(res!)
+        }
+      })
+    })
+  }
+
+  async passwordUpdate(prevPassword: string, newPassword: string) {
+    let req = new RequestPasswordUpdate()
+    req.setPrevPassword(prevPassword)
+    req.setNewPassword(newPassword)
+    return await new Promise((resolve, reject) => {
+      this._client.passwordUpdate(req, GrpcService.setToken(), async (err, res) => {
+        if (err) {
+          console.log(err) // TODO 에러 핸들링
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    })
+  }
+
 }
 
-const AuthClient : AuthGrpcClient = new AuthGrpcClient() // 초기화
+const AuthClient: AuthGrpcClient = new AuthGrpcClient() // 초기화
 
 export {AuthClient}
