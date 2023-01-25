@@ -6,6 +6,8 @@
              :class="checkClass"
              :placeholder="placeholder"
              :required="isRequired"
+             :disabled="isDisabled"
+             :readonly="isReadOnly"
              v-model="inputValue"
              @invalid="checkIfIsInvalid"
              @keyup="checkValue"
@@ -29,6 +31,8 @@ export default defineComponent({
     label: { type: String, default: "Text" },
     placeholder: { type: String, default: "" },
     isRequired: { type: Boolean, default: false },
+    isReadOnly: { type: Boolean, default: false },
+    isDisabled: { type: Boolean, default: false },
     iconsLeft: { type: String, default: "" }
   },
   setup(props) {

@@ -26,10 +26,10 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-info">
+              <router-link to="/profile" tag="a" class="button is-info">
                 <strong>내정보</strong>
-              </a>
-              <a class="button is-primary" @click="logout">
+              </router-link>
+              <a class="button is-primary" @click="signOut">
                 <strong>로그아웃</strong>
               </a>
             </div>
@@ -42,16 +42,20 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import router from "@/routers/router";
+import router from "@/routers/router"
+import store from "@/stores/store"
+import AuthGrpcService from "@/services/auth.grpc.service";
 
 export default defineComponent({
   name: 'AppNavbar',
   setup() {
-    const logout = () => {
-      router.push('/sign_in')
-    }
-    return {
-      logout
+
+  },
+  methods: {
+    async signOut() {
+      let res = await AuthGrpcService.signOut()
+      await store.commit("sessionStore/signOut")
+      await router.push('/sign_in')
     }
   }
 })

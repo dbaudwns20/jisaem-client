@@ -3,14 +3,22 @@
   <div class="container">
     <section class="hero is-link is-small">
       <div class="hero-body">
-        <p class="title">
-          클래스
-        </p>
+        <div class="level">
+          <div class="level-left">
+            <p class="title">
+              클래스
+            </p>
+          </div>
+          <div class="level-right">
+            <div class="buttons">
+              <button class="button is-primary is-small">추가</button>
+              <button class="button is-danger is-small">삭제</button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-    <div class="container">
-      <PagingGrid :columns="column" />
-    </div>
+    <PagingGrid :columns="column" />
   </div>
   <AppFooter />
 </template>
@@ -21,7 +29,7 @@ import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
 import PagingGrid from "@/components/grid/PagingGrid.vue"
 
-import ClassService from "@/services/classService"
+import ClassService from "@/services/class.ui.service"
 
 export default defineComponent({
   name: "Class",

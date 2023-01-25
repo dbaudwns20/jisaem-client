@@ -1,37 +1,20 @@
-import {AuthServiceClient} from "@/protos/auth/Auth_serviceServiceClientPb";
+import { AuthServiceClient } from '@/protos/auth/Auth_serviceServiceClientPb'
+import { SignInType } from '@/protos/auth/auth_message_pb'
 import {
   RequestPasswordUpdate,
   RequestProfileGet,
   RequestSignIn,
-  RequestSignOut,
-  RequestUsernameDuplicationCheck,
-  RequestUsernameUpdate
-} from "@/protos/auth/auth_communication_pb";
-import {SignInType} from "@/protos/auth/auth_message_pb";
-import GrpcService from "@/services/grpcService";
-import {SignInInfo} from "@/models/auth/signInInfo";
-import {User} from "@/models/auth/user";
-import {UpdateUser} from "@/models/auth/updateUser";
+  RequestSignOut, RequestUsernameDuplicationCheck, RequestUsernameUpdate
+} from '@/protos/auth/auth_communication_pb'
+import { SignInInfo } from '@/models/auth/signInInfo'
+import { User } from '@/models/auth/user'
+import { UpdateUser } from '@/models/auth/updateUser'
+import GrpcService from '@/services/grpc.service'
 
-class AuthGrpcClient {
-  _client: AuthServiceClient
+const _client: AuthServiceClient = new AuthServiceClient(GrpcService.GRPC_HOST)
 
-  constructor() {
-    this._client = new AuthServiceClient(GrpcService.GRPC_HOST) // TODO credential, options 리서치
-  }
-
-  async signInParent(username: string, password: string) {
-    await this._signIn(SignInType.SIGN_IN_TYPE_PARENT, username, password)
-  }
-
-  async signInNormal(username: string, password: string) {
-    await this._signIn(SignInType.SIGN_IN_TYPE_NORMAL, username, password)
-  }
-
+export default {
   async _signIn(signInType: SignInType, username: string, password: string) {
-    // validate
-    if (username == null || username == "") return // TODO 에러 핸들링
-    if (password == null || password == "") return // TODO 에러 핸들링
     // set params
     let req = new RequestSignIn()
     req.setSignInType(signInType)
@@ -39,23 +22,29 @@ class AuthGrpcClient {
     req.setPassword(password)
     // call api
     return await new Promise((resolve, reject) => {
-      this._client.signIn(req, {}, async (err, res) => {
+      _client.signIn(req, {}, async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
         } else {
-          // TODO signInInfo 가지고 있기
-          let signInInfo = new SignInInfo(res!)
-          resolve(res)
+          resolve(new SignInInfo(res))
         }
       })
     })
-  }
+  },
+
+  async signInParent(username: string, password: string) {
+    return await this._signIn(SignInType.SIGN_IN_TYPE_PARENT, username, password)
+  },
+
+  async signInNormal(username: string, password: string) {
+    return await this._signIn(SignInType.SIGN_IN_TYPE_NORMAL, username, password)
+  },
 
   async signOut() {
     let req = new RequestSignOut()
     return await new Promise((resolve, reject) => {
-      this._client.signOut(req, GrpcService.setToken(), async (err, res) => {
+      _client.signOut(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -65,12 +54,12 @@ class AuthGrpcClient {
         }
       })
     })
-  }
+  },
 
   async profileGet(): Promise<User> {
     let req = new RequestProfileGet()
     return await new Promise((resolve, reject) => {
-      this._client.profileGet(req, GrpcService.setToken(), async (err, res) => {
+      _client.profileGet(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -80,12 +69,12 @@ class AuthGrpcClient {
         }
       })
     })
-  }
+  },
 
   async profileUpdate(update: UpdateUser) {
     // TODO vue의 computed를 사용하는게 효율적인지 모르겠음
     return await new Promise((resolve, reject) => {
-      this._client.profileUpdate(update.getRequestProfileUpdate(), GrpcService.setToken(), async (err, res) => {
+      _client.profileUpdate(update.getRequestProfileUpdate(), GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -94,14 +83,14 @@ class AuthGrpcClient {
         }
       })
     })
-  }
+  },
 
   async passwordUpdate(prevPassword: string, newPassword: string) {
     let req = new RequestPasswordUpdate()
     req.setPrevPassword(prevPassword)
     req.setNewPassword(newPassword)
     return await new Promise((resolve, reject) => {
-      this._client.passwordUpdate(req, GrpcService.setToken(), async (err, res) => {
+      _client.passwordUpdate(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -110,13 +99,13 @@ class AuthGrpcClient {
         }
       })
     })
-  }
+  },
 
   async usernameUpdate(username: string) {
     let req = new RequestUsernameUpdate()
     req.setUsername(username)
     return await new Promise((resolve, reject) => {
-      this._client.usernameUpdate(req, GrpcService.setToken(), async (err, res) => {
+      _client.usernameUpdate(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -125,13 +114,13 @@ class AuthGrpcClient {
         }
       })
     })
-  }
+  },
 
   async usernameDuplicationCheck(username: string): Promise<boolean> {
     let req = new RequestUsernameDuplicationCheck()
     req.setUsername(username)
     return await new Promise((resolve, reject) => {
-      this._client.usernameDuplicationCheck(req, GrpcService.setToken(), async (err, res) => {
+      _client.usernameDuplicationCheck(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -142,7 +131,3 @@ class AuthGrpcClient {
     })
   }
 }
-
-const AuthClient: AuthGrpcClient = new AuthGrpcClient() // 초기화
-
-export {AuthClient}

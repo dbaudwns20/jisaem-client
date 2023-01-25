@@ -5,6 +5,8 @@
       <input type="email" class="input"
              :class="checkClass"
              :required="isRequired"
+             :readonly="isReadOnly"
+             :disabled="isDisabled"
              :placeholder="placeholder"
              v-model="inputValue"
              @input="$emit('update:modelValue', $event.target.value)"
@@ -31,6 +33,8 @@ export default defineComponent({
     label: { type: String, default: "Email" },
     placeholder: { type: String, default: "이메일을 입력해주세요" },
     isRequired: { type: Boolean, default: false },
+    isReadOnly: { type: Boolean, default: false },
+    isDisabled: { type: Boolean, default: false },
     isLogin: { type: Boolean, default: true }
   },
   setup(props, context) {
