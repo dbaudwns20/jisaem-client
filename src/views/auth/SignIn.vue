@@ -4,19 +4,15 @@
       <div class="container">
         <div class="column is-4 is-offset-4">
           <form class="box" @submit.prevent="signIn()" novalidate>
-
             <Text :label="'아이디'" :placeholder="'아이디를 입력해주세요'"
                   :is-required="true" icons-left="fa-solid fa-user"
                   v-model="username" />
-
             <Password :label="'비밀번호'" :placeholder="'비밀번호를 입력해주세요'"
                       :is-required="true"
                       v-model="password" />
-
-            <div class="control">
+            <div class="field">
               <button class="button is-fullwidth is-info" type="submit">로그인</button>
             </div>
-
           </form>
         </div>
       </div>
@@ -26,11 +22,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import AuthGrpcService from "@/services/auth.grpc.service"
 import Text from "@/components/input/Text.vue"
 import Password from "@/components/input/Password.vue"
-import router from "@/routers/router"
 import Validator from "@/utils/validator"
-import {AuthClient} from "@/services/authService";
+import store from "@/stores/store"
+import router from "@/routers/router"
+
 export default defineComponent({
   name: "SignIn",
   components: {
@@ -40,25 +38,18 @@ export default defineComponent({
   setup() {
     const username = ref('')
     const password = ref('')
-    AuthClient.signInNormal("username", "password12#")
-    const signIn = () => {
-      if (!Validator.validate()) return
-
-      if (username.value === 'dbaudwns20' && password.value == 'QAZwsx1@') {
-        router.push("/dashboard")
-      }
-    }
     return {
       username,
       password,
-      signIn
     }
   },
+  methods: {
+    async signIn() {
+      if (!Validator.validate()) return
+      const res = await AuthGrpcService.signInNormal(this.username, this.password)
+      await store.commit("sessionStore/signIn", res)
+      await router.push("/dashboard")
+    }
+  }
 })
 </script>
-
-<style scoped>
-.box {
-  min-width: 300px;
-}
-</style>

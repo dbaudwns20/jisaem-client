@@ -1,8 +1,8 @@
-const userStore = {
+const sessionStore = {
   namespaced : true,
   state: {
-    name: '',
-    token: '',
+    name: null,
+    token: null,
     authLevel: 0
   },
   getters: {
@@ -11,12 +11,17 @@ const userStore = {
     authLevel: (state: any) => state.authLevel,
   },
   mutations: {
-    signUp: (state: any, payload: any) => {
+    signIn: (state: any, payload: any) => {
       state.name = payload.name
       state.authLevel = payload.authLevel
       state.token = payload.token
     },
+    signOut: (state: any) => {
+      state.name = null
+      state.authLevel = null
+      state.authLevel = null
+    }
   },
 }
 
-export default userStore
+export default sessionStore

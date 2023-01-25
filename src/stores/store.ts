@@ -1,15 +1,23 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex'
 import PersistedState from "vuex-persistedstate"
-import UserStore from "@/stores/user.store"
+import SessionStore from "@/stores/session.store"
 
-export default createStore({
+const store = createStore({
   modules: {
-    userStore: UserStore
+    sessionStore: SessionStore
   },
   plugins: [
     PersistedState({
-      //주목! : 여기에 쓴 모듈만 저장됩니다.
-      paths: ['userStore'],
+      // 로그인 정보 유지
+      paths: ['sessionStore'],
     }),
   ]
 })
+export default store
+
+/**
+ * sessionStore 저장된 토큰 가져오기
+ */
+export function getSessionToken(): string {
+  return store.getters["sessionStore/token"]
+}

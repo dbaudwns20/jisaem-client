@@ -1,11 +1,13 @@
 <template>
-    <ag-grid-vue style="width: 100%; height: 600px;"
+    <ag-grid-vue style="width: 100%;"
                  class="ag-theme-alpine"
                  id="myGrid"
+                 :domLayout="'autoHeight'"
                  :defaultColDef="defaultColDef"
                  :columnDefs="columnDefs"
                  :rowData="rowData"
                  :pagination="true"
+                 :paginationAutoPageSize="true"
                  :localeText="{noRowsToShow: '조회 결과가 없습니다.'}"
                  @grid-ready="onGridReady">
     </ag-grid-vue>
@@ -46,10 +48,137 @@ export default defineComponent({
     columns.unshift(numColumn)
     columns.unshift(chkColumn)
     const columnDefs = ref(columns)
-    const rowData = ref([])
+    const rowData = ref([
+      {
+        "name": "2023 예비고1연합 겨울 토모 수상하",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A2 겨울 정규 수상하 PFL + 미적분 기본",
+        "rate": "전체 등수 공개",
+        "startDate": "2022-12-17",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A3 겨울 정규 수상하 심화 + 수1수2 기본",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 정규 수1/확통/기하",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 토모 수1수2",
+        "rate": "미공개",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1 겨울 특강 수상 기출",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 특강 수2",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A1 겨울 정규 도방/수하/확률",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1연합 겨울 토모 수상하",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A2 겨울 정규 수상하 PFL + 미적분 기본",
+        "rate": "전체 등수 공개",
+        "startDate": "2022-12-17",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A3 겨울 정규 수상하 심화 + 수1수2 기본",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 정규 수1/확통/기하",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 토모 수1수2",
+        "rate": "미공개",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1 겨울 특강 수상 기출",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 특강 수2",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A1 겨울 정규 도방/수하/확률",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 특강 수2",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A1 겨울 정규 도방/수하/확률",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      }
+    ])
     const defaultColDef = ref({
       resizable: true,
-      sortable: true
+      sortable: true,
     })
     const gridApi = ref(null)
     const columnApi = ref(null)
@@ -58,7 +187,7 @@ export default defineComponent({
       rowData,
       defaultColDef,
       gridApi,
-      columnApi,
+      columnApi
     }
   },
   methods: {

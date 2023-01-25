@@ -1,17 +1,17 @@
-import {AuthServiceClient} from "@/protos/auth/Auth_serviceServiceClientPb";
-import {SignInType} from "@/protos/auth/auth_message_pb";
+import { AuthServiceClient } from '@/protos/auth/Auth_serviceServiceClientPb'
+import { SignInType } from '@/protos/auth/auth_message_pb'
 import {
   RequestPasswordUpdate,
   RequestProfileGet,
   RequestSignIn,
   RequestSignOut, RequestUsernameDuplicationCheck, RequestUsernameUpdate
-} from "@/protos/auth/auth_communication_pb";
-import {SignInInfo} from "@/models/auth/signInInfo";
-import {User} from "@/models/auth/user";
-import {UpdateUser} from "@/models/auth/updateUser";
-import GrpcService from "@/services/global.grpc.service"
+} from '@/protos/auth/auth_communication_pb'
+import { SignInInfo } from '@/models/auth/signInInfo'
+import { User } from '@/models/auth/user'
+import { UpdateUser } from '@/models/auth/updateUser'
+import GrpcService from '@/services/grpc.service'
 
-const client: AuthServiceClient = new AuthServiceClient(GrpcService.GRPC_HOST)
+const _client: AuthServiceClient = new AuthServiceClient(GrpcService.GRPC_HOST)
 
 export default {
   async _signIn(signInType: SignInType, username: string, password: string) {
@@ -22,13 +22,11 @@ export default {
     req.setPassword(password)
     // call api
     return await new Promise((resolve, reject) => {
-      client.signIn(req, {}, async (err, res) => {
+      _client.signIn(req, {}, async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
         } else {
-          console.log(res)
-          // TODO signInInfo 가지고 있기
           resolve(new SignInInfo(res))
         }
       })
@@ -46,7 +44,7 @@ export default {
   async signOut() {
     let req = new RequestSignOut()
     return await new Promise((resolve, reject) => {
-      client.signOut(req, GrpcService.setToken(), async (err, res) => {
+      _client.signOut(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -61,7 +59,7 @@ export default {
   async profileGet(): Promise<User> {
     let req = new RequestProfileGet()
     return await new Promise((resolve, reject) => {
-      client.profileGet(req, GrpcService.setToken(), async (err, res) => {
+      _client.profileGet(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -76,7 +74,7 @@ export default {
   async profileUpdate(update: UpdateUser) {
     // TODO vue의 computed를 사용하는게 효율적인지 모르겠음
     return await new Promise((resolve, reject) => {
-      client.profileUpdate(update.getRequestProfileUpdate(), GrpcService.setToken(), async (err, res) => {
+      _client.profileUpdate(update.getRequestProfileUpdate(), GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -92,7 +90,7 @@ export default {
     req.setPrevPassword(prevPassword)
     req.setNewPassword(newPassword)
     return await new Promise((resolve, reject) => {
-      client.passwordUpdate(req, GrpcService.setToken(), async (err, res) => {
+      _client.passwordUpdate(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -107,7 +105,7 @@ export default {
     let req = new RequestUsernameUpdate()
     req.setUsername(username)
     return await new Promise((resolve, reject) => {
-      client.usernameUpdate(req, GrpcService.setToken(), async (err, res) => {
+      _client.usernameUpdate(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
@@ -122,7 +120,7 @@ export default {
     let req = new RequestUsernameDuplicationCheck()
     req.setUsername(username)
     return await new Promise((resolve, reject) => {
-      client.usernameDuplicationCheck(req, GrpcService.setToken(), async (err, res) => {
+      _client.usernameDuplicationCheck(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
           console.log(err) // TODO 에러 핸들링
           reject(err)
