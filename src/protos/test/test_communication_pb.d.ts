@@ -156,18 +156,28 @@ export class RequestTestUpdate extends jspb.Message {
 
   getName(): string;
   setName(value: string): RequestTestUpdate;
+  hasName(): boolean;
+  clearName(): RequestTestUpdate;
 
   getDescription(): string;
   setDescription(value: string): RequestTestUpdate;
+  hasDescription(): boolean;
+  clearDescription(): RequestTestUpdate;
 
   getRound(): number;
   setRound(value: number): RequestTestUpdate;
+  hasRound(): boolean;
+  clearRound(): RequestTestUpdate;
 
   getTestLabelUid(): string;
   setTestLabelUid(value: string): RequestTestUpdate;
+  hasTestLabelUid(): boolean;
+  clearTestLabelUid(): RequestTestUpdate;
 
   getExposeRankType(): test_test_message_pb.ExposeRankType;
   setExposeRankType(value: test_test_message_pb.ExposeRankType): RequestTestUpdate;
+  hasExposeRankType(): boolean;
+  clearExposeRankType(): RequestTestUpdate;
 
   getStartAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setStartAt(value?: google_protobuf_timestamp_pb.Timestamp): RequestTestUpdate;
@@ -181,9 +191,13 @@ export class RequestTestUpdate extends jspb.Message {
 
   getClose(): boolean;
   setClose(value: boolean): RequestTestUpdate;
+  hasClose(): boolean;
+  clearClose(): RequestTestUpdate;
 
   getPublicExpose(): boolean;
   setPublicExpose(value: boolean): RequestTestUpdate;
+  hasPublicExpose(): boolean;
+  clearPublicExpose(): RequestTestUpdate;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestTestUpdate.AsObject;
@@ -197,15 +211,60 @@ export namespace RequestTestUpdate {
   export type AsObject = {
     classUid: string,
     testUid: string,
-    name: string,
-    description: string,
-    round: number,
-    testLabelUid: string,
-    exposeRankType: test_test_message_pb.ExposeRankType,
+    name?: string,
+    description?: string,
+    round?: number,
+    testLabelUid?: string,
+    exposeRankType?: test_test_message_pb.ExposeRankType,
     startAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     endAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    close: boolean,
-    publicExpose: boolean,
+    close?: boolean,
+    publicExpose?: boolean,
+  }
+
+  export enum NameCase { 
+    _NAME_NOT_SET = 0,
+    NAME = 3,
+  }
+
+  export enum DescriptionCase { 
+    _DESCRIPTION_NOT_SET = 0,
+    DESCRIPTION = 4,
+  }
+
+  export enum RoundCase { 
+    _ROUND_NOT_SET = 0,
+    ROUND = 5,
+  }
+
+  export enum TestLabelUidCase { 
+    _TEST_LABEL_UID_NOT_SET = 0,
+    TEST_LABEL_UID = 6,
+  }
+
+  export enum ExposeRankTypeCase { 
+    _EXPOSE_RANK_TYPE_NOT_SET = 0,
+    EXPOSE_RANK_TYPE = 7,
+  }
+
+  export enum StartAtCase { 
+    _START_AT_NOT_SET = 0,
+    START_AT = 8,
+  }
+
+  export enum EndAtCase { 
+    _END_AT_NOT_SET = 0,
+    END_AT = 9,
+  }
+
+  export enum CloseCase { 
+    _CLOSE_NOT_SET = 0,
+    CLOSE = 10,
+  }
+
+  export enum PublicExposeCase { 
+    _PUBLIC_EXPOSE_NOT_SET = 0,
+    PUBLIC_EXPOSE = 11,
   }
 }
 

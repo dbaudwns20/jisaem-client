@@ -9,7 +9,10 @@ export class Model {
    * @param proto
    * @protected
    */
-  protected set<T, K>(type: { new ({}: K): T}, proto: K): T {
+  protected set<T, K>(type: { new ({}: K): T}, proto: K): T | null {
+    if (!proto) {
+      return null
+    }
     return new type(proto)
   }
 
@@ -19,7 +22,10 @@ export class Model {
    * @param protoList
    * @protected
    */
-  protected setList<T, K>(type: { new ({}: K): T}, protoList: K[]): T[] {
+  protected setList<T, K>(type: { new ({}: K): T}, protoList: K[]): T[]  {
+    if (!protoList) {
+       return []
+    }
     const list: T[] = []
     protoList.forEach((it: K) => {
       list.push(new type(it))
