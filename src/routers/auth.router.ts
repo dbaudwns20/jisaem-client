@@ -1,33 +1,22 @@
 export const SignIn = {
   path: '/sign-in',
-  name: 'SignIn'
+  name: 'SignIn',
+  component: () => import('../views/auth/SignIn.vue')
 }
 export const Profile = {
   path: '/profile',
   name: 'Profile',
-  // children
-  ModalConfirmPassword: {
-    path: '/profile/confirm-password',
-    name: 'ModalConfirmPassword'
-  }
+  component: () => import('../views/auth/Profile.vue'),
+  children: [
+    {
+      path: '/profile/confirm-password',
+      name: 'ModalConfirmPassword',
+      component: () => import('../views/auth/ModalConfirmPassword.vue')
+    },
+  ]
 }
 
 export default [
-  {
-    path: SignIn.path,
-    name: SignIn.name,
-    component: () => import('../views/auth/SignIn.vue')
-  },
-  {
-    path: Profile.path,
-    name: Profile.name,
-    component: () => import('../views/auth/Profile.vue'),
-    children: [
-      {
-        path: Profile.ModalConfirmPassword.path,
-        name: Profile.ModalConfirmPassword.name,
-        component: () => import('../views/auth/ModalConfirmPassword.vue')
-      },
-    ]
-  },
+  SignIn,
+  Profile
 ]

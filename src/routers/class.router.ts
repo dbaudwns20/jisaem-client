@@ -1,12 +1,9 @@
 export const Class = {
   path: '/class',
-  name: 'Class'
+  name: 'Class',
+  component: () => import('../views/class/Class.vue')
 }
 
 export default [
-  {
-    path: Class.path,
-    name: Class.name,
-    component: () => import('../views/class/Class.vue')
-  }
+  Class
 ]

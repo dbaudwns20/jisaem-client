@@ -28,6 +28,7 @@ import Password from "@/components/input/Password.vue"
 import Validator from "@/utils/validator"
 import store from "@/stores/store"
 import router from "@/routers/router"
+import { Dashboard } from "@/routers/dashboard.router"
 
 export default defineComponent({
   name: "SignIn",
@@ -48,7 +49,7 @@ export default defineComponent({
       if (!Validator.validate()) return
       const res = await AuthGrpcService.signInNormal(this.username, this.password)
       await store.commit("sessionStore/signIn", res)
-      await router.push("/dashboard")
+      await router.push(Dashboard.path)
     }
   }
 })

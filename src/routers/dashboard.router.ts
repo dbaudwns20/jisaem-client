@@ -1,12 +1,9 @@
 export const Dashboard = {
   path: '/dashboard',
-  name: 'Dashboard'
+  name: 'Dashboard',
+  component: () => import('../views/dashboard/Dashboard.vue')
 }
 
 export default [
-  {
-    path: Dashboard.path,
-    name: Dashboard.name,
-    component: () => import('../views/dashboard/Dashboard.vue')
-  }
+  Dashboard
 ]
