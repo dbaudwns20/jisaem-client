@@ -53,8 +53,8 @@ export default defineComponent({
   },
   methods: {
     async signOut() {
-      let res = await AuthGrpcService.signOut()
-      await store.commit("sessionStore/signOut")
+      await AuthGrpcService.signOut()
+      await store.dispatch("sessionStore/signOut")
       await router.push('/sign_in')
     }
   }

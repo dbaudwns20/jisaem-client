@@ -11,6 +11,8 @@ import { User } from '@/models/auth/user'
 import { UpdateUser } from '@/models/auth/updateUser'
 import GrpcService from '@/services/grpc.service'
 
+import Message from "@/utils/message";
+
 const _client: AuthServiceClient = new AuthServiceClient(GrpcService.GRPC_HOST)
 
 export default {
@@ -24,7 +26,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.signIn(req, {}, async (err, res) => {
         if (err) {
-          console.log(err) // TODO 에러 핸들링
+          Message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(new SignInInfo(res))
@@ -43,10 +45,10 @@ export default {
 
   async signOut() {
     let req = new RequestSignOut()
-    return await new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       _client.signOut(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          console.log(err) // TODO 에러 핸들링
+          Message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           // TODO 스토리지 토큰 및 정보 제거하기
@@ -61,7 +63,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.profileGet(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          console.log(err) // TODO 에러 핸들링
+          Message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           let profile = new User(res.getUser()!)
@@ -76,7 +78,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.profileUpdate(update.getRequestProfileUpdate(), GrpcService.setToken(), async (err, res) => {
         if (err) {
-          console.log(err) // TODO 에러 핸들링
+          Message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(res!)
@@ -92,7 +94,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.passwordUpdate(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          console.log(err) // TODO 에러 핸들링
+          Message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(res)
@@ -107,7 +109,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.usernameUpdate(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          console.log(err) // TODO 에러 핸들링
+          Message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(res)
@@ -122,7 +124,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.usernameDuplicationCheck(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          console.log(err) // TODO 에러 핸들링
+          Message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(res.getExist()!)

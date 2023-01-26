@@ -26,6 +26,7 @@ import AuthGrpcService from "@/services/auth.grpc.service"
 import Text from "@/components/input/Text.vue"
 import Password from "@/components/input/Password.vue"
 import Validator from "@/utils/validator"
+import Message from "@/utils/message"
 import store from "@/stores/store"
 import router from "@/routers/router"
 import { Dashboard } from "@/routers/dashboard.router"
@@ -48,6 +49,8 @@ export default defineComponent({
     async signIn() {
       if (!Validator.validate()) return
       const res = await AuthGrpcService.signInNormal(this.username, this.password)
+      // TODO TEST
+      await Message.showSuccessToastMsg('로그인되었습니다', {position: "top-right"})
       await store.commit("sessionStore/signIn", res)
       await router.push(Dashboard.path)
     }
