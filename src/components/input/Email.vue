@@ -8,7 +8,7 @@
              :readonly="isReadOnly"
              :disabled="isDisabled"
              :placeholder="placeholder"
-             v-model="inputValue"
+             :value="modelValue"
              @input="$emit('update:modelValue', $event.target.value)"
              @invalid="checkIfIsInvalid"
              @keyup="checkEmailRule($event.target.value)">
@@ -35,12 +35,13 @@ export default defineComponent({
     isRequired: { type: Boolean, default: false },
     isReadOnly: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
-    isLogin: { type: Boolean, default: true }
+    isLogin: { type: Boolean, default: true },
+    modelValue: { type: String, default: "" }
   },
   setup(props, context) {
+    const inputValue = ref(props.modelValue)
     const checkClass = ref('')
     const checkMsg = ref('')
-    const inputValue = ref('')
 
     /**
      * 입력한 값이 이메일 규칙에 충족하는지 체크
@@ -71,9 +72,9 @@ export default defineComponent({
     }
 
     return {
+      inputValue,
       checkMsg,
       checkClass,
-      inputValue,
       checkEmailRule,
       checkIfIsInvalid
     }
