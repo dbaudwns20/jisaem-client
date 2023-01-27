@@ -18,8 +18,8 @@ export class Label {
 
   constructor(data: ProtoLabel) {
     this.uid = data.getUid()
-    this.createdAt = data.getCreatedAt()
-    this.updatedAt = data.getUpdatedAt()
+    this.createdAt = data.getCreatedAt()?.toDate() as Date
+    this.updatedAt = data.getUpdatedAt()?.toDate() as Date
     this.labelType = LabelTypeFromProto(data.getLabelType())
     this.name = data.getName()
     this.description = data.getDescription()

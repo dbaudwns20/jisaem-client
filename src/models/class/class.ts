@@ -28,14 +28,14 @@ export class Class extends Model {
   constructor(data: ProtoClass) {
     super()
     this.uid = data.getUid()
-    this.createdAt = data.getCreatedAt()
-    this.updatedAt = data.getUpdatedAt()
+    this.createdAt = data.getCreatedAt()?.toDate() as Date
+    this.updatedAt = data.getUpdatedAt()?.toDate() as Date
     this.teachersList = super.setList(ClassParticipant, data.getTeachersList() as ProtoClassParticipant[])
     this.name = data.getName()
     this.description = data.getDescription()
     this.classLabel = super.set(Label, data.getClassLabel() as ProtoLabel)
-    this.startDate = data.getStartDate()
-    this.endDate = data.getEndDate()
+    this.startDate = data.getStartDate()?.toDate() as Date
+    this.endDate = data.getEndDate()?.toDate() as Date
     this.closed = data.getClosedAt() != null
     this.publicExposed = data.getPublicExposedAt() != null
     this.classParticipantsList = super.setList(ClassParticipant, data.getClassParticipantsList() as ProtoClassParticipant[])

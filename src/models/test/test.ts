@@ -39,8 +39,8 @@ export class Test extends Model {
   constructor(data: ProtoTest) {
     super()
     this.uid = data.getUid()
-    this.createdAt = data.getCreatedAt()
-    this.updatedAt = data.getUpdatedAt()
+    this.createdAt = data.getCreatedAt()?.toDate() as Date
+    this.updatedAt = data.getUpdatedAt()?.toDate() as Date
     this.classUid = data.getClassUid()
     this.name = data.getName()
     this.description = data.getDescription()
@@ -51,8 +51,8 @@ export class Test extends Model {
     this.lowScore = data.getLowScore()
     this.testLabel = super.set(Label, data.getTestLabel() as ProtoLabel)
     this.exposeRankType = ExposeRankTypeFromProto(data.getExposeRankType())
-    this.startAt = data.getStartAt()
-    this.endAt = data.getEndAt()
+    this.startAt = data.getStartAt()?.toDate() as Date
+    this.endAt = data.getEndAt()?.toDate() as Date
     this.closed = data.getClosedAt() != null
     this.publicExposed = data.getPublicExposedAt() != null
     this.scoresList = super.setList(TestScore, data.getScoresList() as ProtoTestScore[])

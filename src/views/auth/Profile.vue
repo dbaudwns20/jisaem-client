@@ -20,7 +20,7 @@
           <div class="card-content">
             <div class="media">
               <div class="media-content">
-                <p class="title">유명준 <small>학생</small></p>
+                <p class="title">{{ profileInfo.name }} <small>학생</small></p>
                 <p>
                   <span class="icon-text">
                     <span class="icon">
@@ -57,13 +57,16 @@
       <div class="column">
         <form class="box">
           <Text :label="'이름'" :placeholder="'이름을 입력해주세요'"
-                :is-read-only="true"
-                :is-required="true" icons-left="fa-solid fa-user" />
-          <Email :label="'이메일'" :is-read-only="true" />
+                :is-read-only="true" :is-required="true" icons-left="fa-solid fa-user"
+                v-model="profileInfo.name" />
+          <Text :label="'아이디'" :placeholder="'아이디를 입력해주세요'"
+                :is-read-only="true" :is-required="true" icons-left="fa-solid fa-user"
+                v-model="profileInfo.username" />
+          <Email :label="'이메일'" :is-read-only="true"
+                 v-model="profileInfo.email" />
           <Text :label="'전화번호'" :placeholder="'전화번호를 입력해주세요'"
-                :is-read-only="true"
-                icons-left="fa-solid fa-mobile" />
-          <hr>
+                :is-read-only="true" icons-left="fa-solid fa-mobile"
+                v-model="profileInfo.phone" />
           <Text :label="'학교'" :placeholder="'학교명을 입력해주세요'"
                 :is-read-only="true"
                 icons-left="fa-solid fa-school-flag" />
@@ -84,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
 import Text from "@/components/input/Text.vue"
@@ -94,6 +97,7 @@ import { StudentInfo } from "@/models/auth/studentInfo"
 import AuthGrpcService from "@/services/auth.grpc.service"
 
 import router from "@/routers/router"
+import store from "@/stores/store"
 
 export default defineComponent({
   name: "Profile",
@@ -105,15 +109,18 @@ export default defineComponent({
     Email
   },
   setup() {
-    let profileInfo
-    const getProfile = () => {
-      profileInfo = reactive(AuthGrpcService.profileGet())
+    async function getProfile() {
+      const res = await AuthGrpcService.profileGet()
+      await store.commit("userStore/setUser", res)
     }
-    getProfile()
-    console.log(profileInfo)
+    const profileInfo = reactive(store.getters["userStore/user"])
     return {
-      profileInfo
+      profileInfo,
+      getProfile
     }
+  },
+  created() {
+    this.getProfile()
   },
   methods: {
     doConfirmPassword(target: string): void {

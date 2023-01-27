@@ -32,12 +32,4 @@ export class Model {
     })
     return list
   }
-
-  /**
-   * Date Format
-   */
-  // TODO google_protobuf_timestamp_pb 에 대한 컨버트 기능을 구현
-  protected convertToDate(): Date | string {
-    return new Date()
-  }
 }
