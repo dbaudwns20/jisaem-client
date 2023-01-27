@@ -1,5 +1,5 @@
 const sessionStore = {
-  namespaced : true,
+  namespaced: true,
   state: {
     name: null,
     token: null,
@@ -18,10 +18,10 @@ const sessionStore = {
     },
     signOut: (state: any) => {
       state.name = null
-      state.authLevel = null
-      state.authLevel = null
+      state.authLevel = 0
+      state.token = null
     }
-  },
+  }
 }
 
 export default sessionStore
