@@ -8,7 +8,7 @@
              :required="isRequired"
              :disabled="isDisabled"
              :readonly="isReadOnly"
-             v-model="inputValue"
+             :value="modelValue"
              @invalid="checkIfIsInvalid"
              @keyup="checkValue"
              @input="$emit('update:modelValue', $event.target.value)" />
@@ -33,10 +33,11 @@ export default defineComponent({
     isRequired: { type: Boolean, default: false },
     isReadOnly: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
-    iconsLeft: { type: String, default: "" }
+    iconsLeft: { type: String, default: "" },
+    modelValue: { type: String, default: "" }
   },
   setup(props) {
-    const inputValue = ref('')
+    const inputValue = ref(props.modelValue)
     const checkClass = ref('')
     const checkMsg = ref('')
     const hasIconLeft = ref(props.iconsLeft.length > 0)
