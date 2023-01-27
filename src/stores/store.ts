@@ -1,10 +1,12 @@
 import {createStore} from 'vuex'
 import PersistedState from "vuex-persistedstate"
 import SessionStore from "@/stores/session.store"
+import UserStore from "@/stores/user.store"
 
 const store = createStore({
   modules: {
-    sessionStore: SessionStore
+    sessionStore: SessionStore,
+    userStore: UserStore
   },
   plugins: [
     PersistedState({

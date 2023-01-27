@@ -27,8 +27,8 @@ export class User extends Model {
   constructor(proto: ProtoUser) {
     super()
     this.uid = proto.getUid()
-    this.createdAt = proto.getCreatedAt()
-    this.updatedAt = proto.getUpdatedAt()
+    this.createdAt = proto.getCreatedAt()?.toDate() as Date
+    this.updatedAt = proto.getUpdatedAt()?.toDate() as Date
     this.authLevel = AuthLevelFromProto(proto.getAuthLevel())
     this.username = proto.getUsername()
     this.name = proto.getName()
