@@ -26,9 +26,9 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <router-link to="/profile" tag="a" class="button is-info">
+              <a class="button is-info" @click="goProfile">
                 <strong>내정보</strong>
-              </router-link>
+              </a>
               <a class="button is-primary" @click="signOut">
                 <strong>로그아웃</strong>
               </a>
@@ -41,21 +41,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive } from 'vue'
+import { SignIn, Profile } from "@/routers/auth.router"
 import router from "@/routers/router"
 import store from "@/stores/store"
-import AuthGrpcService from "@/services/auth.grpc.service";
+import AuthGrpcService from "@/services/auth.grpc.service"
 
 export default defineComponent({
   name: 'AppNavbar',
   setup() {
-
   },
   methods: {
+    goProfile() {
+      router.push(Profile.path)
+    },
     async signOut() {
       await AuthGrpcService.signOut()
-      await store.dispatch("sessionStore/signOut")
-      await router.push('/sign_in')
+      await store.commit("sessionStore/signOut")
+      await router.push(SignIn.path)
     }
   }
 })
