@@ -47,23 +47,35 @@ export default defineComponent({
     const checkClass = ref('')
     const checkMsg = ref('')
     const hasIconLeft = ref(props.iconsLeft.length > 0)
+    let oldValue = ''
 
     const checkValue = async (target: HTMLInputElement) => {
       const value = target.value
+      // validity 초기화
+      target.setCustomValidity("")
       // 필드가 비어있으면 class, msg 초기화
       if (_.isEmpty(value)) {
         checkMsg.value = ''
         checkClass.value = ''
         return
       }
+      // 한글은 사용불가
       if (utils.validator.checkKorean(value)) {
         checkClass.value = 'is-danger'
-        checkMsg.value = '한글은 포함될 수 없습니다'
+        checkMsg.value = '한글은 사용할 수 없습니다'
         target.setCustomValidity('invalid username')
         return
       }
+      // 이전값과 동일하면 불가 [트래픽 방지]
+      if (value == oldValue) {
+        target.setCustomValidity('username already checked')
+        return
+      }
       // 아이디 중복체크를 할 경우
-      if (props.isDupCheck && value.length > 3) {
+      // 4자 이상 30자 이하 경우만 체크 [user 테이블 username varchar(30)]
+      if (props.isDupCheck && value.length > 3 && value.length < 31) {
+        // 이전 값 set
+        oldValue = value
         let res = await AuthGrpcService.usernameDuplicationCheck(value)
         checkClass.value = res ? 'is-danger': 'is-success'
         checkMsg.value = res ? '이미 사용 중인 아이디입니다' : '사용할 수 있는 아이디입니다'
