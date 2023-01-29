@@ -9,9 +9,14 @@ export const Profile = {
   component: () => import('../views/auth/Profile.vue'),
   children: [
     {
-      path: '/profile/confirm-password',
-      name: 'ModalConfirmPassword',
-      component: () => import('../views/auth/ModalConfirmPassword.vue')
+      path: '/profile/change-password',
+      name: 'ModalChangePassword',
+      component: () => import('../views/auth/ModalChangePassword.vue')
+    },
+    {
+      path: '/profile/change-username',
+      name: 'ModalChangeUsername',
+      component: () => import('../views/auth/ModalChangeUsername.vue')
     },
   ]
 }

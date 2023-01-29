@@ -20,84 +20,94 @@
           <div class="card-content">
             <div class="media">
               <div class="media-content">
-                <p class="title">{{ profileInfo.name }} <small>학생</small></p>
-                <p>
+                <p class="title">{{ showData.name }}</p>
+                <p class="sub-title">
                   <span class="icon-text">
-                    <span class="icon">
-                      <i class="fas fa-envelope"></i>
-                    </span>
-                    <span>dbaudwns20@gmail.com</span>
+                    <span class="icon"><i class="fas fa-envelope"></i></span>
+                    <span>{{ showData.email }}</span>
                   </span>
-                </p>
-                <p>
                   <span class="icon-text">
-                    <span class="icon">
-                      <i class="fa-solid fa-mobile"></i>
-                    </span>
-                    <span>010-5464-8509</span>
+                    <span class="icon"><i class="fa-solid fa-mobile"></i></span>
+                    <span>{{ showData.phone }}</span>
                   </span>
                 </p>
               </div>
             </div>
             <div class="content">
-              중흥고등학교 3학년 졸업생, 빡대가리임 공부 존나 못함...중흥고등학교 3학년 졸업생, 빡대가리임 공부 존나 못함...중흥고등학교 3학년 졸업생, 빡대가리임 공부 존나 못함...중흥고등학교 3학년 졸업생, 빡대가리임 공부 존나 못함...중흥고등학교 3학년 졸업생, 빡대가리임 공부 존나 못함...
+              {{ showData.studentInfo?.description }}
             </div>
           </div>
-          <div style="font-size: small; display: flex; text-align: left;">
-            <span class="card-footer-item">가입일자: 2022-12-31</span>
-            <span class="card-footer-item">수정일자: 2023-01-22</span>
-          </div>
-          <footer class="card-footer" style="font-size: small">
-            <a href="#" class="card-footer-item" @click="doConfirmPassword('profile')">개인정보수정</a>
-            <a href="#" class="card-footer-item">비밀번호변경</a>
-            <a href="#" class="card-footer-item">회원탈퇴</a>
-          </footer>
         </div>
       </div>
       <div class="column">
-        <form class="box">
-          <Text :label="'이름'" :placeholder="'이름을 입력해주세요'"
-                :is-read-only="true" :is-required="true" icons-left="fa-solid fa-user"
-                v-model="profileInfo.name" />
-          <Text :label="'아이디'" :placeholder="'아이디를 입력해주세요'"
-                :is-read-only="true" :is-required="true" icons-left="fa-solid fa-user"
-                v-model="profileInfo.username" />
-          <Email :label="'이메일'" :is-read-only="true"
-                 v-model="profileInfo.email" />
-          <Text :label="'전화번호'" :placeholder="'전화번호를 입력해주세요'"
-                :is-read-only="true" icons-left="fa-solid fa-mobile"
-                v-model="profileInfo.phone" />
-          <Text :label="'학교'" :placeholder="'학교명을 입력해주세요'"
-                :is-read-only="true"
-                icons-left="fa-solid fa-school-flag" />
-          <Text :label="'부모님계정'" :placeholder="'부모님계정을 입력해주세요'"
-                :is-read-only="true"
-                icons-left="fa-solid fa-user" />
+        <form class="box" @submit.prevent="updateProfile($event)" novalidate>
           <div class="field">
-            <label class="label">부가정보</label>
-            <textarea class="textarea has-fixed-size" placeholder="부가정보를 입력해주세요"
-                      readonly></textarea>
+            <label class="label required">아이디</label>
+            <div class="field is-grouped">
+              <p class="control is-expanded">
+                <Text :is-disabled="true" icons-left="fa-solid fa-user"
+                      v-model="editData.username" :key="componentKey" />
+              </p>
+              <p class="control">
+                <router-link to="/profile/change-username"
+                             tag="a" class="button is-success is-light">
+                  변경
+                </router-link>
+              </p>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label required">비밀번호</label>
+            <div class="field is-grouped">
+              <p class="control is-expanded">
+                <Password :is-disabled="true"
+                          v-model="passwordValue" :key="componentKey" />
+              </p>
+              <p class="control">
+                <router-link to="/profile/change-password"
+                             tag="a" class="button is-success is-light">
+                  변경
+                </router-link>
+              </p>
+            </div>
+          </div>
+          <Text :label="'이름'" :placeholder="'이름을 입력해주세요'"
+                :is-required="true" icons-left="fa-solid fa-user"
+                v-model="editData.name" :key="componentKey" />
+          <Email :label="'이메일'" :is-login="false"
+                 v-model="editData.email" :key="componentKey" />
+          <Text :label="'전화번호'" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
+                icons-left="fa-solid fa-mobile"
+                v-model="editData.phone" :key="componentKey" />
+          <Text :label="'레이블'" :placeholder="'레이블을 선택해주세요'"
+                icons-left="fa-solid fa-tags" />
+          <div class="buttons is-right">
+            <button class="button is-info" type="submit">개인정보변경</button>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <AppFooter/>
-  <router-view />
+  <router-view @complete-function="completeFunction" />
+  <AppFooter />
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
+import { User } from "@/models/auth/user"
+import { bindUpdateUser } from "@/models/auth/updateUser"
+
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
 import Text from "@/components/input/Text.vue"
 import Email from "@/components/input/Email.vue"
-import { User } from "@/models/auth/user"
-import { StudentInfo } from "@/models/auth/studentInfo"
+import Password from "@/components/input/Password.vue"
 import AuthGrpcService from "@/services/auth.grpc.service"
 
-import router from "@/routers/router"
+import utils from "@/utils/utils"
 import store from "@/stores/store"
+import _ from 'lodash'
+import router from "@/routers/router";
 
 export default defineComponent({
   name: "Profile",
@@ -106,31 +116,64 @@ export default defineComponent({
     AppNavbar,
     AppFooter,
     Text,
-    Email
+    Email,
+    Password
   },
   setup() {
-    async function getProfile() {
-      const res = await AuthGrpcService.profileGet()
-      await store.commit("userStore/setUser", res)
-    }
-    const profileInfo = reactive(store.getters["userStore/user"])
+    const showData = reactive({} as User)
+    const editData = reactive({} as User)
+    const componentKey = ref(0)
+    const passwordValue = ref("****************")
     return {
-      profileInfo,
-      getProfile
+      showData,
+      editData,
+      passwordValue,
+      componentKey
     }
   },
   created() {
     this.getProfile()
   },
   methods: {
-    doConfirmPassword(target: string): void {
-      router.push("profile/confirm_password")
+    // 컴포넌트 갱신
+    reloadComponents() {
+      this.componentKey++
+    },
+    // 내정보 가져오기
+    async getProfile() {
+      const res = await AuthGrpcService.profileGet()
+      await store.commit("userStore/setUser", res)
+      await Object.assign(this.showData, store.getters["userStore/user"])
+      await Object.assign(this.editData, _.cloneDeep(this.showData))
+    },
+    // 함수 호출 수 처리
+    completeFunction(msg: string = '처리되었습니다', isFromModal: boolean = false) {
+      // 모달에서 호출된거라면 모달 닫기
+      if (isFromModal) router.go(-1)
+      // 메시지 출력
+      utils.message.showSuccessToastMsg(msg)
+      // 정보 갱신
+      this.getProfile()
+      // 컴포넌트 reload
+      this.reloadComponents()
+    },
+    // 내 정보 수정
+    async updateProfile(form: any) {
+      const updatedFields = utils.getUpdatedFields(this.showData, this.editData)
+      if (_.isEmpty(updatedFields)) {
+        utils.message.showWarningToastMsg("변경사항이 없습니다")
+        return
+      }
+      if (!utils.validator.validateForm(form.target)) return
+      await AuthGrpcService.profileUpdate(bindUpdateUser(updatedFields))
+      await this.getProfile()
+      this.completeFunction('수정되었습니다')
     }
   }
 })
 </script>
 
-<style>
+<style lang="scss">
 .content {
   text-overflow: ellipsis;
   overflow: hidden;

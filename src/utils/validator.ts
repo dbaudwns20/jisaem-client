@@ -1,15 +1,16 @@
 const EMAIL_RULE: RegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
 const PASSWORD_RULE: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/)
+const KOR_RULE = new RegExp(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/)
 
 export default {
-
   /**
-   * required 속성을 갖고 있는 데이터 검증
+   * submit 된 form 데이터 검증
    */
-  validate(): boolean {
+  validateForm(form: HTMLFormElement): boolean {
     let isValid: boolean = true
-    for (const input of document.querySelectorAll('*[required]')) {
+    for (const input of form) {
       if (!(<HTMLSelectElement>input).checkValidity()) {
+        console.log(input)
         isValid = false
         // break 이용하면 모든 필드에 입력여부를 확인할 수 없다.
       }
@@ -29,5 +30,13 @@ export default {
    */
   checkPassword(value: string): boolean {
     return PASSWORD_RULE.test(value)
+  },
+
+  /**
+   * 한글 체크
+   * @param value
+   */
+  checkKorean(value: string): boolean {
+    return KOR_RULE.test(value)
   }
 }

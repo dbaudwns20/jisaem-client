@@ -3,7 +3,7 @@ import { getSessionToken } from '@/stores/store'
 import authRouter, { SignIn } from './auth.router'
 import dashboardRouter from './dashboard.router'
 import classRouter from './class.router'
-import Message from "@/utils/message";
+import utils from "@/utils/utils"
 
 const baseRouter: Array<RouteRecordRaw> = [
   {
@@ -32,8 +32,8 @@ router.beforeEach((to, from, next) => {
   }
   const isLogin: boolean = getSessionToken() != null
   if (!isLogin) {
-    Message.showWarningToastMsg('로그인이 필요합니다.')
-    next({path: "/"})
+    utils.message.showWarningToastMsg('로그인이 필요합니다.')
+    next('/')
   } else {
     next()
   }
