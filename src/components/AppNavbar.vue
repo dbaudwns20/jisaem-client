@@ -21,6 +21,9 @@
           <a class="navbar-item">
             <strong>사용자</strong>
           </a>
+          <a class="navbar-item">
+            <strong>레이블</strong>
+          </a>
         </div>
 
         <div class="navbar-end">
@@ -41,11 +44,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
-import { SignIn, Profile } from "@/routers/auth.router"
+import { defineComponent } from 'vue'
+import { Profile } from "@/routers/auth.router"
 import router from "@/routers/router"
 import store from "@/stores/store"
-import AuthGrpcService from "@/services/auth.grpc.service"
 
 export default defineComponent({
   name: 'AppNavbar',
@@ -55,10 +57,8 @@ export default defineComponent({
     goProfile() {
       router.push(Profile.path)
     },
-    async signOut() {
-      await AuthGrpcService.signOut()
-      await store.commit("sessionStore/signOut")
-      await router.push(SignIn.path)
+    signOut() {
+      store.dispatch('sessionStore/signOut')
     }
   }
 })
