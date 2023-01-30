@@ -1,0 +1,5 @@
+// label required 뒤에 * 표시
+.label.required:after {
+  content: " *";
+  color: darkorange;
+}

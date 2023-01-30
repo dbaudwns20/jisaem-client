@@ -2,16 +2,16 @@ import { AuthServiceClient } from '@/protos/auth/Auth_serviceServiceClientPb'
 import { SignInType } from '@/protos/auth/auth_message_pb'
 import {
   RequestPasswordUpdate,
-  RequestProfileGet,
+  RequestProfileGet, RequestProfileUpdate,
   RequestSignIn,
   RequestSignOut, RequestUsernameDuplicationCheck, RequestUsernameUpdate
 } from '@/protos/auth/auth_communication_pb'
 import { SignInInfo } from '@/models/auth/signInInfo'
 import { User } from '@/models/auth/user'
-import { UpdateUser } from '@/models/auth/updateUser'
+import { UpdateUser, getRequestProfileUpdate } from '@/models/auth/updateUser'
 import GrpcService from '@/services/grpc.service'
 
-import Message from "@/utils/message";
+import utils from "@/utils/utils"
 
 const _client: AuthServiceClient = new AuthServiceClient(GrpcService.GRPC_HOST)
 
@@ -26,7 +26,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.signIn(req, {}, async (err, res) => {
         if (err) {
-          Message.showErrorToastMsg(err.message)
+          utils.message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(new SignInInfo(res))
@@ -48,10 +48,9 @@ export default {
     await new Promise((resolve, reject) => {
       _client.signOut(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          Message.showErrorToastMsg(err.message)
+          utils.message.showErrorToastMsg(err.message)
           reject(err)
         } else {
-          // TODO 스토리지 토큰 및 정보 제거하기
           resolve(res)
         }
       })
@@ -63,22 +62,20 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.profileGet(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          Message.showErrorToastMsg(err.message)
+          utils.message.showErrorToastMsg(err.message)
           reject(err)
         } else {
-          let profile = new User(res.getUser()!)
-          resolve(profile)
+          resolve(new User(res.getUser()!))
         }
       })
     })
   },
 
   async profileUpdate(update: UpdateUser) {
-    // TODO vue의 computed를 사용하는게 효율적인지 모르겠음
     return await new Promise((resolve, reject) => {
-      _client.profileUpdate(update.getRequestProfileUpdate(), GrpcService.setToken(), async (err, res) => {
+      _client.profileUpdate(getRequestProfileUpdate(update), GrpcService.setToken(), async (err, res) => {
         if (err) {
-          Message.showErrorToastMsg(err.message)
+          utils.message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(res!)
@@ -94,7 +91,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.passwordUpdate(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          Message.showErrorToastMsg(err.message)
+          utils.message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(res)
@@ -109,7 +106,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.usernameUpdate(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          Message.showErrorToastMsg(err.message)
+          utils.message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(res)
@@ -124,7 +121,7 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.usernameDuplicationCheck(req, GrpcService.setToken(), async (err, res) => {
         if (err) {
-          Message.showErrorToastMsg(err.message)
+          utils.message.showErrorToastMsg(err.message)
           reject(err)
         } else {
           resolve(res.getExist()!)

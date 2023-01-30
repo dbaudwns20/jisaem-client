@@ -1,3 +1,6 @@
+import AuthGrpcService from "@/services/auth.grpc.service"
+import router from "@/routers/router"
+
 const sessionStore = {
   namespaced: true,
   state: {
@@ -15,11 +18,13 @@ const sessionStore = {
       state.name = payload.name
       state.authLevel = payload.authLevel
       state.token = payload.token
-    },
-    signOut: (state: any) => {
-      state.name = null
-      state.authLevel = 0
-      state.token = null
+    }
+  },
+  actions: {
+    async signOut() {
+      await AuthGrpcService.signOut()
+      await window.localStorage.removeItem('vuex')
+      await router.push('/')
     }
   }
 }

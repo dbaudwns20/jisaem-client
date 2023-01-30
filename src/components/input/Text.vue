@@ -1,6 +1,8 @@
 <template>
   <div class="field">
-    <label class="label">{{ label }}</label>
+    <label class="label" :class="{ 'required': isRequired }" v-if="label">
+      {{ label }}
+    </label>
     <div class="control has-icons-right" :class="{ 'has-icons-left': hasIconLeft }">
       <input type="text" class="input"
              :class="checkClass"
@@ -28,7 +30,7 @@ import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: "Text",
   props: {
-    label: { type: String, default: "Text" },
+    label: { type: String, default: "" },
     placeholder: { type: String, default: "" },
     isRequired: { type: Boolean, default: false },
     isReadOnly: { type: Boolean, default: false },
@@ -48,7 +50,7 @@ export default defineComponent({
       checkClass.value = ''
     }
 
-    const checkIfIsInvalid = () => {
+    const checkIfIsInvalid = (): void => {
       if (!props.isRequired) return
       checkMsg.value = props.placeholder
       checkClass.value = 'is-danger'

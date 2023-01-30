@@ -1,7 +1,9 @@
-import {createStore} from 'vuex'
+import { createStore } from 'vuex'
 import PersistedState from "vuex-persistedstate"
 import SessionStore from "@/stores/session.store"
 import UserStore from "@/stores/user.store"
+
+import _ from 'lodash'
 
 const store = createStore({
   modules: {
@@ -18,8 +20,9 @@ const store = createStore({
 export default store
 
 /**
- * sessionStore 저장된 토큰 가져오기
+ * LocalStorage 저장된 토큰 가져오기
  */
 export function getSessionToken(): string {
-  return store.getters["sessionStore/token"]
+  const token = JSON.parse(window.localStorage.getItem('vuex') as string)?.sessionStore?.token
+  return _.isUndefined(token) ? null : token
 }
