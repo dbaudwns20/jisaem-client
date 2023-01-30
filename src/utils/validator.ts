@@ -10,7 +10,6 @@ export default {
     let isValid: boolean = true
     for (const input of form) {
       if (!(<HTMLSelectElement>input).checkValidity()) {
-        console.log(input)
         isValid = false
         // break 이용하면 모든 필드에 입력여부를 확인할 수 없다.
       }

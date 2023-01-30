@@ -8,7 +8,7 @@ const setDefault = (): {} => {
     position: "top-center", // 위치
     timeout: 2000, // 보이는 시간
     closeOnClick: true, // 클릭으로 닫기
-    pauseOnFocusLoss: true, // 마우스 대고 있으면 유지
+    pauseOnFocusLoss: true, // 화면에 포커스 유지 안할시 메시지 고정
     pauseOnHover: true, // 마우스 대고 있으면 유지
     draggable: true, // 드레그로 제거 여부
     draggablePercent: 0.6, // 드래그 길이

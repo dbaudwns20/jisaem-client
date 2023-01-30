@@ -1,6 +1,8 @@
 <template>
   <div class="field">
-    <label class="label" :class="{ 'required': isRequired }">{{ label }}</label>
+    <label class="label" :class="{ 'required': isRequired }" v-if="label">
+      {{ label }}
+    </label>
     <div class="control has-icons-right" :class="{ 'has-icons-left': hasIconLeft }">
       <input type="text" class="input" id="username"
              :class="checkClass"
@@ -32,7 +34,7 @@ import * as _ from 'lodash'
 export default defineComponent({
   name: "Username",
   props: {
-    label: { type: String, default: "Text" },
+    label: { type: String, default: "" },
     placeholder: { type: String, default: "" },
     isRequired: { type: Boolean, default: false },
     isReadOnly: { type: Boolean, default: false },

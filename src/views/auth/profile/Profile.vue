@@ -20,15 +20,21 @@
           <div class="card-content">
             <div class="media">
               <div class="media-content">
-                <p class="title">{{ showData.name }}</p>
-                <p class="sub-title">
-                  <span class="icon-text">
+                <p class="title is-3">{{ showData.name }}</p>
+                <p class="subtitle is-4" style="color: cornflowerblue;">@{{ showData.username }}</p>
+                <hr>
+                <p class="subtitle is-6">
+                  <span class="icon-text" v-if="showData.email">
                     <span class="icon"><i class="fas fa-envelope"></i></span>
                     <span>{{ showData.email }}</span>
                   </span>
-                  <span class="icon-text">
+                  <span class="icon-text" v-if="showData.phone">
                     <span class="icon"><i class="fa-solid fa-mobile"></i></span>
                     <span>{{ showData.phone }}</span>
+                  </span>
+                  <span class="icon-text" v-if="showData.studentInfo?.school">
+                    <span class="icon"><i class="fa-solid fa-school"></i></span>
+                    <span>{{ showData.studentInfo?.school }}</span>
                   </span>
                 </p>
               </div>
@@ -95,7 +101,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { User } from "@/models/auth/user"
-import { bindUpdateUser } from "@/models/auth/updateUser"
+import { updateUserKeys, bindUpdateUser } from "@/models/auth/updateUser"
 
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
@@ -106,8 +112,8 @@ import AuthGrpcService from "@/services/auth.grpc.service"
 
 import utils from "@/utils/utils"
 import store from "@/stores/store"
+import router from "@/routers/router"
 import _ from 'lodash'
-import router from "@/routers/router";
 
 export default defineComponent({
   name: "Profile",
@@ -122,7 +128,7 @@ export default defineComponent({
   setup() {
     const showData = reactive({} as User)
     const editData = reactive({} as User)
-    const componentKey = ref(0)
+    const componentKey = ref(false)
     const passwordValue = ref("****************")
     return {
       showData,
@@ -137,7 +143,8 @@ export default defineComponent({
   methods: {
     // 컴포넌트 갱신
     reloadComponents() {
-      this.componentKey++
+      // component key 값이 변경되면 컴포넌트가 갱신된다
+      this.componentKey = !this.componentKey
     },
     // 내정보 가져오기
     async getProfile() {
@@ -146,7 +153,18 @@ export default defineComponent({
       await Object.assign(this.showData, store.getters["userStore/user"])
       await Object.assign(this.editData, _.cloneDeep(this.showData))
     },
-    // 함수 호출 수 처리
+    // 내 정보 수정
+    async updateProfile(form: any) {
+      const updatedFields = utils.getUpdatedFields(this.showData, this.editData, updateUserKeys)
+      if (_.isEmpty(updatedFields)) {
+        utils.message.showWarningToastMsg("변경사항이 없습니다")
+        return
+      }
+      if (!utils.validator.validateForm(form.target)) return
+      await AuthGrpcService.profileUpdate(bindUpdateUser(updatedFields))
+      this.completeFunction('수정되었습니다')
+    },
+    // 함수 호출 후 처리
     completeFunction(msg: string = '처리되었습니다', isFromModal: boolean = false) {
       // 모달에서 호출된거라면 모달 닫기
       if (isFromModal) router.go(-1)
@@ -157,18 +175,6 @@ export default defineComponent({
       // 컴포넌트 reload
       this.reloadComponents()
     },
-    // 내 정보 수정
-    async updateProfile(form: any) {
-      const updatedFields = utils.getUpdatedFields(this.showData, this.editData)
-      if (_.isEmpty(updatedFields)) {
-        utils.message.showWarningToastMsg("변경사항이 없습니다")
-        return
-      }
-      if (!utils.validator.validateForm(form.target)) return
-      await AuthGrpcService.profileUpdate(bindUpdateUser(updatedFields))
-      await this.getProfile()
-      this.completeFunction('수정되었습니다')
-    }
   }
 })
 </script>
@@ -182,5 +188,12 @@ export default defineComponent({
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical
+}
+
+.icon-text {
+  color: gray;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 0.25em;
 }
 </style>

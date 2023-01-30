@@ -7,6 +7,8 @@ export interface UpdateUser {
   userLabelUid?: string
 }
 
+export const updateUserKeys: string[] = ['name', 'phone', 'email', 'userLabelUid']
+
 function bindUpdateUser(form: any): UpdateUser {
   return {
     name: form?.name,

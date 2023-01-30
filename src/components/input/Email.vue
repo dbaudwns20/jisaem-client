@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label class="label" :class="{ 'required': isRequired }" v-if="label.length > 0">
+    <label class="label" :class="{ 'required': isRequired }" v-if="label">
       {{ label }}
     </label>
     <div class="control has-icons-left has-icons-right">
