@@ -1,4 +1,4 @@
-import {Level} from "@/protos/auth/auth_message_pb";
+import { Level } from "@/protos/auth/auth_message_pb"
 
 export enum AuthLevel {
   AUTH_LEVEL_UNSPECIFIED,
@@ -58,10 +58,4 @@ export function AuthLevelToString(mv: AuthLevel): string {
     default:
       return "미지정"
   }
-}
-
-export function isManager(mv: AuthLevel): boolean {
-  return mv === AuthLevel.AUTH_LEVEL_TEACHER ||
-    mv === AuthLevel.AUTH_LEVEL_MANAGER ||
-    mv === AuthLevel.AUTH_LEVEL_SUPER
 }

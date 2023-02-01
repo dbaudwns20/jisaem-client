@@ -1,5 +1,4 @@
-import {LabelType as ProtoLabelType} from "@/protos/label/label_message_pb";
-import {AuthLevel} from "@/models/enum/authLevel";
+import { LabelType as ProtoLabelType } from "@/protos/label/label_message_pb"
 
 export enum LabelType {
   LABEL_TYPE_UNSPECIFIED,

@@ -1,9 +1,9 @@
-import {Label as ProtoLabel} from "@/protos/label/label_message_pb"
-import {ClassParticipant as ProtoClassParticipant} from "@/protos/class/class_message_pb"
+import { Label as ProtoLabel } from "@/protos/label/label_message_pb"
+import { ClassParticipant as ProtoClassParticipant } from "@/protos/class/class_message_pb"
 
-import {Label} from "@/models/label/label"
-import {Model} from "@/models/model"
-import {AuthLevel, AuthLevelFromProto} from "@/models/enum/authLevel";
+import { Label } from "@/models/label/label"
+import { Model } from "@/models/model"
+import { AuthLevel, AuthLevelFromProto } from "@/models/enum/auth.level";
 
 /**
  * 수업 참여자 Class

@@ -4,10 +4,10 @@ import {
 } from "@/protos/auth/auth_message_pb"
 import {Label as ProtoLabel} from "@/protos/label/label_message_pb"
 
-import {Label} from "@/models/label/label"
-import {StudentInfo} from "@/models/auth/studentInfo"
-import {Model} from "@/models/model"
-import {AuthLevel, AuthLevelFromProto} from "@/models/enum/authLevel";
+import { Label } from "@/models/label/label"
+import { StudentInfo } from "@/models/auth/student.info"
+import { Model } from "@/models/model"
+import { AuthLevel, AuthLevelFromProto } from "@/models/enum/auth.level"
 
 /**
  * 사용자 Class
@@ -27,8 +27,8 @@ export class User extends Model {
   constructor(proto: ProtoUser) {
     super()
     this.uid = proto.getUid()
-    this.createdAt = proto.getCreatedAt()?.toDate() as Date
-    this.updatedAt = proto.getUpdatedAt()?.toDate() as Date
+    this.createdAt = proto.getCreatedAt()!.toDate() as Date
+    this.updatedAt = proto.getUpdatedAt()!.toDate() as Date
     this.authLevel = AuthLevelFromProto(proto.getAuthLevel())
     this.username = proto.getUsername()
     this.name = proto.getName()

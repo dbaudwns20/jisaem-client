@@ -1,16 +1,16 @@
-import {Label as ProtoLabel} from "@/protos/label/label_message_pb"
+import { Label as ProtoLabel } from "@/protos/label/label_message_pb"
 import {
   Test as ProtoTest,
   TestScore as ProtoTestScore,
   TestExpectedGrade as ProtoTestExpectedGrade
 } from "@/protos/test/test_message_pb"
 
-import {Label} from "@/models/label/label"
-import {TestScore} from "@/models/test/testScore"
-import {TestExpectedGrade} from "@/models/test/testExpectedGrade"
+import { Label } from "@/models/label/label"
+import { TestScore } from "@/models/test/test.score"
+import { TestExpectedGrade } from "@/models/test/test.expected.grade"
 
-import {Model} from "@/models/model"
-import {ExposeRankType, ExposeRankTypeFromProto} from "@/models/enum/exposeRankType";
+import { Model} from "@/models/model"
+import { ExposeRankType, ExposeRankTypeFromProto} from "@/models/enum/expose.rank.type"
 
 /**
  * 시험 Class
@@ -39,8 +39,8 @@ export class Test extends Model {
   constructor(data: ProtoTest) {
     super()
     this.uid = data.getUid()
-    this.createdAt = data.getCreatedAt()?.toDate() as Date
-    this.updatedAt = data.getUpdatedAt()?.toDate() as Date
+    this.createdAt = data.getCreatedAt()!.toDate() as Date
+    this.updatedAt = data.getUpdatedAt()!.toDate() as Date
     this.classUid = data.getClassUid()
     this.name = data.getName()
     this.description = data.getDescription()
@@ -51,8 +51,8 @@ export class Test extends Model {
     this.lowScore = data.getLowScore()
     this.testLabel = super.set(Label, data.getTestLabel() as ProtoLabel)
     this.exposeRankType = ExposeRankTypeFromProto(data.getExposeRankType())
-    this.startAt = data.getStartAt()?.toDate() as Date
-    this.endAt = data.getEndAt()?.toDate() as Date
+    this.startAt = data.getStartAt()!.toDate() as Date
+    this.endAt = data.getEndAt()!.toDate() as Date
     this.closed = data.getClosedAt() != null
     this.publicExposed = data.getPublicExposedAt() != null
     this.scoresList = super.setList(TestScore, data.getScoresList() as ProtoTestScore[])

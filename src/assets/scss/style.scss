@@ -3,3 +3,30 @@
   content: " *";
   color: darkorange;
 }
+
+// footer
+.footer {
+  margin-top: 1.5em;
+}
+
+// 내정보
+.profile-username:before {
+  content: "@";
+}
+.profile-username {
+  color: cornflowerblue;
+}
+.profile-auth-level {
+  font-size: 1.75rem;
+  margin-left: 0.3em;
+}
+.profile-hr {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+.profile-info {
+  font-size: 1rem;
+  color: gray;
+  width: 100%;
+  margin-top: 0.35em;
+}

@@ -1,7 +1,7 @@
-import {StudentInfo as ProtoStudentInfo} from "@/protos/auth/auth_message_pb"
+import { StudentInfo as ProtoStudentInfo } from "@/protos/auth/auth_message_pb"
 
 /**
- * 학생부가정보 Class
+ * 학생정보 Class
  */
 export class StudentInfo {
   school: string

@@ -1,19 +1,16 @@
 import { AuthServiceClient } from '@/protos/auth/Auth_serviceServiceClientPb'
-import { SignInType } from '@/protos/auth/auth_message_pb'
 import {
-  RequestPasswordUpdate,
-  RequestProfileGet, RequestProfileUpdate,
-  RequestSignIn,
+  RequestPasswordUpdate, RequestProfileGet, RequestSignIn,
   RequestSignOut, RequestUsernameDuplicationCheck, RequestUsernameUpdate
 } from '@/protos/auth/auth_communication_pb'
-import { SignInInfo } from '@/models/auth/signInInfo'
+import { SignInInfo, bindSingUpInfo } from '@/models/auth/signIn.info'
+import { SignInType } from "@/models/enum/signIn.type"
 import { User } from '@/models/auth/user'
-import { UpdateUser, getRequestProfileUpdate } from '@/models/auth/updateUser'
-import GrpcService from '@/services/grpc.service'
+import { UpdateUser, getRequestProfileUpdate } from '@/models/auth/update.user'
 
-import utils from "@/utils/utils"
+import grpcService from '@/services/grpc.service'
 
-const _client: AuthServiceClient = new AuthServiceClient(GrpcService.GRPC_HOST)
+const _client: AuthServiceClient = new AuthServiceClient(grpcService.GRPC_HOST)
 
 export default {
   async _signIn(signInType: SignInType, username: string, password: string) {
@@ -26,10 +23,10 @@ export default {
     return await new Promise((resolve, reject) => {
       _client.signIn(req, {}, async (err, res) => {
         if (err) {
-          utils.message.showErrorToastMsg(err.message)
+          grpcService.handlingError(err)
           reject(err)
         } else {
-          resolve(new SignInInfo(res))
+          resolve(bindSingUpInfo(res) as SignInInfo)
         }
       })
     })
@@ -46,9 +43,9 @@ export default {
   async signOut() {
     let req = new RequestSignOut()
     await new Promise((resolve, reject) => {
-      _client.signOut(req, GrpcService.setToken(), async (err, res) => {
+      _client.signOut(req, grpcService.setToken(), async (err, res) => {
         if (err) {
-          utils.message.showErrorToastMsg(err.message)
+          grpcService.handlingError(err)
           reject(err)
         } else {
           resolve(res)
@@ -60,9 +57,9 @@ export default {
   async profileGet(): Promise<User> {
     let req = new RequestProfileGet()
     return await new Promise((resolve, reject) => {
-      _client.profileGet(req, GrpcService.setToken(), async (err, res) => {
+      _client.profileGet(req, grpcService.setToken(), async (err, res) => {
         if (err) {
-          utils.message.showErrorToastMsg(err.message)
+          grpcService.handlingError(err)
           reject(err)
         } else {
           resolve(new User(res.getUser()!))
@@ -73,9 +70,9 @@ export default {
 
   async profileUpdate(update: UpdateUser) {
     return await new Promise((resolve, reject) => {
-      _client.profileUpdate(getRequestProfileUpdate(update), GrpcService.setToken(), async (err, res) => {
+      _client.profileUpdate(getRequestProfileUpdate(update), grpcService.setToken(), async (err, res) => {
         if (err) {
-          utils.message.showErrorToastMsg(err.message)
+          grpcService.handlingError(err)
           reject(err)
         } else {
           resolve(res!)
@@ -89,9 +86,9 @@ export default {
     req.setPrevPassword(prevPassword)
     req.setNewPassword(newPassword)
     return await new Promise((resolve, reject) => {
-      _client.passwordUpdate(req, GrpcService.setToken(), async (err, res) => {
+      _client.passwordUpdate(req, grpcService.setToken(), async (err, res) => {
         if (err) {
-          utils.message.showErrorToastMsg(err.message)
+          grpcService.handlingError(err)
           reject(err)
         } else {
           resolve(res)
@@ -104,9 +101,9 @@ export default {
     let req = new RequestUsernameUpdate()
     req.setUsername(username)
     return await new Promise((resolve, reject) => {
-      _client.usernameUpdate(req, GrpcService.setToken(), async (err, res) => {
+      _client.usernameUpdate(req, grpcService.setToken(), async (err, res) => {
         if (err) {
-          utils.message.showErrorToastMsg(err.message)
+          grpcService.handlingError(err)
           reject(err)
         } else {
           resolve(res)
@@ -119,9 +116,9 @@ export default {
     let req = new RequestUsernameDuplicationCheck()
     req.setUsername(username)
     return await new Promise((resolve, reject) => {
-      _client.usernameDuplicationCheck(req, GrpcService.setToken(), async (err, res) => {
+      _client.usernameDuplicationCheck(req, grpcService.setToken(), async (err, res) => {
         if (err) {
-          utils.message.showErrorToastMsg(err.message)
+          grpcService.handlingError(err)
           reject(err)
         } else {
           resolve(res.getExist()!)

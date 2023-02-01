@@ -19,10 +19,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref } from 'vue'
 import AppModal from "@/components/AppModal.vue"
 import Password from "@/components/input/Password.vue"
-import AuthGrpcService from "@/services/auth.grpc.service"
+import authGrpcService from "@/services/auth.grpc.service"
 
 import utils from "@/utils/utils"
 
@@ -43,7 +43,7 @@ export default defineComponent({
   methods: {
     async updatePassword(form: any) {
       if (!utils.validator.validateForm(form.target)) return
-      await AuthGrpcService.passwordUpdate(this.prevPassword, this.newPassword)
+      await authGrpcService.passwordUpdate(this.prevPassword, this.newPassword)
       this.$emit("complete-function", '수정되었습니다', true)
     }
   }

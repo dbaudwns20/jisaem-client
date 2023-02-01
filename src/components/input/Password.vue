@@ -22,8 +22,8 @@
       </p>
     </div>
   </div>
-  <div class="field">
-    <div class="control has-icons-left has-icons-right" v-if="!isLogin">
+  <div class="field" v-if="!isLogin">
+    <div class="control has-icons-left has-icons-right">
       <input type="password" name="passwordConfirm" class="input"
              :class="checkConfirmClass"
              placeholder="비밀번호를 확인해주세요"
@@ -71,9 +71,12 @@ export default defineComponent({
      */
     const checkOnPasswordRule = (target: HTMLInputElement) => {
       const value = target.value
+      // 필드가 비어있으면 class, msg 초기화
       if (_.isEmpty(value)) {
         checkMsg.value = ""
         checkClass.value = ""
+        // validity 초기화
+        target.setCustomValidity("")
         return
       }
       if (!utils.validator.checkPassword(value)) {
