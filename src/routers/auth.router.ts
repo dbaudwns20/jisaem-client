@@ -1,7 +1,9 @@
+import { AuthLevel } from "@/models/enum/auth.level"
+
 export const SignInNormal = {
   path: '/sign-in',
   name: 'SignInNormal',
-  component: () => import('../views/auth/sign-in/SignInNormal.vue'),
+  component: () => import('../views/auth/signIn/SignInNormal.vue'),
   meta: {
     needLogin: false
   }
@@ -9,19 +11,30 @@ export const SignInNormal = {
 export const SignInParent = {
   path: '/sign-in-parent',
   name: 'SignInParent',
-  component: () => import('../views/auth/sign-in/SignInParent.vue'),
+  component: () => import('../views/auth/signIn/SignInParent.vue'),
   meta: {
-    needLogin: false,
-    accessiblePaths: [SignInNormal.path]
+    needLogin: false
   }
 }
-export const ResetPassword = {
-  path: '/reset-password',
-  name: 'ResetPassword',
-  component: () => import('../views/auth/sign-in/ResetPassword.vue'),
+
+export const ModalChangePassword = {
+  path: '/profile/change-password',
+  name: 'ModalChangePassword',
+  component: () => import('../views/auth/profile/ModalChangePassword.vue'),
   meta: {
-    needLogin: false,
-    accessiblePaths: [SignInNormal.path, SignInParent.path]
+    needLogin: true,
+    accessiblePaths: ['/profile']
+  }
+}
+
+export const ModalChangeUsername = {
+  path: '/profile/change-username',
+  name: 'ModalChangeUsername',
+  component: () => import('../views/auth/profile/ModalChangeUsername.vue'),
+  meta: {
+    needLogin: true,
+    accessiblePaths: ['/profile'],
+    accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
   }
 }
 
@@ -33,28 +46,13 @@ export const Profile = {
     needLogin: true
   },
   children: [
-    {
-      path: '/profile/change-password',
-      name: 'ModalChangePassword',
-      component: () => import('../views/auth/profile/ModalChangePassword.vue'),
-      meta: {
-        needLogin: true
-      }
-    },
-    {
-      path: '/profile/change-username',
-      name: 'ModalChangeUsername',
-      component: () => import('../views/auth/profile/ModalChangeUsername.vue'),
-      meta: {
-        needLogin: true
-      }
-    },
+    ModalChangePassword,
+    ModalChangeUsername
   ]
 }
 
 export default [
   SignInNormal,
   SignInParent,
-  ResetPassword,
   Profile
 ]

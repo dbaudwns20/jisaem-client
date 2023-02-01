@@ -1,7 +1,7 @@
 import {ClassParticipant as ProtoClassParticipant} from "@/protos/class/class_message_pb"
 import {TestScore as ProtoTestScore} from "@/protos/test/test_message_pb"
 
-import {ClassParticipant} from "@/models/class/classParticipant"
+import {ClassParticipant} from "@/models/class/class.participant"
 import {Model} from "@/models/model"
 
 /**

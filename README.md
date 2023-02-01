@@ -5,9 +5,13 @@
 Vue 3 with typescript
 ESLint
 vue-router
+vue-toastification
 vuex
+vuex-persistedstate
 bulma
 ag-grid-vue3
+google-protobuf
+grpc-web
 ```
 
 ## Project setup

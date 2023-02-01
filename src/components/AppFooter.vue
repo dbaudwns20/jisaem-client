@@ -15,6 +15,3 @@ export default defineComponent({
   name: "AppFooter"
 })
 </script>
-
-<style scoped>
-</style>

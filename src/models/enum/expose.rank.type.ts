@@ -1,6 +1,4 @@
-import {ExposeRankType as ProtoExposeRankType} from "@/protos/test/test_message_pb";
-import {Level} from "@/protos/auth/auth_message_pb";
-import {AuthLevel} from "@/models/enum/authLevel";
+import { ExposeRankType as ProtoExposeRankType } from "@/protos/test/test_message_pb"
 
 export enum ExposeRankType {
   EXPOSE_RANK_TYPE_UNSPECIFIED,
