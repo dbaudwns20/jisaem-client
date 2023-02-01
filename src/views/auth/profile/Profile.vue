@@ -20,43 +20,100 @@
           <div class="card-content">
             <div class="media">
               <div class="media-content">
-                <p class="title is-3">{{ showData.name }}</p>
-                <p class="subtitle is-4" style="color: cornflowerblue;">@{{ showData.username }}</p>
-                <hr>
+                <p class="title is-3 is-marginless">{{ showData.name }}<span class="profile-auth-level">{{ authName }}</span></p>
+                <p class="subtitle is-4 is-marginless profile-username">
+                  {{ isParent ? parentUsername : showData.username }}
+                </p>
+                <hr class="profile-hr">
                 <p class="subtitle is-6">
-                  <span class="icon-text" v-if="showData.email">
+                  <span class="icon-text profile-info" v-if="showData.email">
                     <span class="icon"><i class="fas fa-envelope"></i></span>
                     <span>{{ showData.email }}</span>
                   </span>
-                  <span class="icon-text" v-if="showData.phone">
+                  <span class="icon-text profile-info" v-if="showData.phone">
                     <span class="icon"><i class="fa-solid fa-mobile"></i></span>
                     <span>{{ showData.phone }}</span>
                   </span>
-                  <span class="icon-text" v-if="showData.studentInfo?.school">
+                  <span class="icon-text profile-info" v-if="showData.studentInfo?.school">
                     <span class="icon"><i class="fa-solid fa-school"></i></span>
                     <span>{{ showData.studentInfo?.school }}</span>
                   </span>
                 </p>
               </div>
             </div>
-            <div class="content">
-              {{ showData.studentInfo?.description }}
-            </div>
           </div>
         </div>
       </div>
       <div class="column">
-        <form class="box" @submit.prevent="updateProfile($event)" novalidate>
+        <!-- 부모님 계정 폼 -->
+        <form class="box" v-if="isParent" novalidate>
+          <Username :label="'부모님 아이디'" :is-disabled="true" :is-required="true"
+                    v-model="parentUsername" />
+          <div class="field">
+            <label class="label required">비밀번호</label>
+            <div class="field is-grouped">
+              <p class="control is-expanded">
+                <Password :is-disabled="true" v-model="passwordValue" />
+              </p>
+              <p class="control">
+                <router-link :to="changePasswordPath" tag="a" class="button is-success is-light">
+                  변경
+                </router-link>
+              </p>
+            </div>
+          </div>
+          <Text :label="'자녀 이름'" icons-left="fa-solid fa-user"
+                :is-required="true" :is-disabled="true"
+                v-model="editData.name" />
+          <Email :label="'이메일'" :is-login="false" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
+                 v-model="editData.email" />
+          <Text :label="'전화번호'" icons-left="fa-solid fa-mobile" :is-disabled="true" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
+                v-model="editData.phone" />
+          <Text :label="'레이블'" icons-left="fa-solid fa-tags" :is-disabled="true" :placeholder="'레이블을 선택해 주세요'" />
+        </form>
+        <!-- 학생 계정 폼 -->
+        <form class="box" v-if="isStudent" @submit.prevent="updateProfile" novalidate>
+          <Username :label="'아이디'" :is-disabled="true" :is-required="true"
+                    v-model="editData.username"/>
+          <div class="field">
+            <label class="label required">비밀번호</label>
+            <div class="field is-grouped">
+              <p class="control is-expanded">
+                <Password :is-disabled="true" v-model="passwordValue" />
+              </p>
+              <p class="control">
+                <router-link :to="changePasswordPath" tag="a" class="button is-success is-light">
+                  변경
+                </router-link>
+              </p>
+            </div>
+          </div>
+          <Text :label="'이름'" icons-left="fa-solid fa-user"
+                :is-required="true" :is-disabled="true"
+                v-model="editData.name" />
+          <Email :label="'이메일'" :is-login="false"
+                 :key="componentKey" :placeholder="'이메일을 입력해주세요'"
+                 v-model="editData.email" />
+          <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
+                :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
+                v-model="editData.phone" />
+          <Text :label="'레이블'" :placeholder="'레이블을 선택해 주세요'"
+                icons-left="fa-solid fa-tags" :is-disabled="true" />
+          <div class="buttons is-right">
+            <button class="button is-info" type="submit">개인정보변경</button>
+          </div>
+        </form>
+        <!-- 매니져 계정 폼 -->
+        <form class="box" v-if="isManager" @submit.prevent="updateProfile" novalidate>
           <div class="field">
             <label class="label required">아이디</label>
             <div class="field is-grouped">
               <p class="control is-expanded">
-                <Text :is-disabled="true" icons-left="fa-solid fa-user"
-                      v-model="editData.username" :key="componentKey" />
+                <Username :is-disabled="true" :is-required="true"
+                          v-model="editData.username"/>
               </p>
               <p class="control">
-                <router-link to="/profile/change-username"
-                             tag="a" class="button is-success is-light">
+                <router-link :to="changeUsernamePath" tag="a" class="button is-success is-light">
                   변경
                 </router-link>
               </p>
@@ -66,27 +123,26 @@
             <label class="label required">비밀번호</label>
             <div class="field is-grouped">
               <p class="control is-expanded">
-                <Password :is-disabled="true"
-                          v-model="passwordValue" :key="componentKey" />
+                <Password :is-disabled="true" v-model="passwordValue" />
               </p>
               <p class="control">
-                <router-link to="/profile/change-password"
-                             tag="a" class="button is-success is-light">
+                <router-link :to="changePasswordPath" tag="a" class="button is-success is-light">
                   변경
                 </router-link>
               </p>
             </div>
           </div>
-          <Text :label="'이름'" :placeholder="'이름을 입력해주세요'"
-                :is-required="true" icons-left="fa-solid fa-user"
-                v-model="editData.name" :key="componentKey" />
+          <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
+                :is-required="true" :placeholder="'이름을 입력해 주세요'"
+                v-model="editData.name" />
           <Email :label="'이메일'" :is-login="false"
-                 v-model="editData.email" :key="componentKey" />
-          <Text :label="'전화번호'" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-                icons-left="fa-solid fa-mobile"
-                v-model="editData.phone" :key="componentKey" />
-          <Text :label="'레이블'" :placeholder="'레이블을 선택해주세요'"
-                icons-left="fa-solid fa-tags" />
+                 :key="componentKey" :placeholder="'이메일을 입력해주세요'"
+                 v-model="editData.email" />
+          <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
+                :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
+                v-model="editData.phone" />
+          <Text :label="'레이블'" :placeholder="'레이블을 선택해 주세요'"
+                icons-left="fa-solid fa-tags" :key="componentKey" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -101,10 +157,12 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { User } from "@/models/auth/user"
-import { updateUserKeys, bindUpdateUser } from "@/models/auth/updateUser"
+import { getUpdateUserKeys, bindUpdateUser } from "@/models/auth/update.user"
+import { ModalChangePassword, ModalChangeUsername } from "@/routers/auth.router"
 
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
+import Username from "@/components/input/Username.vue"
 import Text from "@/components/input/Text.vue"
 import Email from "@/components/input/Email.vue"
 import Password from "@/components/input/Password.vue"
@@ -119,6 +177,7 @@ export default defineComponent({
   name: "Profile",
   inheritAttrs: false,
   components: {
+    Username,
     AppNavbar,
     AppFooter,
     Text,
@@ -130,11 +189,20 @@ export default defineComponent({
     const editData = reactive({} as User)
     const componentKey = ref(false)
     const passwordValue = ref("****************")
+    const myAuthLevel = store.getters["sessionStore/authLevel"]
+    const parentUsername = ref('')
     return {
       showData,
       editData,
       passwordValue,
-      componentKey
+      componentKey,
+      parentUsername,
+      authName: utils.authority.getAuthName(myAuthLevel),
+      isManager: utils.authority.isManager(myAuthLevel),
+      isStudent: utils.authority.isStudent(myAuthLevel),
+      isParent: utils.authority.isParent(myAuthLevel),
+      changeUsernamePath: ModalChangeUsername.path,
+      changePasswordPath: ModalChangePassword.path
     }
   },
   created() {
@@ -152,10 +220,14 @@ export default defineComponent({
       await store.commit("userStore/setUser", res)
       await Object.assign(this.showData, store.getters["userStore/user"])
       await Object.assign(this.editData, _.cloneDeep(this.showData))
+      // 부모님 아이디 set
+      if (this.isParent) {
+        this.parentUsername = this.showData.studentInfo!.parentUsername!
+      }
     },
     // 내 정보 수정
     async updateProfile(form: any) {
-      const updatedFields = utils.getUpdatedFields(this.showData, this.editData, updateUserKeys)
+      const updatedFields = utils.getUpdatedFields(this.showData, this.editData, getUpdateUserKeys())
       if (_.isEmpty(updatedFields)) {
         utils.message.showWarningToastMsg("변경사항이 없습니다")
         return
@@ -178,22 +250,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss">
-.content {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  word-break: break-all;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical
-}
-
-.icon-text {
-  color: gray;
-  font-weight: bold;
-  width: 100%;
-  margin-top: 0.25em;
-}
-</style>
