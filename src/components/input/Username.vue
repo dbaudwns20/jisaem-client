@@ -3,8 +3,8 @@
     <label class="label" :class="{ 'required': isRequired }" v-if="label">
       {{ label }}
     </label>
-    <div class="control has-icons-right" :class="{ 'has-icons-left': hasIconLeft }">
-      <input type="text" class="input" id="username"
+    <div class="control has-icons-right has-icons-left">
+      <input type="text" class="input"
              :class="checkClass"
              :placeholder="placeholder"
              :required="isRequired"
@@ -14,7 +14,7 @@
              @invalid="checkIfIsInvalid($event.target.value)"
              @keyup="checkValue($event.target)"
              @input="$emit('update:modelValue', $event.target.value)" />
-      <span v-if="hasIconLeft" class="icon is-small is-left"><i :class="iconsLeft"></i></span>
+      <span class="icon is-small is-left"><i class="fa-solid fa-user"></i></span>
       <span v-if="isRequired" class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
                                                                           'fas fa-exclamation-triangle': checkClass === 'is-danger',
                                                                           '': checkClass === ''}"></i></span>
@@ -27,61 +27,67 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import AuthGrpcService from "@/services/auth.grpc.service"
-import utils from "@/utils/utils"
+import authGrpcService from '@/services/auth.grpc.service'
+import utils from '@/utils/utils'
 import * as _ from 'lodash'
 
 export default defineComponent({
-  name: "Username",
+  name: 'Username',
   props: {
-    label: { type: String, default: "" },
-    placeholder: { type: String, default: "" },
+    label: { type: String, default: '' },
+    placeholder: { type: String, default: '' },
     isRequired: { type: Boolean, default: false },
     isReadOnly: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
     isDupCheck: { type: Boolean, default: false },
-    isLogin: { type: Boolean, default: true },
-    iconsLeft: { type: String, default: "" },
-    modelValue: { type: String, default: "" }
+    isLogin: { type: Boolean, default: false },
+    modelValue: { type: String, default: '' }
   },
   setup(props) {
-    const inputValue = ref(props.modelValue)
     const checkClass = ref('')
     const checkMsg = ref('')
-    const hasIconLeft = ref(props.iconsLeft.length > 0)
     let oldValue = ''
 
-    const checkValue = async (target: HTMLInputElement) => {
-      const value = target.value
-      // validity 초기화
-      target.setCustomValidity("")
+    const checkValue = (target: HTMLInputElement) => {
+      const value: string = target.value
       // 필드가 비어있으면 class, msg 초기화
       if (_.isEmpty(value)) {
-        checkMsg.value = ''
         checkClass.value = ''
+        checkMsg.value = ''
+        // validity 초기화
+        target.setCustomValidity('')
         return
       }
-      // 한글은 사용불가
-      if (utils.validator.checkKorean(value)) {
-        checkClass.value = 'is-danger'
-        checkMsg.value = '한글은 사용할 수 없습니다'
-        target.setCustomValidity('invalid username')
-        return
+      // 아이디 규직 체크
+      if (props.isLogin) {
+        if (!utils.validator.checkUsername(value)) {
+          checkClass.value = 'is-danger'
+          checkMsg.value = '한글, 특수문자, 공백없이 4~15자로 입력해주세요'
+          target.setCustomValidity('username invalid')
+          return
+        } else {
+          checkClass.value = ''
+          checkMsg.value = ''
+          target.setCustomValidity('')
+        }
+      } else {
+        if (!utils.validator.checkUsername(value)) {
+          checkClass.value = 'is-danger'
+          checkMsg.value = '한글, 특수문자, 공백없이 4~15자로 입력해주세요'
+          target.setCustomValidity('username invalid')
+          oldValue = value
+          return
+        }
       }
-      // 이전값과 동일하면 불가 [트래픽 방지]
-      if (value == oldValue) {
-        target.setCustomValidity('username already checked')
-        return
-      }
-      // 아이디 중복체크를 할 경우
-      // 4자 이상 30자 이하 경우만 체크 [user 테이블 username varchar(30)]
-      if (props.isDupCheck && value.length > 3 && value.length < 31) {
-        // 이전 값 set
-        oldValue = value
-        let res = await AuthGrpcService.usernameDuplicationCheck(value)
-        checkClass.value = res ? 'is-danger': 'is-success'
-        checkMsg.value = res ? '이미 사용 중인 아이디입니다' : '사용할 수 있는 아이디입니다'
-        res ? target.setCustomValidity('duplicated username') : target.setCustomValidity("")
+      // 아이디 중복체크
+      if (props.isDupCheck && value.length >= 4) {
+        if (oldValue === value) return
+        authGrpcService.usernameDuplicationCheck(value).then((isExists) => {
+          oldValue = value
+          checkClass.value = isExists ? 'is-danger': 'is-success'
+          checkMsg.value = isExists ? '이미 사용 중인 아이디입니다' : '사용할 수 있는 아이디입니다'
+          isExists ? target.setCustomValidity('duplicated username') : target.setCustomValidity('')
+        })
       }
     }
 
@@ -93,10 +99,8 @@ export default defineComponent({
     }
 
     return {
-      inputValue,
       checkClass,
       checkMsg,
-      hasIconLeft,
       checkValue,
       checkIfIsInvalid
     }
