@@ -21,17 +21,17 @@
           <a class="navbar-item">
             <strong>사용자</strong>
           </a>
-          <a class="navbar-item">
+          <router-link :to="labelPath" tag="a" class="navbar-item">
             <strong>레이블</strong>
-          </a>
+          </router-link>
         </div>
 
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-info" @click="goProfile">
+              <router-link :to="profilePath" tag="a" class="button is-info">
                 <strong>내정보</strong>
-              </a>
+              </router-link>
               <a class="button is-primary" @click="signOut">
                 <strong>로그아웃</strong>
               </a>
@@ -46,17 +46,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Profile } from "@/routers/auth.router"
-import router from "@/routers/router"
+import { Label } from "@/routers/label.router"
 import store from "@/stores/store"
 
 export default defineComponent({
   name: 'AppNavbar',
   setup() {
+    return {
+      labelPath: Label.path,
+      profilePath: Profile.path
+    }
   },
   methods: {
-    goProfile() {
-      router.push(Profile.path)
-    },
     signOut() {
       store.dispatch('sessionStore/signOut')
     }

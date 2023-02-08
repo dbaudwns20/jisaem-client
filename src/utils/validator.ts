@@ -3,6 +3,7 @@ const PASSWORD_RULE: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&
 const USERNAME_RULE: RegExp = new RegExp(/^(?=.*[A-z\d])[A-z\d]{1,15}$/)
 const KOR_RULE: RegExp = new RegExp(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/)
 const BLANK_RULE: RegExp = new RegExp(/[\s]/gm)
+const COLOR_CODE_RULE: RegExp = new RegExp(/^#(?:[0-9a-fA-F]{6}){1,2}$/)
 
 export default {
   /**
@@ -55,11 +56,18 @@ export default {
 
   /**
    * 아이디 체크
-   *
    * @param value
    */
   checkUsername(value: string): boolean {
     return USERNAME_RULE.test(value)
   },
+
+  /**
+   * 컬러코드 체크
+   * @param value
+   */
+  checkCodeCode(value: string): boolean {
+    return COLOR_CODE_RULE.test(value)
+  }
 
 }

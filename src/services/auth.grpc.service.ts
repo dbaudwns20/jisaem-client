@@ -62,7 +62,8 @@ export default {
           grpcService.handlingError(err)
           reject(err)
         } else {
-          resolve(new User(res.getUser()!))
+          const result: User = grpcService.resolveResponse(User, res.getUser()!)
+          resolve(result)
         }
       })
     })

@@ -3,6 +3,7 @@ import store, { getSessionToken } from '@/stores/store'
 import authRouter, { SignInNormal, SignInParent } from './auth.router'
 import dashboardRouter, { Dashboard } from './dashboard.router'
 import classRouter from './class.router'
+import labelRouter from './label.router'
 import utils from "@/utils/utils"
 
 import _ from 'lodash'
@@ -18,6 +19,7 @@ const routes: Array<RouteRecordRaw> = baseRouter
   .concat(authRouter)
   .concat(dashboardRouter)
   .concat(classRouter)
+  .concat(labelRouter)
 
 const router = createRouter({
   history: createWebHashHistory(),

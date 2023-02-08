@@ -1,13 +1,11 @@
 <template>
-    <ag-grid-vue style="width: 100%;"
-                 class="ag-theme-alpine"
+    <ag-grid-vue class="ag-theme-alpine"
                  id="myGrid"
-                 :domLayout="'autoHeight'"
+                 :class="gridClass"
                  :defaultColDef="defaultColDef"
                  :columnDefs="columnDefs"
                  :rowData="rowData"
                  :pagination="true"
-                 :paginationAutoPageSize="true"
                  :localeText="{noRowsToShow: '조회 결과가 없습니다.'}"
                  @grid-ready="onGridReady">
     </ag-grid-vue>
@@ -25,13 +23,14 @@ export default defineComponent({
     'ag-grid-vue': AgGridVue,
   },
   props: {
-    columns: Object
+    columns: Object,
+    gridClass: { type: String, default: "" }
   },
   setup(props) {
     let columns = props.columns
     let numColumn = {
       headerName: '순번',
-      maxWidth: 60,
+      maxWidth: 65,
       sortable: false,
       resizable: false,
       cellStyle: { textAlign: 'center' },
@@ -174,6 +173,34 @@ export default defineComponent({
         "startDate": "2022-11-19",
         "endDate": "2023-03-04",
         "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 특강 수2",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A1 겨울 정규 도방/수하/확률",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고2 겨울 특강 수2",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
+      },
+      {
+        "name": "2023 예비고1A1 겨울 정규 도방/수하/확률",
+        "rate": "3",
+        "startDate": "2022-11-19",
+        "endDate": "2023-03-04",
+        "description": ""
       }
     ])
     const defaultColDef = ref({
@@ -203,5 +230,6 @@ export default defineComponent({
 })
 
 </script>
-<style>
+<style lang="scss">
+@import "./src/assets/scss/grid";
 </style>

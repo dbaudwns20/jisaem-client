@@ -1,4 +1,4 @@
-import {PluginOptions, useToast} from "vue-toastification";
+import { PluginOptions, useToast } from "vue-toastification"
 import * as _ from 'lodash';
 
 const toast = useToast()
@@ -38,5 +38,4 @@ export default {
   showErrorToastMsg(msg: string, options?: {}): void {
     toast.error(msg, setOptions(options) as PluginOptions)
   },
-
 }
