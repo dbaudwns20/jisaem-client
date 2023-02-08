@@ -4,6 +4,8 @@ import { RpcError } from "grpc-web"
 import router from "@/routers/router"
 import utils from "@/utils/utils"
 
+import _ from 'lodash'
+
 // gRPC 설정
 const GRPC_HOST: string = "http://localhost:50050"
 
@@ -19,10 +21,33 @@ function handlingTokenError() {
   router.push('/')
 }
 
+// 인증정보 에러 처리
+function handlingUnauthenticatedError() {
+  utils.message.showErrorToastMsg('유효하지 않은 인증정보입니다')
+  window.localStorage.removeItem('vuex')
+  router.push('/')
+}
+
+// gRPC 응답값 해당유형으로 Resolve
+function resolveResponse<T, K>(type: { new ({}: T): K}, res: any): any  {
+  if (_.isArray(res)) {
+    const result: K[] = []
+    res.forEach((it) => {
+      result.push(new type(it))
+    })
+    return result
+  } else {
+    return new type(res) as K
+  }
+}
+
 // gRPC 에러 헨들링
 function handlingError(err: RpcError): void {
-  const code = err.code
-
+  const code: number = err.code
+  if (code === 16 && err.message === 'unauthenticated error') {
+    handlingUnauthenticatedError()
+    return
+  }
   const msg = err.message.split(" : ")[1]
   switch (msg) {
     case 'expired token':
@@ -45,5 +70,6 @@ function handlingError(err: RpcError): void {
 export default {
   GRPC_HOST,
   setToken,
-  handlingError
+  handlingError,
+  resolveResponse
 }

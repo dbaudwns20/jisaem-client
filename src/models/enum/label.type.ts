@@ -41,13 +41,13 @@ export function LabelTypeToProto(mv: LabelType): ProtoLabelType {
 export function LabelTypeToString(mv: LabelType): string {
   switch (mv.valueOf()) {
     case LabelType.LABEL_TYPE_USER.valueOf():
-      return "사용자 레이블"
+      return "사용자"
     case LabelType.LABEL_TYPE_CLASS.valueOf():
-      return "클래스 레이블"
+      return "클래스"
     case LabelType.LABEL_TYPE_TEST.valueOf():
-      return "시험 레이블"
+      return "시험"
     case LabelType.LABEL_TYPE_HOMEWORK.valueOf():
-      return "과제 레이블"
+      return "과제"
     default:
       return "미지정"
   }
