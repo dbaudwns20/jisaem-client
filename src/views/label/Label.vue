@@ -77,8 +77,6 @@ export default defineComponent({
     const gridColumnApi = ref()
     const gridOptions = reactive({
       columnDefs: labelUiService.setColumns(),
-      rowSelection: 'multiple', // 체크박스 다중 선택
-      editType: 'fullRow', // 편집 타입
       defaultColDef: {
         resizable: true,
         sortable: false
@@ -87,10 +85,6 @@ export default defineComponent({
       context: {
         componentParent: getCurrentInstance()!.proxy
       },
-      onGridReady: (params: any) => {
-        gridApi.value = params.api
-        gridColumnApi.value = params.columnApi
-      },
       // 체크박스 선택 이벤트
       onRowSelected: (params: any) => {
         selectedItemList.value = []
@@ -98,57 +92,44 @@ export default defineComponent({
           selectedItemList.value.push(it.data)
         })
       },
-      // 셀 키보드 입력 시
-      onCellKeyDown: (params: any) => {
-        // 다른 행이 편집중인 상황에서 엔터키를 눌렀을 경우
-        if (params.event.key === 'Enter') {
-          labelGrid.value.getRowData().forEach((it: any) => {
-            if (it.isEditing) {
-              // 편집내용을 롤백한다
-              if (!_.has(it, 'uid')) {
-                const rowData = labelGrid.value.getRowData()
-                rowData.shift()
-                params.api.setRowData(rowData)
-              } else {
-                _.merge(it, it.default)
-                it.isEditing = false
-              }
-            }
-          })
-          params.api.refreshCells(params)
-        } else {
-          // Cell Editor 에 입력된 값 실시간으로 data 필드에 반영
-          params.data[params.colDef.field] = params.event.target.value
-          params.data.isDisabled = _.isEmpty(params.data.name) || _.isEmpty(params.data.color)
-          params.api.refreshCells(params)
-        }
-      },
       // 셀 클릭 시 편집 중인 상태라면 초기화
       onCellClicked: (params: any) => {
+        selectRow(params)
         if (params.api.getEditingCells().length === 0) {
           params.api.stopEditing(false)
-          labelGrid.value.getRowData().forEach((it: any) => {
+          gridOptions.rowData.forEach((it: any) => {
             if (it.isEditing) {
               if (!_.has(it, 'uid')) {
-                const rowData = labelGrid.value.getRowData()
+                const rowData = gridOptions.rowData
                 rowData.shift()
                 params.api.setRowData(rowData)
               } else {
                 _.merge(it, it.default)
                 it.isEditing = false
+                it.selected = false
               }
             }
           })
           params.api.redrawRows()
         }
+      },
+      onGridReady: (params: any) => {
+        gridApi.value = params.api
+        gridColumnApi.value = params.columnApi
       }
     })
+    // 선택한 행 지정
+    const selectRow = (params: any) => {
+      _.forEach(gridOptions.rowData, row => { row.selected = false })
+      params.data.selected = true
+    }
     // 데이터 롤백용 데이터 추가
     const setDefault = (res: any, rowData: []) => {
       rowData.forEach((it: any) => {
         for (const label of res) {
           if (it.uid === label.uid) {
             it.isEditing = false
+            it.selected = false
             it.default = label
             break
           }
@@ -187,7 +168,7 @@ export default defineComponent({
   methods: {
     // 레이블 추가
     addRow() {
-      const rowData = this.labelGrid.getRowData()
+      const rowData = this.gridOptions.rowData
       // 이미 추가를 한 상황이라면 방지
       if (rowData.length > 0 && !_.has(rowData[0], 'uid')) return
       // 편집 중인 상황이라면 취소
@@ -197,6 +178,7 @@ export default defineComponent({
         if (it.isEditing) {
           _.merge(it, it.default)
           it.isEditing = false
+          it.selected = false
         }
       })
       rowData.unshift({
@@ -246,7 +228,10 @@ export default defineComponent({
     // 새로고침
     reloadRow() {
       this.read()
+      // 체크박스 목록 초기화
+      this.selectedItemList = []
     },
+    // 탭 선택 시 '1' : '레이블유형' 컬럼 보이기 설정
     setCurrentLabelType(labelType: LabelType) {
       this.currentLabelType = labelType
       if (labelType === LabelType.LABEL_TYPE_UNSPECIFIED) {

@@ -1,15 +1,20 @@
 <template>
-  <span class="tag is-medium is-rounded" ref="label">{{ name }}</span>
+  <span class="tag is-rounded" :class="size" ref="label">{{ name }}</span>
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import utils from "@/utils/utils"
+import _ from "lodash";
 
-const props = defineProps(['params'])
-
-const label = ref(null)
-const name = ref(props.params.data.name)
-const color = ref(props.params.data.color)
+const props = defineProps({
+  params: { type: Object },
+  size: { type: String, default: 'is-medium' }
+})
+const label = ref()
+const data = props.params.data
+const name = ref(_.isEmpty(data.name) ? '레이블' : data.name)
+const color = ref(data.color)
+const size = props.size
 
 onMounted(() => {
   // 텍스트 컬러 설정
