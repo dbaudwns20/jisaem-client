@@ -1,7 +1,9 @@
-import CellEditingButtons from "@/components/grid/CellEditingButtons.vue"
+import CellButtons from "@/components/grid/CellButtons.vue"
+import CellTextEditor from "@/components/grid/CellTextEditor.vue"
 import LabelColorEditor from "@/components/label/LabelColorEditor.vue"
 import LabelElement from "@/components/label/LabelElement.vue"
 import { LabelTypeToString } from "@/models/enum/label.type"
+
 
 export default {
   setColumns() {
@@ -14,7 +16,7 @@ export default {
         resizable: false,
         cellStyle: {display: 'flex', alignItems: 'center'},
         checkboxSelection: true,
-        headerCheckboxSelection: true,
+        headerCheckboxSelection: true
       },
       {
         maxWidth: 120,
@@ -29,7 +31,6 @@ export default {
         width: 100,
         headerName: "레이블",
         cellStyle: {display: 'flex', alignItems: 'center'},
-        editable: false,
         cellRenderer: LabelElement
       },
       {
@@ -37,6 +38,10 @@ export default {
         headerName: "텍스트",
         field: "name",
         editable: true,
+        cellEditor: CellTextEditor,
+        cellEditorParams: {
+          required: true
+        }
       },
       {
         width: 100,
@@ -44,12 +49,16 @@ export default {
         field: "color",
         editable: true,
         cellEditor: LabelColorEditor,
+        cellEditorParams: {
+          required: true
+        }
       },
       {
         width: 200,
         headerName: "설명",
         field: "description",
         editable: true,
+        cellEditor: CellTextEditor
       },
       {
         maxWidth: 150,
@@ -58,7 +67,7 @@ export default {
         sortable: false,
         resizable: false,
         cellStyle: {justifyContent: 'center', display: 'flex', alignItems: 'center'},
-        cellRenderer: CellEditingButtons
+        cellRenderer: CellButtons
       }
     ]
   }

@@ -15,17 +15,21 @@ $footer-padding: 2rem 1.5rem 2rem;
 .profile-username:before {
   content: "@";
 }
+
 .profile-username {
   color: cornflowerblue;
 }
+
 .profile-auth-level {
   font-size: 1.75rem;
   margin-left: 0.3em;
 }
+
 .profile-hr {
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
+
 .profile-info {
   font-size: 1rem;
   color: gray;
@@ -40,8 +44,7 @@ $footer-padding: 2rem 1.5rem 2rem;
   height: 100%;
 }
 
-.is-custom-color {
-  $custom: #ff8606;
-  $custom-invert: findColorInvert($custom);
-  $custom-colors: ("$custom": ($custom, $custom-invert));
+.tabs {
+  border-left: 1px solid #babfc7;
+  border-right: 1px solid #babfc7;
 }

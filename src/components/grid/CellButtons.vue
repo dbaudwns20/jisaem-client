@@ -20,9 +20,10 @@ import _ from 'lodash'
 
 const props = defineProps(['params'])
 const params = props.params
+
 // 그리드 데이터
 const api = params.api
-const columnApi = params.columnApi
+const gridOptions = api.gridOptionsService.gridOptions
 const columnDefs = api.columnModel.columnDefs
 // 행 데이터
 const data = params.data
@@ -32,34 +33,23 @@ const isDisabled = ref(data.isDisabled)
 const isEditing = ref(data.isEditing)
 // 레이블 페이지 그리드 컴포넌트
 const parentComp = params.context.componentParent
-const labelGrid = parentComp.labelGrid
-
-function _setColumnVisible(set: boolean): void {
-  const _list = []
-  _.forEach(columnApi.columnModel.gridColumns, (it) => {
-    if (!it.visible) {
-      _list.push(it)
-    }
-  })
-  columnApi.setColumnsVisible(_list, set)
-  api.sizeColumnsToFit()
-}
 
 // 편집
 function edit() {
   let rowIndex = params.rowIndex
-  labelGrid.getRowData().forEach((it: any) => {
+  gridOptions.rowData.forEach((it: any) => {
     // 다른 행에서 편집 중인 경우
     if (it.isEditing && data.uid !== it.uid) {
       // 신규인 경우
       if (!_.has(it, 'uid')) {
         rowIndex--
-        const rowData = labelGrid.getRowData()
+        const rowData = gridOptions.rowData
         rowData.shift() // return void
         api.setRowData(rowData)
       } else {
         _.merge(it, it.default)
         it.isEditing = false
+        it.selected = false
       }
     }
   })
