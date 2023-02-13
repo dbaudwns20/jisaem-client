@@ -8,7 +8,8 @@ module.exports = defineConfig({
     loaderOptions: {
       sass: {
         additionalData: `
-          @import "@/assets/scss/style.scss";
+          @import "@/assets/sass/style.sass"
+          @import "@/assets/sass/grid.sass"
         `
       }
     }

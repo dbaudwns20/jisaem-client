@@ -1,0 +1,53 @@
+@charset "utf-8"
+// Import Bulma first
+@import 'node_modules/bulma/bulma.sass'
+
+// label required 뒤에 * 표시
+.label.required:after
+  content: " *"
+  color: darkorange
+
+
+// footer
+$footer-padding: 2rem 1.5rem 2rem
+.footer
+  margin-top: 2em
+  padding: $footer-padding
+
+
+// 내정보
+.profile-username:before
+  content: "@"
+
+
+.profile-username
+  color: cornflowerblue
+
+
+.profile-auth-level
+  font-size: 1.75rem
+  margin-left: 0.3em
+
+
+.profile-hr
+  margin-top: 1em
+  margin-bottom: 0.5em
+
+
+.profile-info
+  font-size: 1rem
+  color: gray
+  width: 100%
+  margin-top: 0.35em
+
+
+//
+.container
+  flex: 1
+  width: 100%
+  height: 100%
+
+
+.tabs
+  border-left: 1px solid #babfc7
+  border-right: 1px solid #babfc7

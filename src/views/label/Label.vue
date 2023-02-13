@@ -97,10 +97,10 @@ export default defineComponent({
         selectRow(params)
         if (params.api.getEditingCells().length === 0) {
           params.api.stopEditing(false)
-          gridOptions.rowData.forEach((it: any) => {
+          _.forEach(labelGrid.value.getRowData(), it => {
             if (it.isEditing) {
               if (!_.has(it, 'uid')) {
-                const rowData = gridOptions.rowData
+                const rowData = labelGrid.value.getRowData()
                 rowData.shift()
                 params.api.setRowData(rowData)
               } else {
@@ -120,7 +120,7 @@ export default defineComponent({
     })
     // 선택한 행 지정
     const selectRow = (params: any) => {
-      _.forEach(gridOptions.rowData, row => { row.selected = false })
+      _.forEach(labelGrid.value.getRowData(), row => { row.selected = false })
       params.data.selected = true
     }
     // 데이터 롤백용 데이터 추가
@@ -168,7 +168,7 @@ export default defineComponent({
   methods: {
     // 레이블 추가
     addRow() {
-      const rowData = this.gridOptions.rowData
+      const rowData = this.labelGrid.getRowData()
       // 이미 추가를 한 상황이라면 방지
       if (rowData.length > 0 && !_.has(rowData[0], 'uid')) return
       // 편집 중인 상황이라면 취소
@@ -239,6 +239,7 @@ export default defineComponent({
       } else {
         this.gridColumnApi.setColumnVisible('1', false)
       }
+      this.gridApi.sizeColumnsToFit()
     },
     // 함수 호출 후 처리
     completeFunction(msg: string = '처리되었습니다') {
@@ -250,6 +251,6 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss">
-@import "./src/assets/scss/grid";
+<style lang="sass">
+@import "src/assets/sass/grid"
 </style>

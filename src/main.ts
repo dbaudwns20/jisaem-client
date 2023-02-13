@@ -9,7 +9,7 @@ import "vue-toastification/dist/index.css"
 // vue-toastification 옵션
 const options: PluginOptions = {
   transition: "Vue-Toastification__fade", // 애니메이션
-  maxToasts: 5, // 토스트 메시지 갯수
+  maxToasts: 1, // 토스트 메시지 갯수
   newestOnTop: true // 신규메시지가 맨위로
 }
 

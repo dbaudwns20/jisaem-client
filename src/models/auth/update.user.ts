@@ -1,6 +1,8 @@
 import { RequestProfileUpdate } from "@/protos/auth/auth_communication_pb"
 import utils from "@/utils/utils"
 
+import _ from 'lodash'
+
 /**
  * 사용자 수정 Interface
  */
@@ -20,7 +22,7 @@ function bindUpdateUser(data: any): UpdateUser {
     name: data?.name,
     phone: data?.phone,
     email: data?.email,
-    userLabelUid: data?.userLabelUid
+    userLabelUid: _.eq(data?.userLabel, '') ? '' : data?.userLabel.uid
   }
 }
 
@@ -30,7 +32,7 @@ function bindUpdateUser(data: any): UpdateUser {
 function getUpdateUserKeys(): string[] {
   let keys: string[] = []
   if (utils.authority.isManager())
-    keys = ['name', 'phone', 'email', 'userLabelUid']
+    keys = ['name', 'phone', 'email', 'userLabel']
   else if (utils.authority.isStudent())
     keys = ['phone', 'email']
   return keys

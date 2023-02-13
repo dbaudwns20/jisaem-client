@@ -62,14 +62,25 @@
               </p>
             </div>
           </div>
-          <Text :label="'자녀 이름'" icons-left="fa-solid fa-user"
-                :is-required="true" :is-disabled="true"
-                v-model="editData.name" />
+          <div class="field">
+            <div class="columns">
+              <div class="column">
+                <Text :label="'자녀 이름'" icons-left="fa-solid fa-user"
+                      :is-required="true" :is-disabled="true"
+                      v-model="editData.name" />
+              </div>
+              <div class="column is-5">
+                <LabelSelect :label="'레이블'" :key="componentKey"
+                             :is-disabled="true"
+                             :label-type="labelType.LABEL_TYPE_USER"
+                             v-model="editData.userLabel" />
+              </div>
+            </div>
+          </div>
           <Email :label="'이메일'" :is-login="false" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile" :is-disabled="true" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
-          <Text :label="'레이블'" icons-left="fa-solid fa-tags" :is-disabled="true" :placeholder="'레이블을 선택해 주세요'" />
         </form>
         <!-- 학생 계정 폼 -->
         <form class="box" v-if="isStudent" @submit.prevent="updateProfile" novalidate>
@@ -88,17 +99,27 @@
               </p>
             </div>
           </div>
-          <Text :label="'이름'" icons-left="fa-solid fa-user"
-                :is-required="true" :is-disabled="true"
-                v-model="editData.name" />
+          <div class="field">
+            <div class="columns">
+              <div class="column">
+                <Text :label="'이름'" icons-left="fa-solid fa-user"
+                      :is-required="true" :is-disabled="true"
+                      v-model="editData.name" />
+              </div>
+              <div class="column is-5">
+                <LabelSelect :label="'레이블'" :key="componentKey"
+                             :is-disabled="true"
+                             :label-type="labelType.LABEL_TYPE_USER"
+                             v-model="editData.userLabel" />
+              </div>
+            </div>
+          </div>
           <Email :label="'이메일'" :is-login="false"
                  :key="componentKey" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
                 :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
-          <Text :label="'레이블'" :placeholder="'레이블을 선택해 주세요'"
-                icons-left="fa-solid fa-tags" :is-disabled="true" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -132,17 +153,26 @@
               </p>
             </div>
           </div>
-          <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
-                :is-required="true" :placeholder="'이름을 입력해 주세요'"
-                v-model="editData.name" />
+          <div class="field">
+            <div class="columns">
+              <div class="column">
+                <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
+                      :is-required="true" :placeholder="'이름을 입력해 주세요'"
+                      v-model="editData.name" />
+              </div>
+              <div class="column is-5">
+                <LabelSelect :label="'레이블'"
+                             :label-type="labelType.LABEL_TYPE_USER"
+                             v-model="editData.userLabel" />
+              </div>
+            </div>
+          </div>
           <Email :label="'이메일'" :is-login="false"
                  :key="componentKey" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
                 :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
-          <Text :label="'레이블'" :placeholder="'레이블을 선택해 주세요'"
-                icons-left="fa-solid fa-tags" :key="componentKey" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -159,6 +189,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { User } from "@/models/auth/user"
 import { getUpdateUserKeys, bindUpdateUser } from "@/models/auth/update.user"
 import { ModalChangePassword, ModalChangeUsername } from "@/routers/auth.router"
+import { LabelType } from "@/models/enum/label.type"
 
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
@@ -166,6 +197,8 @@ import Username from "@/components/input/Username.vue"
 import Text from "@/components/input/Text.vue"
 import Email from "@/components/input/Email.vue"
 import Password from "@/components/input/Password.vue"
+import LabelSelect from "@/components/label/LabelSelect.vue"
+
 import AuthGrpcService from "@/services/auth.grpc.service"
 
 import utils from "@/utils/utils"
@@ -182,7 +215,8 @@ export default defineComponent({
     AppFooter,
     Text,
     Email,
-    Password
+    Password,
+    LabelSelect
   },
   setup() {
     const showData = reactive({} as User)
@@ -202,7 +236,8 @@ export default defineComponent({
       isStudent: utils.authority.isStudent(myAuthLevel),
       isParent: utils.authority.isParent(myAuthLevel),
       changeUsernamePath: ModalChangeUsername.path,
-      changePasswordPath: ModalChangePassword.path
+      changePasswordPath: ModalChangePassword.path,
+      labelType: LabelType
     }
   },
   created() {
@@ -221,9 +256,8 @@ export default defineComponent({
       await Object.assign(this.showData, store.getters["userStore/user"])
       await Object.assign(this.editData, _.cloneDeep(this.showData))
       // 부모님 아이디 set
-      if (this.isParent) {
-        this.parentUsername = this.showData.studentInfo!.parentUsername!
-      }
+      if (this.isParent)
+        this.parentUsername = this.showData.parentInfo!.username!
     },
     // 내 정보 수정
     async updateProfile(form: any) {
@@ -246,7 +280,7 @@ export default defineComponent({
       this.getProfile()
       // 컴포넌트 reload
       this.reloadComponents()
-    },
+    }
   }
 })
 </script>

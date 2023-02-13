@@ -7,7 +7,7 @@ import utils from "@/utils/utils"
 import _ from "lodash";
 
 const props = defineProps({
-  params: { type: Object },
+  params: { type: Object, required: true },
   size: { type: String, default: 'is-medium' }
 })
 const label = ref()

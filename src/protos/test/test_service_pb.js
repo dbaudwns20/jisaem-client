@@ -13,7 +13,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global = Function('return this')();
+var global = (function() { return this || window || global || self || Function('return this')(); }).call(null);
 
 var test_test_communication_pb = require('../test/test_communication_pb.js');
 goog.object.extend(proto, test_test_communication_pb);

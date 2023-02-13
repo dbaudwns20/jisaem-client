@@ -230,6 +230,3 @@ export default defineComponent({
 })
 
 </script>
-<style lang="scss">
-@import "./src/assets/scss/grid";
-</style>

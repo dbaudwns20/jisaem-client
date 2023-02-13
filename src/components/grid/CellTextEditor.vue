@@ -69,8 +69,7 @@ export default defineComponent({
     }
     // keyup 이벤트 처리
     function keyupEvent (event: any) {
-      const value = event.target.value
-      text.value = _.trim(value)
+      text.value = event.target.value
       data[field] = text.value
       checkValid()
       // 셀 refresh => 변경된 data 반영
