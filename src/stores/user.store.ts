@@ -11,7 +11,8 @@ const userStore = {
       phone: null,
       email: null,
       userLabel: {},
-      studentInfo: {}
+      studentInfo: {},
+      parentInfo: {}
     },
   },
   getters: {
@@ -29,6 +30,7 @@ const userStore = {
       state.user['email'] = payload.email
       state.user['userLabel'] = payload.userLabel
       state.user['studentInfo'] = payload.studentInfo
+      state.user['parentInfo'] = payload.parentInfo
     }
   }
 }

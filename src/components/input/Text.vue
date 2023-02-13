@@ -39,7 +39,6 @@ export default defineComponent({
     modelValue: { type: String, default: "" }
   },
   setup(props) {
-    const inputValue = ref(props.modelValue)
     const checkClass = ref('')
     const checkMsg = ref('')
     const hasIconLeft = ref(props.iconsLeft.length > 0)
@@ -57,7 +56,6 @@ export default defineComponent({
     }
 
     return {
-      inputValue,
       checkClass,
       checkMsg,
       hasIconLeft,

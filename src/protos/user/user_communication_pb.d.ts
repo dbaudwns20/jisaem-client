@@ -5,14 +5,13 @@ import * as utils_utils_pb from '../utils/utils_pb';
 
 
 export class RequestParentCreate extends jspb.Message {
-  getStudentUid(): string;
-  setStudentUid(value: string): RequestParentCreate;
+  getStudentId(): string;
+  setStudentId(value: string): RequestParentCreate;
 
-  getParentUsername(): string;
-  setParentUsername(value: string): RequestParentCreate;
-
-  getParentPassword(): string;
-  setParentPassword(value: string): RequestParentCreate;
+  getParentInfo(): auth_auth_message_pb.ParentInfo | undefined;
+  setParentInfo(value?: auth_auth_message_pb.ParentInfo): RequestParentCreate;
+  hasParentInfo(): boolean;
+  clearParentInfo(): RequestParentCreate;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestParentCreate.AsObject;
@@ -24,9 +23,8 @@ export class RequestParentCreate extends jspb.Message {
 
 export namespace RequestParentCreate {
   export type AsObject = {
-    studentUid: string,
-    parentUsername: string,
-    parentPassword: string,
+    studentId: string,
+    parentInfo?: auth_auth_message_pb.ParentInfo.AsObject,
   }
 }
 
@@ -116,10 +114,10 @@ export class RequestUserListGet extends jspb.Message {
   getAuthLevel(): auth_auth_message_pb.Level;
   setAuthLevel(value: auth_auth_message_pb.Level): RequestUserListGet;
 
-  getUserLabelUidsList(): Array<string>;
-  setUserLabelUidsList(value: Array<string>): RequestUserListGet;
-  clearUserLabelUidsList(): RequestUserListGet;
-  addUserLabelUids(value: string, index?: number): RequestUserListGet;
+  getUserLabelIdsList(): Array<string>;
+  setUserLabelIdsList(value: Array<string>): RequestUserListGet;
+  clearUserLabelIdsList(): RequestUserListGet;
+  addUserLabelIds(value: string, index?: number): RequestUserListGet;
 
   getPagination(): utils_utils_pb.Pagination | undefined;
   setPagination(value?: utils_utils_pb.Pagination): RequestUserListGet;
@@ -137,14 +135,14 @@ export class RequestUserListGet extends jspb.Message {
 export namespace RequestUserListGet {
   export type AsObject = {
     authLevel: auth_auth_message_pb.Level,
-    userLabelUidsList: Array<string>,
+    userLabelIdsList: Array<string>,
     pagination?: utils_utils_pb.Pagination.AsObject,
   }
 }
 
 export class RequestUserGet extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): RequestUserGet;
+  getId(): string;
+  setId(value: string): RequestUserGet;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestUserGet.AsObject;
@@ -156,7 +154,7 @@ export class RequestUserGet extends jspb.Message {
 
 export namespace RequestUserGet {
   export type AsObject = {
-    uid: string,
+    id: string,
   }
 }
 
@@ -207,8 +205,8 @@ export namespace ResponseUserListGet {
 }
 
 export class RequestUserUpdate extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): RequestUserUpdate;
+  getId(): string;
+  setId(value: string): RequestUserUpdate;
 
   getUsername(): string;
   setUsername(value: string): RequestUserUpdate;
@@ -230,10 +228,10 @@ export class RequestUserUpdate extends jspb.Message {
   hasEmail(): boolean;
   clearEmail(): RequestUserUpdate;
 
-  getUserLabelUid(): string;
-  setUserLabelUid(value: string): RequestUserUpdate;
-  hasUserLabelUid(): boolean;
-  clearUserLabelUid(): RequestUserUpdate;
+  getUserLabelId(): string;
+  setUserLabelId(value: string): RequestUserUpdate;
+  hasUserLabelId(): boolean;
+  clearUserLabelId(): RequestUserUpdate;
 
   getStudentInfo(): auth_auth_message_pb.StudentInfo | undefined;
   setStudentInfo(value?: auth_auth_message_pb.StudentInfo): RequestUserUpdate;
@@ -250,12 +248,12 @@ export class RequestUserUpdate extends jspb.Message {
 
 export namespace RequestUserUpdate {
   export type AsObject = {
-    uid: string,
+    id: string,
     username?: string,
     name?: string,
     phone?: string,
     email?: string,
-    userLabelUid?: string,
+    userLabelId?: string,
     studentInfo?: auth_auth_message_pb.StudentInfo.AsObject,
   }
 
@@ -279,9 +277,9 @@ export namespace RequestUserUpdate {
     EMAIL = 5,
   }
 
-  export enum UserLabelUidCase { 
-    _USER_LABEL_UID_NOT_SET = 0,
-    USER_LABEL_UID = 6,
+  export enum UserLabelIdCase { 
+    _USER_LABEL_ID_NOT_SET = 0,
+    USER_LABEL_ID = 6,
   }
 
   export enum StudentInfoCase { 
@@ -305,10 +303,10 @@ export namespace ResponseUserUpdate {
 }
 
 export class RequestUserDelete extends jspb.Message {
-  getUidList(): Array<string>;
-  setUidList(value: Array<string>): RequestUserDelete;
-  clearUidList(): RequestUserDelete;
-  addUid(value: string, index?: number): RequestUserDelete;
+  getIdList(): Array<string>;
+  setIdList(value: Array<string>): RequestUserDelete;
+  clearIdList(): RequestUserDelete;
+  addId(value: string, index?: number): RequestUserDelete;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestUserDelete.AsObject;
@@ -320,7 +318,7 @@ export class RequestUserDelete extends jspb.Message {
 
 export namespace RequestUserDelete {
   export type AsObject = {
-    uidList: Array<string>,
+    idList: Array<string>,
   }
 }
 
@@ -339,13 +337,13 @@ export namespace ResponseUserDelete {
 }
 
 export class RequestUserLabelUpdate extends jspb.Message {
-  getUidsList(): Array<string>;
-  setUidsList(value: Array<string>): RequestUserLabelUpdate;
-  clearUidsList(): RequestUserLabelUpdate;
-  addUids(value: string, index?: number): RequestUserLabelUpdate;
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): RequestUserLabelUpdate;
+  clearIdsList(): RequestUserLabelUpdate;
+  addIds(value: string, index?: number): RequestUserLabelUpdate;
 
-  getUserLabelUid(): string;
-  setUserLabelUid(value: string): RequestUserLabelUpdate;
+  getUserLabelId(): string;
+  setUserLabelId(value: string): RequestUserLabelUpdate;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestUserLabelUpdate.AsObject;
@@ -357,8 +355,8 @@ export class RequestUserLabelUpdate extends jspb.Message {
 
 export namespace RequestUserLabelUpdate {
   export type AsObject = {
-    uidsList: Array<string>,
-    userLabelUid: string,
+    idsList: Array<string>,
+    userLabelId: string,
   }
 }
 
@@ -377,10 +375,10 @@ export namespace ResponseUserLabelUpdate {
 }
 
 export class RequestUserPasswordUpdate extends jspb.Message {
-  getUidList(): Array<string>;
-  setUidList(value: Array<string>): RequestUserPasswordUpdate;
-  clearUidList(): RequestUserPasswordUpdate;
-  addUid(value: string, index?: number): RequestUserPasswordUpdate;
+  getIdList(): Array<string>;
+  setIdList(value: Array<string>): RequestUserPasswordUpdate;
+  clearIdList(): RequestUserPasswordUpdate;
+  addId(value: string, index?: number): RequestUserPasswordUpdate;
 
   getNewPassword(): string;
   setNewPassword(value: string): RequestUserPasswordUpdate;
@@ -395,7 +393,7 @@ export class RequestUserPasswordUpdate extends jspb.Message {
 
 export namespace RequestUserPasswordUpdate {
   export type AsObject = {
-    uidList: Array<string>,
+    idList: Array<string>,
     newPassword: string,
   }
 }
@@ -415,10 +413,10 @@ export namespace ResponseUserPasswordUpdate {
 }
 
 export class RequestParentUpdate extends jspb.Message {
-  getUidList(): Array<string>;
-  setUidList(value: Array<string>): RequestParentUpdate;
-  clearUidList(): RequestParentUpdate;
-  addUid(value: string, index?: number): RequestParentUpdate;
+  getIdList(): Array<string>;
+  setIdList(value: Array<string>): RequestParentUpdate;
+  clearIdList(): RequestParentUpdate;
+  addId(value: string, index?: number): RequestParentUpdate;
 
   getNewPassword(): string;
   setNewPassword(value: string): RequestParentUpdate;
@@ -433,7 +431,7 @@ export class RequestParentUpdate extends jspb.Message {
 
 export namespace RequestParentUpdate {
   export type AsObject = {
-    uidList: Array<string>,
+    idList: Array<string>,
     newPassword: string,
   }
 }

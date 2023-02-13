@@ -13,10 +13,12 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global = Function('return this')();
+var global = (function() { return this || window || global || self || Function('return this')(); }).call(null);
 
 var label_label_message_pb = require('../label/label_message_pb.js');
 goog.object.extend(proto, label_label_message_pb);
+var utils_utils_pb = require('../utils/utils_pb.js');
+goog.object.extend(proto, utils_utils_pb);
 goog.exportSymbol('proto.jisaem.label.RequestLabelCreate', null, global);
 goog.exportSymbol('proto.jisaem.label.RequestLabelDelete', null, global);
 goog.exportSymbol('proto.jisaem.label.RequestLabelListGet', null, global);
@@ -477,7 +479,8 @@ proto.jisaem.label.RequestLabelListGet.prototype.toObject = function(opt_include
  */
 proto.jisaem.label.RequestLabelListGet.toObject = function(includeInstance, msg) {
   var f, obj = {
-    labelType: jspb.Message.getFieldWithDefault(msg, 1, 0)
+    labelType: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    pagination: (f = msg.getPagination()) && utils_utils_pb.Pagination.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -518,6 +521,11 @@ proto.jisaem.label.RequestLabelListGet.deserializeBinaryFromReader = function(ms
       var value = /** @type {!proto.jisaem.label.LabelType} */ (reader.readEnum());
       msg.setLabelType(value);
       break;
+    case 2:
+      var value = new utils_utils_pb.Pagination;
+      reader.readMessage(value,utils_utils_pb.Pagination.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -554,6 +562,14 @@ proto.jisaem.label.RequestLabelListGet.serializeBinaryToWriter = function(messag
       f
     );
   }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      utils_utils_pb.Pagination.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -572,6 +588,43 @@ proto.jisaem.label.RequestLabelListGet.prototype.getLabelType = function() {
  */
 proto.jisaem.label.RequestLabelListGet.prototype.setLabelType = function(value) {
   return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional jisaem.utils.Pagination pagination = 2;
+ * @return {?proto.jisaem.utils.Pagination}
+ */
+proto.jisaem.label.RequestLabelListGet.prototype.getPagination = function() {
+  return /** @type{?proto.jisaem.utils.Pagination} */ (
+    jspb.Message.getWrapperField(this, utils_utils_pb.Pagination, 2));
+};
+
+
+/**
+ * @param {?proto.jisaem.utils.Pagination|undefined} value
+ * @return {!proto.jisaem.label.RequestLabelListGet} returns this
+*/
+proto.jisaem.label.RequestLabelListGet.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.jisaem.label.RequestLabelListGet} returns this
+ */
+proto.jisaem.label.RequestLabelListGet.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.jisaem.label.RequestLabelListGet.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -615,7 +668,8 @@ proto.jisaem.label.ResponseLabelListGet.prototype.toObject = function(opt_includ
 proto.jisaem.label.ResponseLabelListGet.toObject = function(includeInstance, msg) {
   var f, obj = {
     labelsList: jspb.Message.toObjectList(msg.getLabelsList(),
-    label_label_message_pb.Label.toObject, includeInstance)
+    label_label_message_pb.Label.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && utils_utils_pb.Pagination.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -657,6 +711,11 @@ proto.jisaem.label.ResponseLabelListGet.deserializeBinaryFromReader = function(m
       reader.readMessage(value,label_label_message_pb.Label.deserializeBinaryFromReader);
       msg.addLabels(value);
       break;
+    case 2:
+      var value = new utils_utils_pb.Pagination;
+      reader.readMessage(value,utils_utils_pb.Pagination.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -692,6 +751,14 @@ proto.jisaem.label.ResponseLabelListGet.serializeBinaryToWriter = function(messa
       1,
       f,
       label_label_message_pb.Label.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      utils_utils_pb.Pagination.serializeBinaryToWriter
     );
   }
 };
@@ -732,6 +799,43 @@ proto.jisaem.label.ResponseLabelListGet.prototype.addLabels = function(opt_value
  */
 proto.jisaem.label.ResponseLabelListGet.prototype.clearLabelsList = function() {
   return this.setLabelsList([]);
+};
+
+
+/**
+ * optional jisaem.utils.Pagination pagination = 2;
+ * @return {?proto.jisaem.utils.Pagination}
+ */
+proto.jisaem.label.ResponseLabelListGet.prototype.getPagination = function() {
+  return /** @type{?proto.jisaem.utils.Pagination} */ (
+    jspb.Message.getWrapperField(this, utils_utils_pb.Pagination, 2));
+};
+
+
+/**
+ * @param {?proto.jisaem.utils.Pagination|undefined} value
+ * @return {!proto.jisaem.label.ResponseLabelListGet} returns this
+*/
+proto.jisaem.label.ResponseLabelListGet.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.jisaem.label.ResponseLabelListGet} returns this
+ */
+proto.jisaem.label.ResponseLabelListGet.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.jisaem.label.ResponseLabelListGet.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 

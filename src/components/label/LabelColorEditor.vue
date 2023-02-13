@@ -65,9 +65,7 @@ export default defineComponent({
     function setRandomCode() {
       color.value = utils.generateRandomColorCode()
       data.color = color.value
-      // 필수 요소인 경우
-      if (props.params.required)
-        data.isDisabled = _.isEmpty(color.value)
+      checkValid()
       setColor()
     }
     // 생성 버튼 스타일 적용

@@ -19,6 +19,9 @@ export default {
         if (defaultForm[key] instanceof Date) {
           if (defaultForm[key].getTime() !== currentForm[key].getTime())
             result[key] = currentForm[key]
+        } else if (defaultForm[key] instanceof Object) {
+          if (!_.eq(JSON.stringify(defaultForm[key]), JSON.stringify(currentForm[key])))
+            result[key] = currentForm[key]
         } else {
           if (!_.eq(defaultForm[key], currentForm[key]))
             result[key] = currentForm[key]

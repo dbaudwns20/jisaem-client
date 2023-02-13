@@ -24,6 +24,9 @@ export class User extends jspb.Message {
   getUsername(): string;
   setUsername(value: string): User;
 
+  getPassword(): string;
+  setPassword(value: string): User;
+
   getName(): string;
   setName(value: string): User;
 
@@ -43,6 +46,11 @@ export class User extends jspb.Message {
   hasStudentInfo(): boolean;
   clearStudentInfo(): User;
 
+  getParentInfo(): ParentInfo | undefined;
+  setParentInfo(value?: ParentInfo): User;
+  hasParentInfo(): boolean;
+  clearParentInfo(): User;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): User.AsObject;
   static toObject(includeInstance: boolean, msg: User): User.AsObject;
@@ -58,11 +66,13 @@ export namespace User {
     updatedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     authLevel: Level,
     username: string,
+    password: string,
     name: string,
     phone: string,
     email: string,
     userLabel?: label_label_message_pb.Label.AsObject,
     studentInfo?: StudentInfo.AsObject,
+    parentInfo?: ParentInfo.AsObject,
   }
 }
 
@@ -72,9 +82,6 @@ export class StudentInfo extends jspb.Message {
 
   getDescription(): string;
   setDescription(value: string): StudentInfo;
-
-  getParentUsername(): string;
-  setParentUsername(value: string): StudentInfo;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): StudentInfo.AsObject;
@@ -88,7 +95,28 @@ export namespace StudentInfo {
   export type AsObject = {
     school: string,
     description: string,
-    parentUsername: string,
+  }
+}
+
+export class ParentInfo extends jspb.Message {
+  getUsername(): string;
+  setUsername(value: string): ParentInfo;
+
+  getPassword(): string;
+  setPassword(value: string): ParentInfo;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ParentInfo.AsObject;
+  static toObject(includeInstance: boolean, msg: ParentInfo): ParentInfo.AsObject;
+  static serializeBinaryToWriter(message: ParentInfo, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ParentInfo;
+  static deserializeBinaryFromReader(message: ParentInfo, reader: jspb.BinaryReader): ParentInfo;
+}
+
+export namespace ParentInfo {
+  export type AsObject = {
+    username: string,
+    password: string,
   }
 }
 

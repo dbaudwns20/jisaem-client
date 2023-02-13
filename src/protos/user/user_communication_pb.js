@@ -13,7 +13,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global = Function('return this')();
+var global = (function() { return this || window || global || self || Function('return this')(); }).call(null);
 
 var auth_auth_message_pb = require('../auth/auth_message_pb.js');
 goog.object.extend(proto, auth_auth_message_pb);
@@ -491,9 +491,8 @@ proto.jisaem.user.RequestParentCreate.prototype.toObject = function(opt_includeI
  */
 proto.jisaem.user.RequestParentCreate.toObject = function(includeInstance, msg) {
   var f, obj = {
-    studentUid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    parentUsername: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    parentPassword: jspb.Message.getFieldWithDefault(msg, 3, "")
+    studentId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    parentInfo: (f = msg.getParentInfo()) && auth_auth_message_pb.ParentInfo.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -532,15 +531,12 @@ proto.jisaem.user.RequestParentCreate.deserializeBinaryFromReader = function(msg
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setStudentUid(value);
+      msg.setStudentId(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setParentUsername(value);
-      break;
-    case 3:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setParentPassword(value);
+      var value = new auth_auth_message_pb.ParentInfo;
+      reader.readMessage(value,auth_auth_message_pb.ParentInfo.deserializeBinaryFromReader);
+      msg.setParentInfo(value);
       break;
     default:
       reader.skipField();
@@ -571,35 +567,29 @@ proto.jisaem.user.RequestParentCreate.prototype.serializeBinary = function() {
  */
 proto.jisaem.user.RequestParentCreate.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getStudentUid();
+  f = message.getStudentId();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getParentUsername();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getParentInfo();
+  if (f != null) {
+    writer.writeMessage(
       2,
-      f
-    );
-  }
-  f = message.getParentPassword();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
+      f,
+      auth_auth_message_pb.ParentInfo.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional string student_uid = 1;
+ * optional string student_id = 1;
  * @return {string}
  */
-proto.jisaem.user.RequestParentCreate.prototype.getStudentUid = function() {
+proto.jisaem.user.RequestParentCreate.prototype.getStudentId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -608,44 +598,45 @@ proto.jisaem.user.RequestParentCreate.prototype.getStudentUid = function() {
  * @param {string} value
  * @return {!proto.jisaem.user.RequestParentCreate} returns this
  */
-proto.jisaem.user.RequestParentCreate.prototype.setStudentUid = function(value) {
+proto.jisaem.user.RequestParentCreate.prototype.setStudentId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string parent_username = 2;
- * @return {string}
+ * optional jisaem.auth.ParentInfo parent_info = 2;
+ * @return {?proto.jisaem.auth.ParentInfo}
  */
-proto.jisaem.user.RequestParentCreate.prototype.getParentUsername = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+proto.jisaem.user.RequestParentCreate.prototype.getParentInfo = function() {
+  return /** @type{?proto.jisaem.auth.ParentInfo} */ (
+    jspb.Message.getWrapperField(this, auth_auth_message_pb.ParentInfo, 2));
 };
 
 
 /**
- * @param {string} value
+ * @param {?proto.jisaem.auth.ParentInfo|undefined} value
+ * @return {!proto.jisaem.user.RequestParentCreate} returns this
+*/
+proto.jisaem.user.RequestParentCreate.prototype.setParentInfo = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
  * @return {!proto.jisaem.user.RequestParentCreate} returns this
  */
-proto.jisaem.user.RequestParentCreate.prototype.setParentUsername = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+proto.jisaem.user.RequestParentCreate.prototype.clearParentInfo = function() {
+  return this.setParentInfo(undefined);
 };
 
 
 /**
- * optional string parent_password = 3;
- * @return {string}
+ * Returns whether this field is set.
+ * @return {boolean}
  */
-proto.jisaem.user.RequestParentCreate.prototype.getParentPassword = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.jisaem.user.RequestParentCreate} returns this
- */
-proto.jisaem.user.RequestParentCreate.prototype.setParentPassword = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+proto.jisaem.user.RequestParentCreate.prototype.hasParentInfo = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -1294,7 +1285,7 @@ proto.jisaem.user.RequestUserListGet.prototype.toObject = function(opt_includeIn
 proto.jisaem.user.RequestUserListGet.toObject = function(includeInstance, msg) {
   var f, obj = {
     authLevel: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    userLabelUidsList: (f = jspb.Message.getRepeatedField(msg, 2)) == null ? undefined : f,
+    userLabelIdsList: (f = jspb.Message.getRepeatedField(msg, 2)) == null ? undefined : f,
     pagination: (f = msg.getPagination()) && utils_utils_pb.Pagination.toObject(includeInstance, f)
   };
 
@@ -1338,7 +1329,7 @@ proto.jisaem.user.RequestUserListGet.deserializeBinaryFromReader = function(msg,
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.addUserLabelUids(value);
+      msg.addUserLabelIds(value);
       break;
     case 3:
       var value = new utils_utils_pb.Pagination;
@@ -1381,7 +1372,7 @@ proto.jisaem.user.RequestUserListGet.serializeBinaryToWriter = function(message,
       f
     );
   }
-  f = message.getUserLabelUidsList();
+  f = message.getUserLabelIdsList();
   if (f.length > 0) {
     writer.writeRepeatedString(
       2,
@@ -1418,10 +1409,10 @@ proto.jisaem.user.RequestUserListGet.prototype.setAuthLevel = function(value) {
 
 
 /**
- * repeated string user_label_uids = 2;
+ * repeated string user_label_ids = 2;
  * @return {!Array<string>}
  */
-proto.jisaem.user.RequestUserListGet.prototype.getUserLabelUidsList = function() {
+proto.jisaem.user.RequestUserListGet.prototype.getUserLabelIdsList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 2));
 };
 
@@ -1430,7 +1421,7 @@ proto.jisaem.user.RequestUserListGet.prototype.getUserLabelUidsList = function()
  * @param {!Array<string>} value
  * @return {!proto.jisaem.user.RequestUserListGet} returns this
  */
-proto.jisaem.user.RequestUserListGet.prototype.setUserLabelUidsList = function(value) {
+proto.jisaem.user.RequestUserListGet.prototype.setUserLabelIdsList = function(value) {
   return jspb.Message.setField(this, 2, value || []);
 };
 
@@ -1440,7 +1431,7 @@ proto.jisaem.user.RequestUserListGet.prototype.setUserLabelUidsList = function(v
  * @param {number=} opt_index
  * @return {!proto.jisaem.user.RequestUserListGet} returns this
  */
-proto.jisaem.user.RequestUserListGet.prototype.addUserLabelUids = function(value, opt_index) {
+proto.jisaem.user.RequestUserListGet.prototype.addUserLabelIds = function(value, opt_index) {
   return jspb.Message.addToRepeatedField(this, 2, value, opt_index);
 };
 
@@ -1449,8 +1440,8 @@ proto.jisaem.user.RequestUserListGet.prototype.addUserLabelUids = function(value
  * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.user.RequestUserListGet} returns this
  */
-proto.jisaem.user.RequestUserListGet.prototype.clearUserLabelUidsList = function() {
-  return this.setUserLabelUidsList([]);
+proto.jisaem.user.RequestUserListGet.prototype.clearUserLabelIdsList = function() {
+  return this.setUserLabelIdsList([]);
 };
 
 
@@ -1523,7 +1514,7 @@ proto.jisaem.user.RequestUserGet.prototype.toObject = function(opt_includeInstan
  */
 proto.jisaem.user.RequestUserGet.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uid: jspb.Message.getFieldWithDefault(msg, 1, "")
+    id: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -1562,7 +1553,7 @@ proto.jisaem.user.RequestUserGet.deserializeBinaryFromReader = function(msg, rea
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUid(value);
+      msg.setId(value);
       break;
     default:
       reader.skipField();
@@ -1593,7 +1584,7 @@ proto.jisaem.user.RequestUserGet.prototype.serializeBinary = function() {
  */
 proto.jisaem.user.RequestUserGet.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUid();
+  f = message.getId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -1604,10 +1595,10 @@ proto.jisaem.user.RequestUserGet.serializeBinaryToWriter = function(message, wri
 
 
 /**
- * optional string uid = 1;
+ * optional string id = 1;
  * @return {string}
  */
-proto.jisaem.user.RequestUserGet.prototype.getUid = function() {
+proto.jisaem.user.RequestUserGet.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1616,7 +1607,7 @@ proto.jisaem.user.RequestUserGet.prototype.getUid = function() {
  * @param {string} value
  * @return {!proto.jisaem.user.RequestUserGet} returns this
  */
-proto.jisaem.user.RequestUserGet.prototype.setUid = function(value) {
+proto.jisaem.user.RequestUserGet.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -2015,12 +2006,12 @@ proto.jisaem.user.RequestUserUpdate.prototype.toObject = function(opt_includeIns
  */
 proto.jisaem.user.RequestUserUpdate.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     username: jspb.Message.getFieldWithDefault(msg, 2, ""),
     name: jspb.Message.getFieldWithDefault(msg, 3, ""),
     phone: jspb.Message.getFieldWithDefault(msg, 4, ""),
     email: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    userLabelUid: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    userLabelId: jspb.Message.getFieldWithDefault(msg, 6, ""),
     studentInfo: (f = msg.getStudentInfo()) && auth_auth_message_pb.StudentInfo.toObject(includeInstance, f)
   };
 
@@ -2060,7 +2051,7 @@ proto.jisaem.user.RequestUserUpdate.deserializeBinaryFromReader = function(msg, 
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUid(value);
+      msg.setId(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
@@ -2080,7 +2071,7 @@ proto.jisaem.user.RequestUserUpdate.deserializeBinaryFromReader = function(msg, 
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserLabelUid(value);
+      msg.setUserLabelId(value);
       break;
     case 7:
       var value = new auth_auth_message_pb.StudentInfo;
@@ -2116,7 +2107,7 @@ proto.jisaem.user.RequestUserUpdate.prototype.serializeBinary = function() {
  */
 proto.jisaem.user.RequestUserUpdate.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUid();
+  f = message.getId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -2170,10 +2161,10 @@ proto.jisaem.user.RequestUserUpdate.serializeBinaryToWriter = function(message, 
 
 
 /**
- * optional string uid = 1;
+ * optional string id = 1;
  * @return {string}
  */
-proto.jisaem.user.RequestUserUpdate.prototype.getUid = function() {
+proto.jisaem.user.RequestUserUpdate.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -2182,7 +2173,7 @@ proto.jisaem.user.RequestUserUpdate.prototype.getUid = function() {
  * @param {string} value
  * @return {!proto.jisaem.user.RequestUserUpdate} returns this
  */
-proto.jisaem.user.RequestUserUpdate.prototype.setUid = function(value) {
+proto.jisaem.user.RequestUserUpdate.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -2332,10 +2323,10 @@ proto.jisaem.user.RequestUserUpdate.prototype.hasEmail = function() {
 
 
 /**
- * optional string user_label_uid = 6;
+ * optional string user_label_id = 6;
  * @return {string}
  */
-proto.jisaem.user.RequestUserUpdate.prototype.getUserLabelUid = function() {
+proto.jisaem.user.RequestUserUpdate.prototype.getUserLabelId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -2344,7 +2335,7 @@ proto.jisaem.user.RequestUserUpdate.prototype.getUserLabelUid = function() {
  * @param {string} value
  * @return {!proto.jisaem.user.RequestUserUpdate} returns this
  */
-proto.jisaem.user.RequestUserUpdate.prototype.setUserLabelUid = function(value) {
+proto.jisaem.user.RequestUserUpdate.prototype.setUserLabelId = function(value) {
   return jspb.Message.setField(this, 6, value);
 };
 
@@ -2353,7 +2344,7 @@ proto.jisaem.user.RequestUserUpdate.prototype.setUserLabelUid = function(value) 
  * Clears the field making it undefined.
  * @return {!proto.jisaem.user.RequestUserUpdate} returns this
  */
-proto.jisaem.user.RequestUserUpdate.prototype.clearUserLabelUid = function() {
+proto.jisaem.user.RequestUserUpdate.prototype.clearUserLabelId = function() {
   return jspb.Message.setField(this, 6, undefined);
 };
 
@@ -2362,7 +2353,7 @@ proto.jisaem.user.RequestUserUpdate.prototype.clearUserLabelUid = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.jisaem.user.RequestUserUpdate.prototype.hasUserLabelUid = function() {
+proto.jisaem.user.RequestUserUpdate.prototype.hasUserLabelId = function() {
   return jspb.Message.getField(this, 6) != null;
 };
 
@@ -2544,7 +2535,7 @@ proto.jisaem.user.RequestUserDelete.prototype.toObject = function(opt_includeIns
  */
 proto.jisaem.user.RequestUserDelete.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uidList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f
+    idList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -2583,7 +2574,7 @@ proto.jisaem.user.RequestUserDelete.deserializeBinaryFromReader = function(msg, 
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.addUid(value);
+      msg.addId(value);
       break;
     default:
       reader.skipField();
@@ -2614,7 +2605,7 @@ proto.jisaem.user.RequestUserDelete.prototype.serializeBinary = function() {
  */
 proto.jisaem.user.RequestUserDelete.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUidList();
+  f = message.getIdList();
   if (f.length > 0) {
     writer.writeRepeatedString(
       1,
@@ -2625,10 +2616,10 @@ proto.jisaem.user.RequestUserDelete.serializeBinaryToWriter = function(message, 
 
 
 /**
- * repeated string uid = 1;
+ * repeated string id = 1;
  * @return {!Array<string>}
  */
-proto.jisaem.user.RequestUserDelete.prototype.getUidList = function() {
+proto.jisaem.user.RequestUserDelete.prototype.getIdList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
 };
 
@@ -2637,7 +2628,7 @@ proto.jisaem.user.RequestUserDelete.prototype.getUidList = function() {
  * @param {!Array<string>} value
  * @return {!proto.jisaem.user.RequestUserDelete} returns this
  */
-proto.jisaem.user.RequestUserDelete.prototype.setUidList = function(value) {
+proto.jisaem.user.RequestUserDelete.prototype.setIdList = function(value) {
   return jspb.Message.setField(this, 1, value || []);
 };
 
@@ -2647,7 +2638,7 @@ proto.jisaem.user.RequestUserDelete.prototype.setUidList = function(value) {
  * @param {number=} opt_index
  * @return {!proto.jisaem.user.RequestUserDelete} returns this
  */
-proto.jisaem.user.RequestUserDelete.prototype.addUid = function(value, opt_index) {
+proto.jisaem.user.RequestUserDelete.prototype.addId = function(value, opt_index) {
   return jspb.Message.addToRepeatedField(this, 1, value, opt_index);
 };
 
@@ -2656,8 +2647,8 @@ proto.jisaem.user.RequestUserDelete.prototype.addUid = function(value, opt_index
  * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.user.RequestUserDelete} returns this
  */
-proto.jisaem.user.RequestUserDelete.prototype.clearUidList = function() {
-  return this.setUidList([]);
+proto.jisaem.user.RequestUserDelete.prototype.clearIdList = function() {
+  return this.setIdList([]);
 };
 
 
@@ -2801,8 +2792,8 @@ proto.jisaem.user.RequestUserLabelUpdate.prototype.toObject = function(opt_inclu
  */
 proto.jisaem.user.RequestUserLabelUpdate.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uidsList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
-    userLabelUid: jspb.Message.getFieldWithDefault(msg, 2, "")
+    idsList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
+    userLabelId: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -2841,11 +2832,11 @@ proto.jisaem.user.RequestUserLabelUpdate.deserializeBinaryFromReader = function(
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.addUids(value);
+      msg.addIds(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserLabelUid(value);
+      msg.setUserLabelId(value);
       break;
     default:
       reader.skipField();
@@ -2876,14 +2867,14 @@ proto.jisaem.user.RequestUserLabelUpdate.prototype.serializeBinary = function() 
  */
 proto.jisaem.user.RequestUserLabelUpdate.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUidsList();
+  f = message.getIdsList();
   if (f.length > 0) {
     writer.writeRepeatedString(
       1,
       f
     );
   }
-  f = message.getUserLabelUid();
+  f = message.getUserLabelId();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -2894,10 +2885,10 @@ proto.jisaem.user.RequestUserLabelUpdate.serializeBinaryToWriter = function(mess
 
 
 /**
- * repeated string uids = 1;
+ * repeated string ids = 1;
  * @return {!Array<string>}
  */
-proto.jisaem.user.RequestUserLabelUpdate.prototype.getUidsList = function() {
+proto.jisaem.user.RequestUserLabelUpdate.prototype.getIdsList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
 };
 
@@ -2906,7 +2897,7 @@ proto.jisaem.user.RequestUserLabelUpdate.prototype.getUidsList = function() {
  * @param {!Array<string>} value
  * @return {!proto.jisaem.user.RequestUserLabelUpdate} returns this
  */
-proto.jisaem.user.RequestUserLabelUpdate.prototype.setUidsList = function(value) {
+proto.jisaem.user.RequestUserLabelUpdate.prototype.setIdsList = function(value) {
   return jspb.Message.setField(this, 1, value || []);
 };
 
@@ -2916,7 +2907,7 @@ proto.jisaem.user.RequestUserLabelUpdate.prototype.setUidsList = function(value)
  * @param {number=} opt_index
  * @return {!proto.jisaem.user.RequestUserLabelUpdate} returns this
  */
-proto.jisaem.user.RequestUserLabelUpdate.prototype.addUids = function(value, opt_index) {
+proto.jisaem.user.RequestUserLabelUpdate.prototype.addIds = function(value, opt_index) {
   return jspb.Message.addToRepeatedField(this, 1, value, opt_index);
 };
 
@@ -2925,16 +2916,16 @@ proto.jisaem.user.RequestUserLabelUpdate.prototype.addUids = function(value, opt
  * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.user.RequestUserLabelUpdate} returns this
  */
-proto.jisaem.user.RequestUserLabelUpdate.prototype.clearUidsList = function() {
-  return this.setUidsList([]);
+proto.jisaem.user.RequestUserLabelUpdate.prototype.clearIdsList = function() {
+  return this.setIdsList([]);
 };
 
 
 /**
- * optional string user_label_uid = 2;
+ * optional string user_label_id = 2;
  * @return {string}
  */
-proto.jisaem.user.RequestUserLabelUpdate.prototype.getUserLabelUid = function() {
+proto.jisaem.user.RequestUserLabelUpdate.prototype.getUserLabelId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -2943,7 +2934,7 @@ proto.jisaem.user.RequestUserLabelUpdate.prototype.getUserLabelUid = function() 
  * @param {string} value
  * @return {!proto.jisaem.user.RequestUserLabelUpdate} returns this
  */
-proto.jisaem.user.RequestUserLabelUpdate.prototype.setUserLabelUid = function(value) {
+proto.jisaem.user.RequestUserLabelUpdate.prototype.setUserLabelId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -3088,7 +3079,7 @@ proto.jisaem.user.RequestUserPasswordUpdate.prototype.toObject = function(opt_in
  */
 proto.jisaem.user.RequestUserPasswordUpdate.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uidList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
+    idList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
     newPassword: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
@@ -3128,7 +3119,7 @@ proto.jisaem.user.RequestUserPasswordUpdate.deserializeBinaryFromReader = functi
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.addUid(value);
+      msg.addId(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
@@ -3163,7 +3154,7 @@ proto.jisaem.user.RequestUserPasswordUpdate.prototype.serializeBinary = function
  */
 proto.jisaem.user.RequestUserPasswordUpdate.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUidList();
+  f = message.getIdList();
   if (f.length > 0) {
     writer.writeRepeatedString(
       1,
@@ -3181,10 +3172,10 @@ proto.jisaem.user.RequestUserPasswordUpdate.serializeBinaryToWriter = function(m
 
 
 /**
- * repeated string uid = 1;
+ * repeated string id = 1;
  * @return {!Array<string>}
  */
-proto.jisaem.user.RequestUserPasswordUpdate.prototype.getUidList = function() {
+proto.jisaem.user.RequestUserPasswordUpdate.prototype.getIdList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
 };
 
@@ -3193,7 +3184,7 @@ proto.jisaem.user.RequestUserPasswordUpdate.prototype.getUidList = function() {
  * @param {!Array<string>} value
  * @return {!proto.jisaem.user.RequestUserPasswordUpdate} returns this
  */
-proto.jisaem.user.RequestUserPasswordUpdate.prototype.setUidList = function(value) {
+proto.jisaem.user.RequestUserPasswordUpdate.prototype.setIdList = function(value) {
   return jspb.Message.setField(this, 1, value || []);
 };
 
@@ -3203,7 +3194,7 @@ proto.jisaem.user.RequestUserPasswordUpdate.prototype.setUidList = function(valu
  * @param {number=} opt_index
  * @return {!proto.jisaem.user.RequestUserPasswordUpdate} returns this
  */
-proto.jisaem.user.RequestUserPasswordUpdate.prototype.addUid = function(value, opt_index) {
+proto.jisaem.user.RequestUserPasswordUpdate.prototype.addId = function(value, opt_index) {
   return jspb.Message.addToRepeatedField(this, 1, value, opt_index);
 };
 
@@ -3212,8 +3203,8 @@ proto.jisaem.user.RequestUserPasswordUpdate.prototype.addUid = function(value, o
  * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.user.RequestUserPasswordUpdate} returns this
  */
-proto.jisaem.user.RequestUserPasswordUpdate.prototype.clearUidList = function() {
-  return this.setUidList([]);
+proto.jisaem.user.RequestUserPasswordUpdate.prototype.clearIdList = function() {
+  return this.setIdList([]);
 };
 
 
@@ -3375,7 +3366,7 @@ proto.jisaem.user.RequestParentUpdate.prototype.toObject = function(opt_includeI
  */
 proto.jisaem.user.RequestParentUpdate.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uidList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
+    idList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
     newPassword: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
@@ -3415,7 +3406,7 @@ proto.jisaem.user.RequestParentUpdate.deserializeBinaryFromReader = function(msg
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.addUid(value);
+      msg.addId(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
@@ -3450,7 +3441,7 @@ proto.jisaem.user.RequestParentUpdate.prototype.serializeBinary = function() {
  */
 proto.jisaem.user.RequestParentUpdate.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUidList();
+  f = message.getIdList();
   if (f.length > 0) {
     writer.writeRepeatedString(
       1,
@@ -3468,10 +3459,10 @@ proto.jisaem.user.RequestParentUpdate.serializeBinaryToWriter = function(message
 
 
 /**
- * repeated string uid = 1;
+ * repeated string id = 1;
  * @return {!Array<string>}
  */
-proto.jisaem.user.RequestParentUpdate.prototype.getUidList = function() {
+proto.jisaem.user.RequestParentUpdate.prototype.getIdList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
 };
 
@@ -3480,7 +3471,7 @@ proto.jisaem.user.RequestParentUpdate.prototype.getUidList = function() {
  * @param {!Array<string>} value
  * @return {!proto.jisaem.user.RequestParentUpdate} returns this
  */
-proto.jisaem.user.RequestParentUpdate.prototype.setUidList = function(value) {
+proto.jisaem.user.RequestParentUpdate.prototype.setIdList = function(value) {
   return jspb.Message.setField(this, 1, value || []);
 };
 
@@ -3490,7 +3481,7 @@ proto.jisaem.user.RequestParentUpdate.prototype.setUidList = function(value) {
  * @param {number=} opt_index
  * @return {!proto.jisaem.user.RequestParentUpdate} returns this
  */
-proto.jisaem.user.RequestParentUpdate.prototype.addUid = function(value, opt_index) {
+proto.jisaem.user.RequestParentUpdate.prototype.addId = function(value, opt_index) {
   return jspb.Message.addToRepeatedField(this, 1, value, opt_index);
 };
 
@@ -3499,8 +3490,8 @@ proto.jisaem.user.RequestParentUpdate.prototype.addUid = function(value, opt_ind
  * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.user.RequestParentUpdate} returns this
  */
-proto.jisaem.user.RequestParentUpdate.prototype.clearUidList = function() {
-  return this.setUidList([]);
+proto.jisaem.user.RequestParentUpdate.prototype.clearIdList = function() {
+  return this.setIdList([]);
 };
 
 

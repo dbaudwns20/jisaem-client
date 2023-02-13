@@ -46,11 +46,22 @@ export default defineComponent({
     gridOptions.rowClassRules = {
       'row-clicked': (params: any) => params.data.selected
     }
+    // 키 입력 이벤트
+    gridOptions.onCellKeyDown = (params: any) => {
+      // 엔터키를 누를 시 편집모드 방지
+      if (params.event.code === 'Enter') {
+        params.api.stopEditing(false)
+      }
+    }
+    const getRowData = () => {
+      return rowData.value
+    }
     const updateRowData = (newRowData: []) => {
       rowData.value = newRowData
     }
     return {
       rowData,
+      getRowData,
       updateRowData
     }
   }

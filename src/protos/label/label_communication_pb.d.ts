@@ -1,6 +1,7 @@
 import * as jspb from 'google-protobuf'
 
 import * as label_label_message_pb from '../label/label_message_pb';
+import * as utils_utils_pb from '../utils/utils_pb';
 
 
 export class RequestLabelCreate extends jspb.Message {
@@ -41,6 +42,11 @@ export class RequestLabelListGet extends jspb.Message {
   getLabelType(): label_label_message_pb.LabelType;
   setLabelType(value: label_label_message_pb.LabelType): RequestLabelListGet;
 
+  getPagination(): utils_utils_pb.Pagination | undefined;
+  setPagination(value?: utils_utils_pb.Pagination): RequestLabelListGet;
+  hasPagination(): boolean;
+  clearPagination(): RequestLabelListGet;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestLabelListGet.AsObject;
   static toObject(includeInstance: boolean, msg: RequestLabelListGet): RequestLabelListGet.AsObject;
@@ -52,6 +58,7 @@ export class RequestLabelListGet extends jspb.Message {
 export namespace RequestLabelListGet {
   export type AsObject = {
     labelType: label_label_message_pb.LabelType,
+    pagination?: utils_utils_pb.Pagination.AsObject,
   }
 }
 
@@ -60,6 +67,11 @@ export class ResponseLabelListGet extends jspb.Message {
   setLabelsList(value: Array<label_label_message_pb.Label>): ResponseLabelListGet;
   clearLabelsList(): ResponseLabelListGet;
   addLabels(value?: label_label_message_pb.Label, index?: number): label_label_message_pb.Label;
+
+  getPagination(): utils_utils_pb.Pagination | undefined;
+  setPagination(value?: utils_utils_pb.Pagination): ResponseLabelListGet;
+  hasPagination(): boolean;
+  clearPagination(): ResponseLabelListGet;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ResponseLabelListGet.AsObject;
@@ -72,6 +84,7 @@ export class ResponseLabelListGet extends jspb.Message {
 export namespace ResponseLabelListGet {
   export type AsObject = {
     labelsList: Array<label_label_message_pb.Label.AsObject>,
+    pagination?: utils_utils_pb.Pagination.AsObject,
   }
 }
 

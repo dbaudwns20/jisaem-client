@@ -1,11 +1,13 @@
 import {
   User as ProtoUser,
-  StudentInfo as ProtoStudentInfo
+  StudentInfo as ProtoStudentInfo,
+  ParentInfo as ProtoParentInfo
 } from "@/protos/auth/auth_message_pb"
 import {Label as ProtoLabel} from "@/protos/label/label_message_pb"
 
 import { Label } from "@/models/label/label"
 import { StudentInfo } from "@/models/auth/student.info"
+import { ParentInfo } from "@/models/auth/parent.info"
 import { Model } from "@/models/model"
 import { AuthLevel, AuthLevelFromProto } from "@/models/enum/auth.level"
 
@@ -23,6 +25,7 @@ export class User extends Model {
   email: string
   userLabel?: Label | null
   studentInfo?: StudentInfo | null
+  parentInfo?: ParentInfo | null
 
   constructor(proto: ProtoUser) {
     super()
@@ -36,5 +39,6 @@ export class User extends Model {
     this.email = proto.getEmail()
     this.userLabel = super.set(Label, proto.getUserLabel() as ProtoLabel)
     this.studentInfo = super.set(StudentInfo, proto.getStudentInfo() as ProtoStudentInfo)
+    this.parentInfo = super.set(ParentInfo, proto.getParentInfo() as ProtoParentInfo)
   }
 }
