@@ -99,7 +99,7 @@ export default defineComponent({
           params.api.stopEditing(false)
           _.forEach(labelGrid.value.getRowData(), it => {
             if (it.isEditing) {
-              if (!_.has(it, 'uid')) {
+              if (!_.has(it, 'id')) {
                 const rowData = labelGrid.value.getRowData()
                 rowData.shift()
                 params.api.setRowData(rowData)
@@ -127,7 +127,7 @@ export default defineComponent({
     const setDefault = (res: any, rowData: []) => {
       rowData.forEach((it: any) => {
         for (const label of res) {
-          if (it.uid === label.uid) {
+          if (it.id === label.id) {
             it.isEditing = false
             it.selected = false
             it.default = label
@@ -170,7 +170,7 @@ export default defineComponent({
     addRow() {
       const rowData = this.labelGrid.getRowData()
       // 이미 추가를 한 상황이라면 방지
-      if (rowData.length > 0 && !_.has(rowData[0], 'uid')) return
+      if (rowData.length > 0 && !_.has(rowData[0], 'id')) return
       // 편집 중인 상황이라면 취소
       this.gridApi.stopEditing(false)
       // 편집내용 롤백
@@ -205,21 +205,21 @@ export default defineComponent({
         utils.message.showWarningToastMsg("변경사항이 없습니다")
         return
       }
-      updatedFields.uid = data.uid
+      updatedFields.id = data.id
       const update: UpdateLabel = bindUpdateLabel(updatedFields)
       await labelGrpcService.updateLabel(update)
       await this.completeFunction('수정되었습니다')
     },
     // 레이블 (일괄) 삭제
-    async deleteRow(uid: string[]) {
+    async deleteRow(id: string[]) {
       //TODO 확인창 플러그인으로 구현 필요
       let result = confirm("삭제하시겠습니까?")
       if (result) {
-        if (uid.length == 0)
-          uid = _.map(this.selectedItemList, 'uid')
-        await labelGrpcService.deleteLabels(uid!)
+        if (id.length == 0)
+          id = _.map(this.selectedItemList, 'id')
+        await labelGrpcService.deleteLabels(id!)
         await this.completeFunction('삭제되었습니다')
-        if (uid.length > 0)
+        if (id.length > 0)
           this.selectedItemList = []
       } else {
         return

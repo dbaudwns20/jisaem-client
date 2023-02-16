@@ -1,6 +1,9 @@
-import { AuthLevel, AuthLevelFromProto } from "@/models/enum/auth.level";
-import { ResponseSignIn } from "@/protos/auth/auth_communication_pb";
+import { AuthLevel, AuthLevelFromProto } from "@/models/enum/auth.level"
+import { ResponseSignIn } from "@/protos/auth/auth_communication_pb"
 
+/**
+ * 로그인 정보
+ */
 export interface SignInInfo {
   readonly token: string
   readonly name: string

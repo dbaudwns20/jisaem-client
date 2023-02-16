@@ -1,7 +1,7 @@
 <template>
   <AppModal>
     <template v-slot:modalContent>
-      <form class="container" @submit.prevent="updateUsername($event)" novalidate>
+      <form @submit.prevent="updateUsername($event)" novalidate>
         <Username :label="'아이디'"
                   :is-required="true"
                   :is-dup-check="true"

@@ -56,9 +56,9 @@ export default {
     }))
   },
 
-  async deleteLabels(uids: string[]) {
+  async deleteLabels(idList: string[]) {
     const req = new RequestLabelDelete()
-    req.setUidsList(uids)
+    req.setIdList(idList)
     return await new Promise(((resolve, reject) => {
       _client.labelDelete(req, grpcService.setToken(), async (err, res) => {
         if (err) {

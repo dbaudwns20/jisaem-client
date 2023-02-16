@@ -2,24 +2,20 @@
   <section class="hero is-fullheight">
     <div class="hero-body">
       <div class="column is-4 is-offset-4">
-        <div class="container">
-          <div class="box">
-            <form @submit.prevent="signIn($event)" novalidate>
-              <Username :label="'아이디'"
-                        :placeholder="'부모님계정을 입력해주세요'"
-                        :is-required="true"
-                        :is-login="true"
-                        v-model="username"/>
-              <Password :label="'비밀번호'"
-                        :placeholder="'비밀번호를 입력해주세요'"
-                        :is-required="true"
-                        v-model="password" />
-              <div class="field">
-                <button class="button is-fullwidth is-link" type="submit"><strong>로그인</strong></button>
-              </div>
-            </form>
+        <form class="login-form" @submit.prevent="signIn($event)" novalidate>
+          <Username :label="'아이디'"
+                    :placeholder="'부모님계정을 입력해주세요'"
+                    :is-required="true"
+                    :is-login="true"
+                    v-model="username"/>
+          <Password :label="'비밀번호'"
+                    :placeholder="'비밀번호를 입력해주세요'"
+                    :is-required="true"
+                    v-model="password" />
+          <div class="field">
+            <button class="button is-fullwidth is-link" type="submit"><strong>로그인</strong></button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </section>

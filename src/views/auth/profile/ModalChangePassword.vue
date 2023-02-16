@@ -1,7 +1,7 @@
 <template>
   <AppModal>
     <template v-slot:modalContent>
-      <form class="container" @submit.prevent="updatePassword($event)" novalidate>
+      <form @submit.prevent="updatePassword($event)" novalidate>
         <Password :label="'기존비밀번호'"
                   :is-required="true"
                   :is-login="true"

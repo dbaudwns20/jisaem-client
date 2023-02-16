@@ -4,7 +4,7 @@ import { RequestLabelUpdate } from "@/protos/label/label_communication_pb";
  * 레이블 수정 Interface
  */
 export interface UpdateLabel {
-  uid: string,
+  id: string,
   name?: string,
   description?: string,
   color?: string
@@ -12,7 +12,7 @@ export interface UpdateLabel {
 
 function bindUpdateLabel(data: any): UpdateLabel {
   return {
-    uid: data.uid,
+    id: data.id,
     name: data?.name,
     description: data?.description,
     color: data?.color
@@ -21,7 +21,7 @@ function bindUpdateLabel(data: any): UpdateLabel {
 
 function getRequestLabelUpdate(updateLabel: UpdateLabel): RequestLabelUpdate {
   const request = new RequestLabelUpdate()
-  request.setUid(updateLabel.uid)
+  request.setId(updateLabel.id)
   request.setName(updateLabel.name!)
   request.setColor(updateLabel.color!)
   request.setDescription(updateLabel.description!)

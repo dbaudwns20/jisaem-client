@@ -2011,7 +2011,6 @@ proto.jisaem.user.RequestUserUpdate.toObject = function(includeInstance, msg) {
     name: jspb.Message.getFieldWithDefault(msg, 3, ""),
     phone: jspb.Message.getFieldWithDefault(msg, 4, ""),
     email: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    userLabelId: jspb.Message.getFieldWithDefault(msg, 6, ""),
     studentInfo: (f = msg.getStudentInfo()) && auth_auth_message_pb.StudentInfo.toObject(includeInstance, f)
   };
 
@@ -2070,10 +2069,6 @@ proto.jisaem.user.RequestUserUpdate.deserializeBinaryFromReader = function(msg, 
       msg.setEmail(value);
       break;
     case 6:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setUserLabelId(value);
-      break;
-    case 7:
       var value = new auth_auth_message_pb.StudentInfo;
       reader.readMessage(value,auth_auth_message_pb.StudentInfo.deserializeBinaryFromReader);
       msg.setStudentInfo(value);
@@ -2142,17 +2137,10 @@ proto.jisaem.user.RequestUserUpdate.serializeBinaryToWriter = function(message, 
       f
     );
   }
-  f = /** @type {string} */ (jspb.Message.getField(message, 6));
-  if (f != null) {
-    writer.writeString(
-      6,
-      f
-    );
-  }
   f = message.getStudentInfo();
   if (f != null) {
     writer.writeMessage(
-      7,
+      6,
       f,
       auth_auth_message_pb.StudentInfo.serializeBinaryToWriter
     );
@@ -2323,48 +2311,12 @@ proto.jisaem.user.RequestUserUpdate.prototype.hasEmail = function() {
 
 
 /**
- * optional string user_label_id = 6;
- * @return {string}
- */
-proto.jisaem.user.RequestUserUpdate.prototype.getUserLabelId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.jisaem.user.RequestUserUpdate} returns this
- */
-proto.jisaem.user.RequestUserUpdate.prototype.setUserLabelId = function(value) {
-  return jspb.Message.setField(this, 6, value);
-};
-
-
-/**
- * Clears the field making it undefined.
- * @return {!proto.jisaem.user.RequestUserUpdate} returns this
- */
-proto.jisaem.user.RequestUserUpdate.prototype.clearUserLabelId = function() {
-  return jspb.Message.setField(this, 6, undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.jisaem.user.RequestUserUpdate.prototype.hasUserLabelId = function() {
-  return jspb.Message.getField(this, 6) != null;
-};
-
-
-/**
- * optional jisaem.auth.StudentInfo student_info = 7;
+ * optional jisaem.auth.StudentInfo student_info = 6;
  * @return {?proto.jisaem.auth.StudentInfo}
  */
 proto.jisaem.user.RequestUserUpdate.prototype.getStudentInfo = function() {
   return /** @type{?proto.jisaem.auth.StudentInfo} */ (
-    jspb.Message.getWrapperField(this, auth_auth_message_pb.StudentInfo, 7));
+    jspb.Message.getWrapperField(this, auth_auth_message_pb.StudentInfo, 6));
 };
 
 
@@ -2373,7 +2325,7 @@ proto.jisaem.user.RequestUserUpdate.prototype.getStudentInfo = function() {
  * @return {!proto.jisaem.user.RequestUserUpdate} returns this
 */
 proto.jisaem.user.RequestUserUpdate.prototype.setStudentInfo = function(value) {
-  return jspb.Message.setWrapperField(this, 7, value);
+  return jspb.Message.setWrapperField(this, 6, value);
 };
 
 
@@ -2391,7 +2343,7 @@ proto.jisaem.user.RequestUserUpdate.prototype.clearStudentInfo = function() {
  * @return {boolean}
  */
 proto.jisaem.user.RequestUserUpdate.prototype.hasStudentInfo = function() {
-  return jspb.Message.getField(this, 7) != null;
+  return jspb.Message.getField(this, 6) != null;
 };
 
 

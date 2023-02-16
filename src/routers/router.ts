@@ -4,6 +4,7 @@ import authRouter, { SignInNormal, SignInParent } from './auth.router'
 import dashboardRouter, { Dashboard } from './dashboard.router'
 import classRouter from './class.router'
 import labelRouter from './label.router'
+import userRouter from './user.router'
 import utils from "@/utils/utils"
 
 import _ from 'lodash'
@@ -20,6 +21,7 @@ const routes: Array<RouteRecordRaw> = baseRouter
   .concat(dashboardRouter)
   .concat(classRouter)
   .concat(labelRouter)
+  .concat(userRouter)
 
 const router = createRouter({
   history: createWebHashHistory(),

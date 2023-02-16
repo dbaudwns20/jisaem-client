@@ -12,3 +12,10 @@ export class StudentInfo {
     this.description = data.getDescription()
   }
 }
+
+export function bindStudentInfoToProto(studentInfo: StudentInfo): ProtoStudentInfo {
+  const protoStudentInfo: ProtoStudentInfo = new ProtoStudentInfo()
+  protoStudentInfo.setSchool(studentInfo.school)
+  protoStudentInfo.setDescription(studentInfo.description)
+  return protoStudentInfo
+}

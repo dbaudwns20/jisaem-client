@@ -133,11 +133,6 @@ export class RequestProfileUpdate extends jspb.Message {
   hasEmail(): boolean;
   clearEmail(): RequestProfileUpdate;
 
-  getUserLabelUid(): string;
-  setUserLabelUid(value: string): RequestProfileUpdate;
-  hasUserLabelUid(): boolean;
-  clearUserLabelUid(): RequestProfileUpdate;
-
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestProfileUpdate.AsObject;
   static toObject(includeInstance: boolean, msg: RequestProfileUpdate): RequestProfileUpdate.AsObject;
@@ -151,7 +146,6 @@ export namespace RequestProfileUpdate {
     name?: string,
     phone?: string,
     email?: string,
-    userLabelUid?: string,
   }
 
   export enum NameCase { 
@@ -167,11 +161,6 @@ export namespace RequestProfileUpdate {
   export enum EmailCase { 
     _EMAIL_NOT_SET = 0,
     EMAIL = 3,
-  }
-
-  export enum UserLabelUidCase { 
-    _USER_LABEL_UID_NOT_SET = 0,
-    USER_LABEL_UID = 4,
   }
 }
 

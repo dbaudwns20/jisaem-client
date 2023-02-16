@@ -5,8 +5,8 @@ import {
 } from '@/protos/auth/auth_communication_pb'
 import { SignInInfo, bindSingUpInfo } from '@/models/auth/signIn.info'
 import { SignInType } from "@/models/enum/signIn.type"
-import { User } from '@/models/auth/user'
-import { UpdateUser, getRequestProfileUpdate } from '@/models/auth/update.user'
+import { User } from '@/models/user/user'
+import { UpdateUser, getRequestProfileUpdate } from '@/models/user/update.user'
 
 import grpcService from '@/services/grpc.service'
 

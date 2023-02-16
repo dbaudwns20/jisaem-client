@@ -1,6 +1,5 @@
 <template>
   <ag-grid-vue id="myGrid" class="ag-theme-alpine"
-               domLayout='autoHeight'
                :grid-options="gridOptions"
                :row-data="rowData"
                :localeText="{ noRowsToShow: '조회 결과가 없습니다.' }">
@@ -21,7 +20,6 @@ export default defineComponent({
   },
   props: {
     gridOptions: { type: Object, required: true },
-    gridClass: { type: String, default: "" }
   },
   setup(props) {
     const rowData = ref([])

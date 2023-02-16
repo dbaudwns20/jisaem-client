@@ -18,9 +18,9 @@
           <router-link to="/class" tag="a" class="navbar-item">
             <strong>클래스</strong>
           </router-link>
-          <a class="navbar-item">
+          <router-link :to="userPath" tag="a" class="navbar-item">
             <strong>사용자</strong>
-          </a>
+          </router-link>
           <router-link :to="labelPath" tag="a" class="navbar-item">
             <strong>레이블</strong>
           </router-link>
@@ -47,6 +47,7 @@
 import { defineComponent } from 'vue'
 import { Profile } from "@/routers/auth.router"
 import { Label } from "@/routers/label.router"
+import { User } from "@/routers/user.router"
 import store from "@/stores/store"
 
 export default defineComponent({
@@ -54,7 +55,8 @@ export default defineComponent({
   setup() {
     return {
       labelPath: Label.path,
-      profilePath: Profile.path
+      profilePath: Profile.path,
+      userPath: User.path
     }
   },
   methods: {
