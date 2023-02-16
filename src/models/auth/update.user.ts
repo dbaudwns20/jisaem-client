@@ -22,7 +22,7 @@ function bindUpdateUser(data: any): UpdateUser {
     name: data?.name,
     phone: data?.phone,
     email: data?.email,
-    userLabelUid: _.eq(data?.userLabel, '') ? '' : data?.userLabel.uid
+    userLabelUid: _.isEmpty(data?.userLabel) ? '' : data?.userLabel.uid
   }
 }
 

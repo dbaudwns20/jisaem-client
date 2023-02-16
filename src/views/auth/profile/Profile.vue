@@ -1,14 +1,13 @@
 <template>
   <AppNavbar/>
   <div class="container">
-    <section class="hero is-link is-small">
+    <section class="block hero is-link is-small">
       <div class="hero-body">
         <p class="title">
           내정보
         </p>
       </div>
     </section>
-    <hr/>
     <div class="columns">
       <div class="column is-3">
         <div class="card">
@@ -199,7 +198,7 @@ import Email from "@/components/input/Email.vue"
 import Password from "@/components/input/Password.vue"
 import LabelSelect from "@/components/label/LabelSelect.vue"
 
-import AuthGrpcService from "@/services/auth.grpc.service"
+import authGrpcService from "@/services/auth.grpc.service"
 
 import utils from "@/utils/utils"
 import store from "@/stores/store"
@@ -231,7 +230,7 @@ export default defineComponent({
       passwordValue,
       componentKey,
       parentUsername,
-      authName: utils.authority.getAuthName(myAuthLevel),
+      authName: utils.authority.getMyAuthName(myAuthLevel),
       isManager: utils.authority.isManager(myAuthLevel),
       isStudent: utils.authority.isStudent(myAuthLevel),
       isParent: utils.authority.isParent(myAuthLevel),
@@ -251,7 +250,7 @@ export default defineComponent({
     },
     // 내정보 가져오기
     async getProfile() {
-      const res = await AuthGrpcService.profileGet()
+      const res = await authGrpcService.profileGet()
       await store.commit("userStore/setUser", res)
       await Object.assign(this.showData, store.getters["userStore/user"])
       await Object.assign(this.editData, _.cloneDeep(this.showData))
@@ -267,7 +266,7 @@ export default defineComponent({
         return
       }
       if (!utils.validator.validateForm(form.target)) return
-      await AuthGrpcService.profileUpdate(bindUpdateUser(updatedFields))
+      await authGrpcService.profileUpdate(bindUpdateUser(updatedFields))
       this.completeFunction('수정되었습니다')
     },
     // 함수 호출 후 처리

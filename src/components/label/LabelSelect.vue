@@ -5,13 +5,15 @@
     </label>
     <div class="dropdown" :class="{ 'is-active': isActive }">
       <div class="dropdown-trigger">
-        <div class="control has-icons-left has-icons-right">
+        <div class="control has-icons-left">
           <div ref="labelSelect" class="labels" aria-haspopup="true" aria-controls="dropdown-menu"
                :key="componentKey"
                :class="checkClass">
             <LabelElement v-for="(label, key) in selectedLabels" :key=key
-                          :params="{data: {name: label.name, color: label.color}}" />
-            <input ref="labelInput" type="search" class="input labels-input"
+                          :params="{data: {name: label.name, color: label.color, uid: label.uid}}"
+                          :is-deletable="true"
+                          @remove-tag="removeTag"/>
+            <input ref="labelInput" type="text" class="input labels-input" readonly
                    :disabled="isDisabled"
                    :required="isRequired"
                    :placeholder="showPlaceholder"
@@ -20,15 +22,16 @@
                    @keydown="keydown($event)"
                    @invalid="checkIfIsInvalid" >
           </div>
-          <span class="icon is-small is-left"><i class="fa-solid fa-tags"></i></span>
-          <span class="icon is-small is-right"><i :class="{ 'fa-solid fa-magnifying-glass': isActive }"></i></span>
+          <span class="icon is-small is-left" :style="[ isActive ? 'color: hsl(0, 0%, 29%)' : '' ]">
+            <i class="fa-solid fa-tags"></i>
+          </span>
         </div>
       </div>
       <div class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
           <a class="dropdown-item" v-for="(label, key) in labelList" :key=key
              @mousedown="setLabel(label)">
-            <LabelElement :params="{data: {name: label.name, color: label.color}}"
+            <LabelElement :params="{data: {name: label.name, color: label.color, uid: label.uid}}"
                           :size="'is-small'" />
             <span class="label-description" v-if="label.description"> - {{ label.description }}</span>
           </a>
@@ -100,6 +103,7 @@ export default defineComponent({
       }
       selectedLabels.value.push(label)
       emit('update:modelValue', selectedLabels.value[0])
+      if (isActive.value) isActive.value = false
       setPlaceholder()
       reloadComponent()
     }
@@ -127,13 +131,7 @@ export default defineComponent({
     }
     //
     const keydown = (event: any) => {
-      if (event.code === 'Backspace') {
-        if (selectedLabels.value.length > 0) {
-          selectedLabels.value.splice(0, 1)
-          emit('update:modelValue', {})
-          setPlaceholder()
-        }
-      } else if (event.code === 'ArrowDown') {
+      if (event.code === 'ArrowDown') {
 
       } else if (event.code === 'ArrowUp') {
 
@@ -150,6 +148,14 @@ export default defineComponent({
       checkClass.value = 'is-danger'
       if (selectedLabels.value.length === 0)
         checkMsg.value = '레이블을 선택해주세요'
+    }
+
+    const removeTag = (uid: string) => {
+      const idx = _.findIndex(selectedLabels.value, {uid: uid})
+      selectedLabels.value.splice(idx, 1)
+      emit('update:modelValue', selectedLabels.value[0])
+      setPlaceholder()
+      if (!isActive.value) isActive.value = true
     }
 
     onMounted(() => {
@@ -180,7 +186,8 @@ export default defineComponent({
       focusin,
       blur,
       keydown,
-      checkIfIsInvalid
+      checkIfIsInvalid,
+      removeTag
     }
   }
 })
@@ -253,4 +260,7 @@ export default defineComponent({
 
   .labels-input:focus
     border-color: transparent !important
+
+  .label-icon
+    color: hsl(0, 0%, 29%) !important
 </style>
