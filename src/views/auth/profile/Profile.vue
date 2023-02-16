@@ -185,8 +185,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
-import { User } from "@/models/auth/user"
-import { getUpdateUserKeys, bindUpdateUser } from "@/models/auth/update.user"
+import { User } from "@/models/user/user"
+import { getUpdateUserKeys, bindUpdateUser } from "@/models/user/update.user"
 import { ModalChangePassword, ModalChangeUsername } from "@/routers/auth.router"
 import { LabelType } from "@/models/enum/label.type"
 

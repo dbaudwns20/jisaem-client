@@ -56,6 +56,18 @@ export default {
     return (brightness > 125) ? 'black' : 'white'
   },
 
+  convertDateToString(date: Date): string {
+    let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear()
+    if (month.length < 2)
+      month = '0' + month
+    if (day.length < 2)
+      day = '0' + day
+    return [year, month, day].join('-')
+  },
+
   validator: _validator,
   message: _message,
   authority: _authority

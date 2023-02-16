@@ -114,11 +114,11 @@ export default defineComponent({
         // isDisabled 가 true 라면 불가
         if (data.isDisabled) return
         // 부모 컴포넌트 생성, 편집 호출
-        !_.has(data, 'uid') ? parentComp.createRow(data) : parentComp.updateRow(data)
+        !_.has(data, 'id') ? parentComp.createRow(data) : parentComp.updateRow(data)
       } else if (event.code === 'Escape') {
         event.stopPropagation()
         props.params.api.stopEditing(false)
-        if (!_.has(data, 'uid')) {
+        if (!_.has(data, 'id')) {
           const rowData = parentComp.gridOptions.rowData
           rowData.shift()
           props.params.api.setRowData(rowData)

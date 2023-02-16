@@ -35,7 +35,7 @@ goog.exportSymbol('proto.jisaem.auth.User', null, global);
  * @constructor
  */
 proto.jisaem.auth.User = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.jisaem.auth.User.repeatedFields_, null);
 };
 goog.inherits(proto.jisaem.auth.User, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -88,6 +88,13 @@ if (goog.DEBUG && !COMPILED) {
   proto.jisaem.auth.ParentInfo.displayName = 'proto.jisaem.auth.ParentInfo';
 }
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.jisaem.auth.User.repeatedFields_ = [10];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -119,7 +126,7 @@ proto.jisaem.auth.User.prototype.toObject = function(opt_includeInstance) {
  */
 proto.jisaem.auth.User.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     createdAt: (f = msg.getCreatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     updatedAt: (f = msg.getUpdatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     authLevel: jspb.Message.getFieldWithDefault(msg, 4, 0),
@@ -128,7 +135,8 @@ proto.jisaem.auth.User.toObject = function(includeInstance, msg) {
     name: jspb.Message.getFieldWithDefault(msg, 7, ""),
     phone: jspb.Message.getFieldWithDefault(msg, 8, ""),
     email: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    userLabel: (f = msg.getUserLabel()) && label_label_message_pb.Label.toObject(includeInstance, f),
+    userLabelsList: jspb.Message.toObjectList(msg.getUserLabelsList(),
+    label_label_message_pb.UserLabel.toObject, includeInstance),
     studentInfo: (f = msg.getStudentInfo()) && proto.jisaem.auth.StudentInfo.toObject(includeInstance, f),
     parentInfo: (f = msg.getParentInfo()) && proto.jisaem.auth.ParentInfo.toObject(includeInstance, f)
   };
@@ -169,7 +177,7 @@ proto.jisaem.auth.User.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUid(value);
+      msg.setId(value);
       break;
     case 2:
       var value = new google_protobuf_timestamp_pb.Timestamp;
@@ -206,9 +214,9 @@ proto.jisaem.auth.User.deserializeBinaryFromReader = function(msg, reader) {
       msg.setEmail(value);
       break;
     case 10:
-      var value = new label_label_message_pb.Label;
-      reader.readMessage(value,label_label_message_pb.Label.deserializeBinaryFromReader);
-      msg.setUserLabel(value);
+      var value = new label_label_message_pb.UserLabel;
+      reader.readMessage(value,label_label_message_pb.UserLabel.deserializeBinaryFromReader);
+      msg.addUserLabels(value);
       break;
     case 11:
       var value = new proto.jisaem.auth.StudentInfo;
@@ -249,7 +257,7 @@ proto.jisaem.auth.User.prototype.serializeBinary = function() {
  */
 proto.jisaem.auth.User.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUid();
+  f = message.getId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -314,12 +322,12 @@ proto.jisaem.auth.User.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getUserLabel();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getUserLabelsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
       10,
       f,
-      label_label_message_pb.Label.serializeBinaryToWriter
+      label_label_message_pb.UserLabel.serializeBinaryToWriter
     );
   }
   f = message.getStudentInfo();
@@ -342,10 +350,10 @@ proto.jisaem.auth.User.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string uid = 1;
+ * optional string id = 1;
  * @return {string}
  */
-proto.jisaem.auth.User.prototype.getUid = function() {
+proto.jisaem.auth.User.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -354,7 +362,7 @@ proto.jisaem.auth.User.prototype.getUid = function() {
  * @param {string} value
  * @return {!proto.jisaem.auth.User} returns this
  */
-proto.jisaem.auth.User.prototype.setUid = function(value) {
+proto.jisaem.auth.User.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -542,39 +550,40 @@ proto.jisaem.auth.User.prototype.setEmail = function(value) {
 
 
 /**
- * optional jisaem.label.Label user_label = 10;
- * @return {?proto.jisaem.label.Label}
+ * repeated jisaem.label.UserLabel user_labels = 10;
+ * @return {!Array<!proto.jisaem.label.UserLabel>}
  */
-proto.jisaem.auth.User.prototype.getUserLabel = function() {
-  return /** @type{?proto.jisaem.label.Label} */ (
-    jspb.Message.getWrapperField(this, label_label_message_pb.Label, 10));
+proto.jisaem.auth.User.prototype.getUserLabelsList = function() {
+  return /** @type{!Array<!proto.jisaem.label.UserLabel>} */ (
+    jspb.Message.getRepeatedWrapperField(this, label_label_message_pb.UserLabel, 10));
 };
 
 
 /**
- * @param {?proto.jisaem.label.Label|undefined} value
+ * @param {!Array<!proto.jisaem.label.UserLabel>} value
  * @return {!proto.jisaem.auth.User} returns this
 */
-proto.jisaem.auth.User.prototype.setUserLabel = function(value) {
-  return jspb.Message.setWrapperField(this, 10, value);
+proto.jisaem.auth.User.prototype.setUserLabelsList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 10, value);
 };
 
 
 /**
- * Clears the message field making it undefined.
+ * @param {!proto.jisaem.label.UserLabel=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.jisaem.label.UserLabel}
+ */
+proto.jisaem.auth.User.prototype.addUserLabels = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 10, opt_value, proto.jisaem.label.UserLabel, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.auth.User} returns this
  */
-proto.jisaem.auth.User.prototype.clearUserLabel = function() {
-  return this.setUserLabel(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.jisaem.auth.User.prototype.hasUserLabel = function() {
-  return jspb.Message.getField(this, 10) != null;
+proto.jisaem.auth.User.prototype.clearUserLabelsList = function() {
+  return this.setUserLabelsList([]);
 };
 
 

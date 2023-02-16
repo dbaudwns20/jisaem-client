@@ -39,9 +39,9 @@ function edit() {
   let rowIndex = params.rowIndex
   gridOptions.rowData.forEach((it: any) => {
     // 다른 행에서 편집 중인 경우
-    if (it.isEditing && data.uid !== it.uid) {
+    if (it.isEditing && data.id !== it.id) {
       // 신규인 경우
-      if (!_.has(it, 'uid')) {
+      if (!_.has(it, 'id')) {
         rowIndex--
         const rowData = gridOptions.rowData
         rowData.shift() // return void
@@ -71,10 +71,10 @@ function cancel() {
 }
 // 저장, 수정
 function save() {
-  !_.has(data, 'uid') ? parentComp.createRow(data) : parentComp.updateRow(data)
+  !_.has(data, 'id') ? parentComp.createRow(data) : parentComp.updateRow(data)
 }
 // 삭제
 function remove() {
-  parentComp.deleteRow([data.uid])
+  parentComp.deleteRow([data.id])
 }
 </script>

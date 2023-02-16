@@ -8,7 +8,7 @@ import { LabelTypeFromProto } from "@/models/enum/label.type"
  * 레이블 Class
  */
 export class Label {
-  uid: string
+  id: string
   createdAt: Date
   updatedAt: Date
   labelType: LabelType
@@ -17,7 +17,7 @@ export class Label {
   color: string
 
   constructor(data: ProtoLabel) {
-    this.uid = data.getUid()
+    this.id = data.getId()
     this.createdAt = data.getCreatedAt()!.toDate() as Date
     this.updatedAt = data.getUpdatedAt()!.toDate() as Date
     this.labelType = LabelTypeFromProto(data.getLabelType())

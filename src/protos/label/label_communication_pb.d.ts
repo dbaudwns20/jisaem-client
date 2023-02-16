@@ -89,8 +89,8 @@ export namespace ResponseLabelListGet {
 }
 
 export class RequestLabelUpdate extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): RequestLabelUpdate;
+  getId(): string;
+  setId(value: string): RequestLabelUpdate;
 
   getName(): string;
   setName(value: string): RequestLabelUpdate;
@@ -117,7 +117,7 @@ export class RequestLabelUpdate extends jspb.Message {
 
 export namespace RequestLabelUpdate {
   export type AsObject = {
-    uid: string,
+    id: string,
     name?: string,
     description?: string,
     color?: string,
@@ -154,10 +154,10 @@ export namespace ResponseLabelUpdate {
 }
 
 export class RequestLabelDelete extends jspb.Message {
-  getUidsList(): Array<string>;
-  setUidsList(value: Array<string>): RequestLabelDelete;
-  clearUidsList(): RequestLabelDelete;
-  addUids(value: string, index?: number): RequestLabelDelete;
+  getIdList(): Array<string>;
+  setIdList(value: Array<string>): RequestLabelDelete;
+  clearIdList(): RequestLabelDelete;
+  addId(value: string, index?: number): RequestLabelDelete;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestLabelDelete.AsObject;
@@ -169,7 +169,7 @@ export class RequestLabelDelete extends jspb.Message {
 
 export namespace RequestLabelDelete {
   export type AsObject = {
-    uidsList: Array<string>,
+    idList: Array<string>,
   }
 }
 

@@ -3,14 +3,14 @@
     <label class="label" :class="{ 'required': isRequired }" v-if="label">
       {{ label }}
     </label>
-    <div class="dropdown" :class="{ 'is-active': isActive }">
+    <div class="dropdown" :class="[{ 'is-active': isActive }, {'is-up': true}]">
       <div class="dropdown-trigger">
         <div class="control has-icons-left">
           <div ref="labelSelect" class="labels" aria-haspopup="true" aria-controls="dropdown-menu"
                :key="componentKey"
                :class="checkClass">
             <LabelElement v-for="(label, key) in selectedLabels" :key=key
-                          :params="{data: {name: label.name, color: label.color, uid: label.uid}}"
+                          :params="{data: {name: label.name, color: label.color, id: label.id}}"
                           :is-deletable="true"
                           @remove-tag="removeTag"/>
             <input ref="labelInput" type="text" class="input labels-input" readonly
@@ -31,7 +31,7 @@
         <div class="dropdown-content">
           <a class="dropdown-item" v-for="(label, key) in labelList" :key=key
              @mousedown="setLabel(label)">
-            <LabelElement :params="{data: {name: label.name, color: label.color, uid: label.uid}}"
+            <LabelElement :params="{data: {name: label.name, color: label.color, id: label.id}}"
                           :size="'is-small'" />
             <span class="label-description" v-if="label.description"> - {{ label.description }}</span>
           </a>
@@ -93,7 +93,7 @@ export default defineComponent({
     // 레이블 선택, 1개만 선택 가능. 같은 레이블을 선택하면 취소
     const setLabel = (label: Label) => {
       if (selectedLabels.value.length > 0) {
-        if (selectedLabels.value[0].uid === label.uid) {
+        if (selectedLabels.value[0].id === label.id) {
           selectedLabels.value.splice(0, 1)
           emit('update:modelValue', {})
           setPlaceholder()
@@ -150,8 +150,8 @@ export default defineComponent({
         checkMsg.value = '레이블을 선택해주세요'
     }
 
-    const removeTag = (uid: string) => {
-      const idx = _.findIndex(selectedLabels.value, {uid: uid})
+    const removeTag = (id: string) => {
+      const idx = _.findIndex(selectedLabels.value, {id: id})
       selectedLabels.value.splice(idx, 1)
       emit('update:modelValue', selectedLabels.value[0])
       setPlaceholder()
@@ -192,75 +192,3 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="sass">
-.dropdown
-  width: 100%
-
-  .dropdown-trigger
-    width: 100%
-
-  .dropdown-menu
-    padding-top: 0 !important
-    width: 100%
-
-  .dropdown-content
-    padding: 0
-    max-height: 165px
-    overflow: scroll
-
-  .dropdown-item
-    font-size: 12px
-    padding: 0.5em 0.5em 0.5em 0.5em
-    border-left: 0.2px solid hsl(0deg, 0%, 86%)
-    border-right: 0.2px solid hsl(0deg, 0%, 86%)
-    border-bottom: 0.2px solid hsl(0deg, 0%, 86%)
-    color: gray
-    max-height: 40px
-    white-space: nowrap
-    overflow: hidden
-    text-overflow: ellipsis
-
-    &.is-selected
-      background-color: ivory
-
-  .dropdown-item:first-child
-    border-top-right-radius: 3px
-    border-top-left-radius: 3px
-
-  .dropdown-item:last-child
-    border-bottom-right-radius: 3px
-    border-bottom-left-radius: 3px
-
-.labels
-  @extend .input
-  align-content: flex-start
-  display: flex
-  flex-wrap: wrap
-  height: auto
-  min-height: 2.5em
-  padding: 0
-  position: relative
-
-  > span
-    margin-right: 5px
-
-  .labels-input
-    @extend .input
-    padding: 0 !important
-    border-color: transparent
-    box-shadow: none !important
-    display: inline-block
-    flex: 1 0 auto
-    height: 2.3rem
-    margin: .1rem
-    width: 10%
-
-  .labels-input:hover
-    border-color: transparent !important
-
-  .labels-input:focus
-    border-color: transparent !important
-
-  .label-icon
-    color: hsl(0, 0%, 29%) !important
-</style>

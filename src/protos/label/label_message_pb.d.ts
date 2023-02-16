@@ -4,8 +4,8 @@ import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/t
 
 
 export class Label extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): Label;
+  getId(): string;
+  setId(value: string): Label;
 
   getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): Label;
@@ -39,13 +39,43 @@ export class Label extends jspb.Message {
 
 export namespace Label {
   export type AsObject = {
-    uid: string,
+    id: string,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updatedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     labelType: LabelType,
     name: string,
     description: string,
     color: string,
+  }
+}
+
+export class UserLabel extends jspb.Message {
+  getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): UserLabel;
+  hasCreatedAt(): boolean;
+  clearCreatedAt(): UserLabel;
+
+  getUserId(): string;
+  setUserId(value: string): UserLabel;
+
+  getLabelInfo(): Label | undefined;
+  setLabelInfo(value?: Label): UserLabel;
+  hasLabelInfo(): boolean;
+  clearLabelInfo(): UserLabel;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserLabel.AsObject;
+  static toObject(includeInstance: boolean, msg: UserLabel): UserLabel.AsObject;
+  static serializeBinaryToWriter(message: UserLabel, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserLabel;
+  static deserializeBinaryFromReader(message: UserLabel, reader: jspb.BinaryReader): UserLabel;
+}
+
+export namespace UserLabel {
+  export type AsObject = {
+    createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    userId: string,
+    labelInfo?: Label.AsObject,
   }
 }
 

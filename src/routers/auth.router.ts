@@ -8,6 +8,7 @@ export const SignInNormal = {
     needLogin: false
   }
 }
+
 export const SignInParent = {
   path: '/sign-in-parent',
   name: 'SignInParent',

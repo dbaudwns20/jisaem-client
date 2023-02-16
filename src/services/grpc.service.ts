@@ -1,3 +1,4 @@
+import { Pagination } from "@/models/util/util"
 import { getSessionToken } from '@/stores/store'
 import { RpcError } from "grpc-web"
 
@@ -41,6 +42,14 @@ function resolveResponse<T, K>(type: { new ({}: T): K}, res: any): any  {
   }
 }
 
+// Pagination 정보를 포함한 응답값 Resolve
+function resolvePaginationResponse<T, K>(type: { new ({}: T): K}, res: any, pageInfo: Pagination): any  {
+  return {
+    list: resolveResponse(type, res),
+    pageInfo: pageInfo
+  }
+}
+
 // gRPC 에러 헨들링
 function handlingError(err: RpcError): void {
   const code: number = err.code
@@ -71,5 +80,6 @@ export default {
   GRPC_HOST,
   setToken,
   handlingError,
-  resolveResponse
+  resolveResponse,
+  resolvePaginationResponse
 }

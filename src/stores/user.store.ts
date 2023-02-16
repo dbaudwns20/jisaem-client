@@ -2,7 +2,7 @@ const userStore = {
   namespaced: true,
   state: {
     user: {
-      uid: null,
+      id: null,
       createdAt: null,
       updatedAt: null,
       authLevel: 0,
@@ -20,7 +20,7 @@ const userStore = {
   },
   mutations: {
     setUser: (state: any, payload: any) => {
-      state.user['uid'] = payload.uid
+      state.user['id'] = payload.id
       state.user['createdAt'] = payload.createdAt
       state.user['updatedAt'] = payload.updatedAt
       state.user['authLevel'] = payload.authLevel

@@ -3,6 +3,7 @@
 // 그리드 폰트 크기
 .ag-theme-alpine
   --ag-font-size: 15px
+  height: 100%
 
 // 그리드 헤더 컬럼명 가운데 정렬
 .ag-header-cell-label
@@ -39,3 +40,27 @@
     .grid-header-button-right
       display: flex
       justify-content: flex-end
+
+.grid-footer
+  background-color: #f8f8f8
+  border: 1px solid #babfc7
+  border-top: none
+  padding-left: 10px
+  padding-right: 10px
+  display: grid
+  align-items: center
+  height: 3.2rem
+
+  .pagination-link
+    border-color: transparent !important
+    background-color: transparent !important
+
+    &.is-disabled
+      cursor: not-allowed
+
+    &.is-current
+      color: #485fc7
+      font-weight: bold
+      text-decoration: underline
+      margin-left: 0
+      margin-right: 0

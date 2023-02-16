@@ -1193,8 +1193,7 @@ proto.jisaem.auth.RequestProfileUpdate.toObject = function(includeInstance, msg)
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
     phone: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    email: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    userLabelUid: jspb.Message.getFieldWithDefault(msg, 4, "")
+    email: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1243,10 +1242,6 @@ proto.jisaem.auth.RequestProfileUpdate.deserializeBinaryFromReader = function(ms
       var value = /** @type {string} */ (reader.readString());
       msg.setEmail(value);
       break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setUserLabelUid(value);
-      break;
     default:
       reader.skipField();
       break;
@@ -1294,13 +1289,6 @@ proto.jisaem.auth.RequestProfileUpdate.serializeBinaryToWriter = function(messag
   if (f != null) {
     writer.writeString(
       3,
-      f
-    );
-  }
-  f = /** @type {string} */ (jspb.Message.getField(message, 4));
-  if (f != null) {
-    writer.writeString(
-      4,
       f
     );
   }
@@ -1412,42 +1400,6 @@ proto.jisaem.auth.RequestProfileUpdate.prototype.clearEmail = function() {
  */
 proto.jisaem.auth.RequestProfileUpdate.prototype.hasEmail = function() {
   return jspb.Message.getField(this, 3) != null;
-};
-
-
-/**
- * optional string user_label_uid = 4;
- * @return {string}
- */
-proto.jisaem.auth.RequestProfileUpdate.prototype.getUserLabelUid = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
- */
-proto.jisaem.auth.RequestProfileUpdate.prototype.setUserLabelUid = function(value) {
-  return jspb.Message.setField(this, 4, value);
-};
-
-
-/**
- * Clears the field making it undefined.
- * @return {!proto.jisaem.auth.RequestProfileUpdate} returns this
- */
-proto.jisaem.auth.RequestProfileUpdate.prototype.clearUserLabelUid = function() {
-  return jspb.Message.setField(this, 4, undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.jisaem.auth.RequestProfileUpdate.prototype.hasUserLabelUid = function() {
-  return jspb.Message.getField(this, 4) != null;
 };
 
 

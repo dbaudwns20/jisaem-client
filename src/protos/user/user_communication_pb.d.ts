@@ -228,11 +228,6 @@ export class RequestUserUpdate extends jspb.Message {
   hasEmail(): boolean;
   clearEmail(): RequestUserUpdate;
 
-  getUserLabelId(): string;
-  setUserLabelId(value: string): RequestUserUpdate;
-  hasUserLabelId(): boolean;
-  clearUserLabelId(): RequestUserUpdate;
-
   getStudentInfo(): auth_auth_message_pb.StudentInfo | undefined;
   setStudentInfo(value?: auth_auth_message_pb.StudentInfo): RequestUserUpdate;
   hasStudentInfo(): boolean;
@@ -253,7 +248,6 @@ export namespace RequestUserUpdate {
     name?: string,
     phone?: string,
     email?: string,
-    userLabelId?: string,
     studentInfo?: auth_auth_message_pb.StudentInfo.AsObject,
   }
 
@@ -277,14 +271,9 @@ export namespace RequestUserUpdate {
     EMAIL = 5,
   }
 
-  export enum UserLabelIdCase { 
-    _USER_LABEL_ID_NOT_SET = 0,
-    USER_LABEL_ID = 6,
-  }
-
   export enum StudentInfoCase { 
     _STUDENT_INFO_NOT_SET = 0,
-    STUDENT_INFO = 7,
+    STUDENT_INFO = 6,
   }
 }
 

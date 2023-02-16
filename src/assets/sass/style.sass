@@ -7,32 +7,35 @@
   content: " *"
   color: darkorange
 
-
 // footer
-$footer-padding: 2rem 1.5rem 2rem
 .footer
-  margin-top: 2em
-  padding: $footer-padding
+  margin-top: 1em
+  padding: 2rem 1rem 2rem
 
+// 로그인 폼
+.login-form
+  @extend .box
+  display: flex
+  flex-direction: column
+  justify-content: center
+  margin: 0 auto
+  height: 320px
+  width: 400px
 
 // 내정보
 .profile-username:before
   content: "@"
 
-
 .profile-username
   color: cornflowerblue
-
 
 .profile-auth-level
   font-size: 1.75rem
   margin-left: 0.3em
 
-
 .profile-hr
   margin-top: 1em
   margin-bottom: 0.5em
-
 
 .profile-info
   font-size: 1rem
@@ -40,14 +43,84 @@ $footer-padding: 2rem 1.5rem 2rem
   width: 100%
   margin-top: 0.35em
 
-
-//
 .container
   flex: 1
   width: 100%
   height: 100%
-
+  display: flex
+  flex-direction: inherit
 
 .tabs
   border-left: 1px solid #babfc7
   border-right: 1px solid #babfc7
+
+.dropdown
+  width: 100%
+
+  .dropdown-trigger
+    width: 100%
+
+  .dropdown-menu
+    padding-top: 0 !important
+    width: 100%
+
+  .dropdown-content
+    padding: 0
+    max-height: 165px
+    overflow: scroll
+
+  .dropdown-item
+    font-size: 12px
+    padding: 0.5em 0.5em 0.5em 0.5em
+    border-left: 0.2px solid hsl(0deg, 0%, 86%)
+    border-right: 0.2px solid hsl(0deg, 0%, 86%)
+    border-bottom: 0.2px solid hsl(0deg, 0%, 86%)
+    color: gray
+    max-height: 40px
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+    &.is-selected
+      background-color: ivory
+
+  .dropdown-item:first-child
+    border-top-right-radius: 3px
+    border-top-left-radius: 3px
+
+  .dropdown-item:last-child
+    border-bottom-right-radius: 3px
+    border-bottom-left-radius: 3px
+
+.labels
+  @extend .input
+  align-content: flex-start
+  display: flex
+  flex-wrap: wrap
+  height: auto
+  min-height: 2.5em
+  padding: 0
+  position: relative
+
+  > span
+    margin-right: 5px
+
+  .labels-input
+    @extend .input
+    padding: 0 !important
+    border-color: transparent
+    box-shadow: none !important
+    display: inline-block
+    flex: 1 0 auto
+    height: 2.3rem
+    margin: .1rem
+    width: 10%
+
+  .labels-input:hover
+    border-color: transparent !important
+
+  .labels-input:focus
+    border-color: transparent !important
+
+  .label-icon
+    color: hsl(0, 0%, 29%) !important

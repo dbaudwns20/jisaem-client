@@ -1,35 +1,29 @@
 <template>
   <section class="hero is-fullheight">
     <div class="hero-body">
-      <div class="column is-4 is-offset-4">
-        <div class="container">
-          <div class="box">
-            <form @submit.prevent="signIn($event)" novalidate>
-              <div class="field">
-                <div class="level is-mobile label">
-                  <p class="level-left"><label class="label required">아이디</label></p>
-                  <p class="level-right">
-                    <router-link :to="signInParentPath" tag="a" tabindex="-1">
-                      <small>부모 계정이신가요?</small>
-                    </router-link>
-                  </p>
-                </div>
-                <Username :placeholder="'아이디를 입력해주세요'"
-                          :is-required="true"
-                          :is-login="true"
-                          v-model="username" />
-              </div>
-              <Password :label="'비밀번호'"
-                        :placeholder="'비밀번호를 입력해주세요'"
-                        :is-required="true"
-                        v-model="password" />
-              <div class="field">
-                <button class="button is-fullwidth is-info" type="submit"><strong>로그인</strong></button>
-              </div>
-            </form>
+      <form class="login-form" @submit.prevent="signIn($event)" novalidate>
+        <div class="field">
+          <div class="level is-mobile label">
+            <p class="level-left"><label class="label required">아이디</label></p>
+            <p class="level-right">
+              <router-link :to="signInParentPath" tag="a" tabindex="-1">
+                <small>부모 계정이신가요?</small>
+              </router-link>
+            </p>
           </div>
+          <Username :placeholder="'아이디를 입력해주세요'"
+                    :is-required="true"
+                    :is-login="true"
+                    v-model="username" />
         </div>
-      </div>
+        <Password :label="'비밀번호'"
+                  :placeholder="'비밀번호를 입력해주세요'"
+                  :is-required="true"
+                  v-model="password" />
+        <div class="field">
+          <button class="button is-fullwidth is-info" type="submit"><strong>로그인</strong></button>
+        </div>
+      </form>
     </div>
   </section>
 </template>

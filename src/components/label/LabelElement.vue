@@ -24,7 +24,7 @@ const size = props.size
 
 // 레이블 제거
 const removeTag = () => {
-  emits('remove-tag', data.uid)
+  emits('remove-tag', data.id)
 }
 
 onMounted(() => {

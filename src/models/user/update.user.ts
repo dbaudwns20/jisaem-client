@@ -10,7 +10,7 @@ export interface UpdateUser {
   name?: string
   phone?: string
   email?: string
-  userLabelUid?: string
+  userLabelId?: string
 }
 
 /**
@@ -22,7 +22,7 @@ function bindUpdateUser(data: any): UpdateUser {
     name: data?.name,
     phone: data?.phone,
     email: data?.email,
-    userLabelUid: _.isEmpty(data?.userLabel) ? '' : data?.userLabel.uid
+    userLabelId: _.isEmpty(data?.userLabel) ? '' : data?.userLabel.id
   }
 }
 
@@ -47,7 +47,6 @@ function getRequestProfileUpdate(updateUser: UpdateUser): RequestProfileUpdate {
   request.setName(updateUser.name!)
   request.setPhone(updateUser.phone!)
   request.setEmail(updateUser.email!)
-  request.setUserLabelUid(updateUser.userLabelUid!)
   return request
 }
 

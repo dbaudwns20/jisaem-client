@@ -5,8 +5,8 @@ import * as label_label_message_pb from '../label/label_message_pb';
 
 
 export class User extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): User;
+  getId(): string;
+  setId(value: string): User;
 
   getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): User;
@@ -36,10 +36,10 @@ export class User extends jspb.Message {
   getEmail(): string;
   setEmail(value: string): User;
 
-  getUserLabel(): label_label_message_pb.Label | undefined;
-  setUserLabel(value?: label_label_message_pb.Label): User;
-  hasUserLabel(): boolean;
-  clearUserLabel(): User;
+  getUserLabelsList(): Array<label_label_message_pb.UserLabel>;
+  setUserLabelsList(value: Array<label_label_message_pb.UserLabel>): User;
+  clearUserLabelsList(): User;
+  addUserLabels(value?: label_label_message_pb.UserLabel, index?: number): label_label_message_pb.UserLabel;
 
   getStudentInfo(): StudentInfo | undefined;
   setStudentInfo(value?: StudentInfo): User;
@@ -61,7 +61,7 @@ export class User extends jspb.Message {
 
 export namespace User {
   export type AsObject = {
-    uid: string,
+    id: string,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updatedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     authLevel: Level,
@@ -70,7 +70,7 @@ export namespace User {
     name: string,
     phone: string,
     email: string,
-    userLabel?: label_label_message_pb.Label.AsObject,
+    userLabelsList: Array<label_label_message_pb.UserLabel.AsObject>,
     studentInfo?: StudentInfo.AsObject,
     parentInfo?: ParentInfo.AsObject,
   }
