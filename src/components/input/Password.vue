@@ -1,43 +1,97 @@
 <template>
-  <div class="field">
-    <label class="label" :class="{ 'required': isRequired }" v-if="label">
-      {{ label }}
-    </label>
-    <div class="control has-icons-left has-icons-right">
-      <input type="password" name="password" class="input"
-             :class="checkClass"
-             :required="isRequired"
-             :disabled="isDisabled"
-             :placeholder="placeholder"
-             :value="modelValue"
-             @input="$emit('update:modelValue', $event.target.value)"
-             @invalid="checkIfIsInvalid($event.target)"
-             @keyup="checkOnPasswordRule($event.target)">
-      <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
-      <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
-                                                        'fas fa-exclamation-triangle': checkClass === 'is-danger',
-                                                        '': checkClass === ''}"></i></span>
-      <p class="help" :class="checkClass">
-        {{ checkMsg }}
-      </p>
+  <div class="field" v-if="!showInline">
+    <div class="field">
+      <label class="label" :class="{ 'required': isRequired }" v-if="label">
+        {{ label }}
+      </label>
+      <div class="control has-icons-left has-icons-right">
+        <input type="password" name="password" class="input"
+               :class="checkClass"
+               :required="isRequired"
+               :disabled="isDisabled"
+               :placeholder="placeholder"
+               :value="modelValue"
+               @input="$emit('update:modelValue', $event.target.value)"
+               @invalid="checkIfIsInvalid($event.target)"
+               @keyup="checkOnPasswordRule($event.target)">
+        <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
+        <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
+                                                          'fas fa-exclamation-triangle': checkClass === 'is-danger',
+                                                          '': checkClass === ''}"></i></span>
+        <p class="help" :class="checkClass">
+          {{ checkMsg }}
+        </p>
+      </div>
+    </div>
+    <div class="field" v-if="!isLogin">
+      <div class="control has-icons-left has-icons-right">
+        <input type="password" name="passwordConfirm" class="input"
+               :class="checkConfirmClass"
+               placeholder="비밀번호를 확인해주세요"
+               :required="isRequired"
+               v-model="confirmPassword"
+               @invalid="checkIfIsInvalid($event.target)"
+               @keyup="doConfirmPassword($event.target)">
+        <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
+        <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkConfirmClass === 'is-success',
+                                                          'fas fa-exclamation-triangle': checkConfirmClass === 'is-danger',
+                                                          '': checkConfirmClass === ''}"></i></span>
+        <p class="help" :class="checkConfirmClass">
+          {{ checkConfirmMsg }}
+        </p>
+      </div>
     </div>
   </div>
-  <div class="field" v-if="!isLogin">
-    <div class="control has-icons-left has-icons-right">
-      <input type="password" name="passwordConfirm" class="input"
-             :class="checkConfirmClass"
-             placeholder="비밀번호를 확인해주세요"
-             :required="isRequired"
-             v-model="confirmPassword"
-             @invalid="checkIfIsInvalid($event.target)"
-             @keyup="doConfirmPassword($event.target)">
-      <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
-      <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkConfirmClass === 'is-success',
-                                                        'fas fa-exclamation-triangle': checkConfirmClass === 'is-danger',
-                                                        '': checkConfirmClass === ''}"></i></span>
-      <p class="help" :class="checkConfirmClass">
-        {{ checkConfirmMsg }}
-      </p>
+  <div class="field" v-if="showInline">
+    <div class="columns">
+      <div class="column">
+        <div class="field">
+          <label class="label" :class="{ 'required': isRequired }" v-if="label">
+            {{ label }}
+          </label>
+          <div class="control has-icons-left has-icons-right">
+            <input type="password" name="password" class="input"
+                   :class="checkClass"
+                   :required="isRequired"
+                   :disabled="isDisabled"
+                   :placeholder="placeholder"
+                   :value="modelValue"
+                   @input="$emit('update:modelValue', $event.target.value)"
+                   @invalid="checkIfIsInvalid($event.target)"
+                   @keyup="checkOnPasswordRule($event.target)">
+            <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
+            <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
+                                                              'fas fa-exclamation-triangle': checkClass === 'is-danger',
+                                                              '': checkClass === ''}"></i></span>
+            <p class="help" :class="checkClass">
+              {{ checkMsg }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field" v-if="!isLogin">
+          <label class="label required">
+            {{ '비밀번호확인' }}
+          </label>
+          <div class="control has-icons-left has-icons-right">
+            <input type="password" name="passwordConfirm" class="input"
+                   :class="checkConfirmClass"
+                   placeholder="비밀번호를 확인해주세요"
+                   :required="isRequired"
+                   v-model="confirmPassword"
+                   @invalid="checkIfIsInvalid($event.target)"
+                   @keyup="doConfirmPassword($event.target)">
+            <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
+            <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkConfirmClass === 'is-success',
+                                                              'fas fa-exclamation-triangle': checkConfirmClass === 'is-danger',
+                                                              '': checkConfirmClass === ''}"></i></span>
+            <p class="help" :class="checkConfirmClass">
+              {{ checkConfirmMsg }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -55,6 +109,7 @@ export default defineComponent({
     isRequired: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
     isLogin: { type: Boolean, default: true },
+    showInline: { type: Boolean, default: false },
     modelValue: { type: String, default: "" }
   },
   setup(props) {

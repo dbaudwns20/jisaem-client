@@ -29,11 +29,13 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <router-link :to="profilePath" tag="a" class="button is-info">
-                <strong>내정보</strong>
+              <router-link :to="profilePath" tag="a" class="button is-info is-light has-tooltip-arrow has-tooltip-bottom"
+                           data-tooltip="내정보">
+                <span class="icon"><i class="fa-regular fa-address-card"></i></span>
               </router-link>
-              <a class="button is-primary" @click="signOut">
-                <strong>로그아웃</strong>
+              <a class="button is-info is-light has-tooltip-arrow has-tooltip-bottom" @click="signOut"
+                 data-tooltip="로그아웃">
+                <span class="icon"><i class="fa-solid fa-power-off"></i></span>
               </a>
             </div>
           </div>

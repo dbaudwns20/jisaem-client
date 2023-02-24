@@ -282,3 +282,39 @@ export namespace ResponseUsernameDuplicationCheck {
   }
 }
 
+export class RequestParentUsernameDuplicationCheck extends jspb.Message {
+  getUsername(): string;
+  setUsername(value: string): RequestParentUsernameDuplicationCheck;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestParentUsernameDuplicationCheck.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestParentUsernameDuplicationCheck): RequestParentUsernameDuplicationCheck.AsObject;
+  static serializeBinaryToWriter(message: RequestParentUsernameDuplicationCheck, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestParentUsernameDuplicationCheck;
+  static deserializeBinaryFromReader(message: RequestParentUsernameDuplicationCheck, reader: jspb.BinaryReader): RequestParentUsernameDuplicationCheck;
+}
+
+export namespace RequestParentUsernameDuplicationCheck {
+  export type AsObject = {
+    username: string,
+  }
+}
+
+export class ResponseParentUsernameDuplicationCheck extends jspb.Message {
+  getExist(): boolean;
+  setExist(value: boolean): ResponseParentUsernameDuplicationCheck;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseParentUsernameDuplicationCheck.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseParentUsernameDuplicationCheck): ResponseParentUsernameDuplicationCheck.AsObject;
+  static serializeBinaryToWriter(message: ResponseParentUsernameDuplicationCheck, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseParentUsernameDuplicationCheck;
+  static deserializeBinaryFromReader(message: ResponseParentUsernameDuplicationCheck, reader: jspb.BinaryReader): ResponseParentUsernameDuplicationCheck;
+}
+
+export namespace ResponseParentUsernameDuplicationCheck {
+  export type AsObject = {
+    exist: boolean,
+  }
+}
+

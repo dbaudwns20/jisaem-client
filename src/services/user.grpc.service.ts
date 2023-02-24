@@ -1,27 +1,31 @@
-import { UserServiceClient } from "@/protos/user/User_serviceServiceClientPb";
+import {UserServiceClient} from "@/protos/user/User_serviceServiceClientPb"
 import {
+  RequestManagerCreate,
   RequestParentCreate,
   RequestStudentCreate,
   RequestTeacherCreate,
-  RequestUserGet,
-  RequestUserListGet
-} from "@/protos/user/user_communication_pb";
-import {bindUserToProto, User} from "@/models/user/user"
-import { Pagination, bindPaginationToProto } from "@/models/util/util"
-import { AuthLevelToProto } from "@/models/enum/auth.level"
+  RequestUserDelete,
+  RequestUserGet, RequestUserLabelUpdate,
+  RequestUserListGet, RequestUserUpdate
+} from "@/protos/user/user_communication_pb"
+import { bindUserToProto, User } from "@/models/user/user"
+import { bindPaginationToProto, Pagination } from "@/models/util/util"
+import { bindParentInfoToProto, ParentInfo } from "@/models/user/parent.info"
+import { AuthLevel, AuthLevelToProto } from "@/models/auth/auth.level"
 
 import grpcService from '@/services/grpc.service'
-import utils from "@/utils/utils"
-import {bindParentInfoToProto, ParentInfo} from "@/models/user/parent.info";
+import {getRequestProfileUpdate, getRequestUserUpdate, UpdateUser} from "@/models/user/update.user";
+import {Label} from "@/models/label/label";
 
 const _client: UserServiceClient = new UserServiceClient(grpcService.GRPC_HOST)
 
 export default {
-  async getUserList(labelIdList: string[], pagination: Pagination) {
+
+  async getUserList(labelIdList: string[], authLevel: AuthLevel ,pagination: Pagination) {
     const req = new RequestUserListGet()
     // req.setUserLabelIdsList(labelIdList)
     req.setPagination(bindPaginationToProto(pagination))
-    req.setAuthLevel(AuthLevelToProto(0))
+    req.setAuthLevel(AuthLevelToProto(authLevel))
     return await new Promise(((resolve, reject) => {
       _client.userListGet(req, grpcService.setToken(), async (err, res) => {
         if (err) {
@@ -53,7 +57,7 @@ export default {
     const req = new RequestTeacherCreate()
     req.setUser(bindUserToProto(user))
     return await new Promise(((resolve, reject) => {
-      _client.studentCreate(req, grpcService.setToken(), async (err, res) => {
+      _client.teacherCreate(req, grpcService.setToken(), async (err, res) => {
         if (err) {
           grpcService.handlingError(err)
           reject(err)
@@ -64,8 +68,28 @@ export default {
     }))
   },
 
-  async createUser(user: User) {
-    return await this._createStudent(user)
+  async _createManager(user: User) {
+    const req = new RequestManagerCreate()
+    req.setUser(bindUserToProto(user))
+    return await new Promise(((resolve, reject) => {
+      _client.managerCreate(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res!)
+        }
+      })
+    }))
+  },
+
+  async createUser(user: User, authLevel: AuthLevel) {
+    if (authLevel === AuthLevel.AUTH_LEVEL_STUDENT)
+      return await this._createStudent(user)
+    else if (authLevel === AuthLevel.AUTH_LEVEL_TEACHER)
+      return await this._createTeacher(user)
+    else if (authLevel === AuthLevel.AUTH_LEVEL_MANAGER)
+      return await this._createManager(user)
   },
 
   async createParent(parentInfo: ParentInfo, studentId: string) {
@@ -94,6 +118,50 @@ export default {
           reject(err)
         } else {
           resolve(grpcService.resolveResponse(User, res.getUser()))
+        }
+      })
+    }))
+  },
+
+  async updateUser(id: string, updateUser: UpdateUser) {
+    return await new Promise(((resolve, reject) => {
+      _client.userUpdate(getRequestUserUpdate(id, updateUser), grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    }))
+  },
+
+  async deleteUser(idList: string[]) {
+    const req = new RequestUserDelete()
+    req.setIdsList(idList)
+    return await new Promise(((resolve, reject) => {
+      _client.userDelete(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    }))
+  },
+
+  async updateUserLabel(userIdList: string[], labelIdList: string[]) {
+    const req = new RequestUserLabelUpdate()
+    req.setIdsList(userIdList)
+    req.setUserLabelIdsList(labelIdList)
+    return await new Promise(((resolve, reject) => {
+      _client.userLabelUpdate(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res)
         }
       })
     }))

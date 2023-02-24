@@ -8,14 +8,14 @@ import { bindStudentInfoToProto, StudentInfo } from "@/models/user/student.info"
 import { bindParentInfoToProto, ParentInfo } from "@/models/user/parent.info"
 import { bindUserLabelListToProto, UserLabel } from "@/models/label/user.label"
 import { Model } from "@/models/model"
-import { AuthLevel, AuthLevelFromProto } from "@/models/enum/auth.level"
+import { AuthLevel, AuthLevelFromProto } from "@/models/auth/auth.level"
 
 /**
  * 사용자 Class
  */
 export class User extends Model {
   id: string
-  password: string
+  password?: string
   createdAt: Date
   updatedAt: Date
   authLevel: AuthLevel
@@ -30,7 +30,6 @@ export class User extends Model {
   constructor(proto: ProtoUser) {
     super()
     this.id = proto.getId()
-    this.password = proto.getPassword()
     this.createdAt = proto.getCreatedAt()!.toDate() as Date
     this.updatedAt = proto.getUpdatedAt()!.toDate() as Date
     this.authLevel = AuthLevelFromProto(proto.getAuthLevel())
@@ -47,7 +46,7 @@ export class User extends Model {
 export function bindUserToProto(user: User): ProtoUser {
   const protoUser: ProtoUser = new ProtoUser()
   protoUser.setUsername(user.username)
-  protoUser.setPassword(user.password)
+  protoUser.setPassword(user.password!)
   protoUser.setName(user.name)
   protoUser.setEmail(user.email)
   protoUser.setPhone(user.phone)
@@ -55,4 +54,17 @@ export function bindUserToProto(user: User): ProtoUser {
   protoUser.setStudentInfo(bindStudentInfoToProto(user.studentInfo!))
   protoUser.setParentInfo(bindParentInfoToProto(user.parentInfo!))
   return protoUser
+}
+
+export function bindUserInstance(data: any): User {
+  return {
+    username: data.username,
+    password: data.password,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    userLabelList: data.userLabelList,
+    studentInfo: data.studentInfo,
+    parentInfo: data.parentInfo
+  } as User
 }

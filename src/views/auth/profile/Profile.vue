@@ -8,6 +8,7 @@
         </p>
       </div>
     </section>
+    <div class="container">
     <div class="columns">
       <div class="column is-3">
         <div class="card">
@@ -61,25 +62,17 @@
               </p>
             </div>
           </div>
-          <div class="field">
-            <div class="columns">
-              <div class="column">
-                <Text :label="'자녀 이름'" icons-left="fa-solid fa-user"
-                      :is-required="true" :is-disabled="true"
-                      v-model="editData.name" />
-              </div>
-              <div class="column is-5">
-                <LabelSelect :label="'레이블'" :key="componentKey"
-                             :is-disabled="true"
-                             :label-type="labelType.LABEL_TYPE_USER"
-                             v-model="editData.userLabel" />
-              </div>
-            </div>
-          </div>
+          <Text :label="'자녀 이름'" icons-left="fa-solid fa-user"
+                :is-required="true" :is-disabled="true"
+                v-model="editData.name" />
           <Email :label="'이메일'" :is-login="false" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile" :is-disabled="true" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
+          <LabelSelect :label="'레이블'" :key="componentKey"
+                       :is-disabled="true"
+                       :label-type="labelType.LABEL_TYPE_USER"
+                       v-model="editData.userLabel" />
         </form>
         <!-- 학생 계정 폼 -->
         <form class="box" v-if="isStudent" @submit.prevent="updateProfile" novalidate>
@@ -98,27 +91,19 @@
               </p>
             </div>
           </div>
-          <div class="field">
-            <div class="columns">
-              <div class="column">
-                <Text :label="'이름'" icons-left="fa-solid fa-user"
-                      :is-required="true" :is-disabled="true"
-                      v-model="editData.name" />
-              </div>
-              <div class="column is-5">
-                <LabelSelect :label="'레이블'" :key="componentKey"
-                             :is-disabled="true"
-                             :label-type="labelType.LABEL_TYPE_USER"
-                             v-model="editData.userLabel" />
-              </div>
-            </div>
-          </div>
+          <Text :label="'이름'" icons-left="fa-solid fa-user"
+                :is-required="true" :is-disabled="true"
+                v-model="editData.name" />
           <Email :label="'이메일'" :is-login="false"
                  :key="componentKey" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
                 :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
+          <LabelSelect :label="'레이블'" :key="componentKey"
+                       :is-disabled="true"
+                       :label-type="labelType.LABEL_TYPE_USER"
+                       v-model="editData.userLabel" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -152,32 +137,25 @@
               </p>
             </div>
           </div>
-          <div class="field">
-            <div class="columns">
-              <div class="column">
-                <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
-                      :is-required="true" :placeholder="'이름을 입력해 주세요'"
-                      v-model="editData.name" />
-              </div>
-              <div class="column is-5">
-                <LabelSelect :label="'레이블'"
-                             :label-type="labelType.LABEL_TYPE_USER"
-                             v-model="editData.userLabel" />
-              </div>
-            </div>
-          </div>
+          <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
+                :is-required="true" :placeholder="'이름을 입력해 주세요'"
+                v-model="editData.name" />
           <Email :label="'이메일'" :is-login="false"
                  :key="componentKey" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
                 :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
+          <LabelSelect :label="'레이블'" :is-disabled="true"
+                       :label-type="labelType.LABEL_TYPE_USER"
+                       v-model="editData.userLabel" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
         </form>
       </div>
     </div>
+  </div>
   </div>
   <router-view @complete-function="completeFunction" />
   <AppFooter />
@@ -188,7 +166,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { User } from "@/models/user/user"
 import { getUpdateUserKeys, bindUpdateUser } from "@/models/user/update.user"
 import { ModalChangePassword, ModalChangeUsername } from "@/routers/auth.router"
-import { LabelType } from "@/models/enum/label.type"
+import { LabelType } from "@/models/label/label.type"
 
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"

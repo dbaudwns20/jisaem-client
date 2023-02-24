@@ -5,7 +5,7 @@
   </span>
 </template>
 <script setup lang="ts">
-import { defineEmits, defineProps, onMounted, ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import utils from "@/utils/utils"
 import _ from "lodash"
 
@@ -16,11 +16,11 @@ const props = defineProps({
   isDeletable: { type: Boolean, default: false },
   size: { type: String, default: 'is-medium' }
 })
+
 const label = ref()
 const data = props.params.data
 const name = ref(_.isEmpty(data.name) ? '레이블' : data.name)
 const color = ref(data.color)
-const size = props.size
 
 // 레이블 제거
 const removeTag = () => {

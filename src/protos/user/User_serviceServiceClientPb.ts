@@ -168,6 +168,49 @@ export class UserServiceClient {
     this.methodDescriptorTeacherCreate);
   }
 
+  methodDescriptorManagerCreate = new grpcWeb.MethodDescriptor(
+    '/jisaem.user.UserService/ManagerCreate',
+    grpcWeb.MethodType.UNARY,
+    user_user_communication_pb.RequestManagerCreate,
+    user_user_communication_pb.ResponseManagerCreate,
+    (request: user_user_communication_pb.RequestManagerCreate) => {
+      return request.serializeBinary();
+    },
+    user_user_communication_pb.ResponseManagerCreate.deserializeBinary
+  );
+
+  managerCreate(
+    request: user_user_communication_pb.RequestManagerCreate,
+    metadata: grpcWeb.Metadata | null): Promise<user_user_communication_pb.ResponseManagerCreate>;
+
+  managerCreate(
+    request: user_user_communication_pb.RequestManagerCreate,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: user_user_communication_pb.ResponseManagerCreate) => void): grpcWeb.ClientReadableStream<user_user_communication_pb.ResponseManagerCreate>;
+
+  managerCreate(
+    request: user_user_communication_pb.RequestManagerCreate,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: user_user_communication_pb.ResponseManagerCreate) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.user.UserService/ManagerCreate',
+        request,
+        metadata || {},
+        this.methodDescriptorManagerCreate,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.user.UserService/ManagerCreate',
+    request,
+    metadata || {},
+    this.methodDescriptorManagerCreate);
+  }
+
   methodDescriptorUserListGet = new grpcWeb.MethodDescriptor(
     '/jisaem.user.UserService/UserListGet',
     grpcWeb.MethodType.UNARY,
@@ -297,6 +340,49 @@ export class UserServiceClient {
     this.methodDescriptorUserUpdate);
   }
 
+  methodDescriptorParentUpdate = new grpcWeb.MethodDescriptor(
+    '/jisaem.user.UserService/ParentUpdate',
+    grpcWeb.MethodType.UNARY,
+    user_user_communication_pb.RequestParentUpdate,
+    user_user_communication_pb.ResponseParentUpdate,
+    (request: user_user_communication_pb.RequestParentUpdate) => {
+      return request.serializeBinary();
+    },
+    user_user_communication_pb.ResponseParentUpdate.deserializeBinary
+  );
+
+  parentUpdate(
+    request: user_user_communication_pb.RequestParentUpdate,
+    metadata: grpcWeb.Metadata | null): Promise<user_user_communication_pb.ResponseParentUpdate>;
+
+  parentUpdate(
+    request: user_user_communication_pb.RequestParentUpdate,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: user_user_communication_pb.ResponseParentUpdate) => void): grpcWeb.ClientReadableStream<user_user_communication_pb.ResponseParentUpdate>;
+
+  parentUpdate(
+    request: user_user_communication_pb.RequestParentUpdate,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: user_user_communication_pb.ResponseParentUpdate) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.user.UserService/ParentUpdate',
+        request,
+        metadata || {},
+        this.methodDescriptorParentUpdate,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.user.UserService/ParentUpdate',
+    request,
+    metadata || {},
+    this.methodDescriptorParentUpdate);
+  }
+
   methodDescriptorUserDelete = new grpcWeb.MethodDescriptor(
     '/jisaem.user.UserService/UserDelete',
     grpcWeb.MethodType.UNARY,
@@ -338,6 +424,49 @@ export class UserServiceClient {
     request,
     metadata || {},
     this.methodDescriptorUserDelete);
+  }
+
+  methodDescriptorParentDelete = new grpcWeb.MethodDescriptor(
+    '/jisaem.user.UserService/ParentDelete',
+    grpcWeb.MethodType.UNARY,
+    user_user_communication_pb.RequestParentDelete,
+    user_user_communication_pb.ResponseParentDelete,
+    (request: user_user_communication_pb.RequestParentDelete) => {
+      return request.serializeBinary();
+    },
+    user_user_communication_pb.ResponseParentDelete.deserializeBinary
+  );
+
+  parentDelete(
+    request: user_user_communication_pb.RequestParentDelete,
+    metadata: grpcWeb.Metadata | null): Promise<user_user_communication_pb.ResponseParentDelete>;
+
+  parentDelete(
+    request: user_user_communication_pb.RequestParentDelete,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: user_user_communication_pb.ResponseParentDelete) => void): grpcWeb.ClientReadableStream<user_user_communication_pb.ResponseParentDelete>;
+
+  parentDelete(
+    request: user_user_communication_pb.RequestParentDelete,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: user_user_communication_pb.ResponseParentDelete) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.user.UserService/ParentDelete',
+        request,
+        metadata || {},
+        this.methodDescriptorParentDelete,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.user.UserService/ParentDelete',
+    request,
+    metadata || {},
+    this.methodDescriptorParentDelete);
   }
 
   methodDescriptorUserLabelUpdate = new grpcWeb.MethodDescriptor(
@@ -426,47 +555,47 @@ export class UserServiceClient {
     this.methodDescriptorUserPasswordUpdate);
   }
 
-  methodDescriptorParentUpdate = new grpcWeb.MethodDescriptor(
-    '/jisaem.user.UserService/ParentUpdate',
+  methodDescriptorParentPasswordUpdate = new grpcWeb.MethodDescriptor(
+    '/jisaem.user.UserService/ParentPasswordUpdate',
     grpcWeb.MethodType.UNARY,
-    user_user_communication_pb.RequestParentUpdate,
-    user_user_communication_pb.ResponseParentUpdate,
-    (request: user_user_communication_pb.RequestParentUpdate) => {
+    user_user_communication_pb.RequestParentPasswordUpdate,
+    user_user_communication_pb.ResponseParentPasswordUpdate,
+    (request: user_user_communication_pb.RequestParentPasswordUpdate) => {
       return request.serializeBinary();
     },
-    user_user_communication_pb.ResponseParentUpdate.deserializeBinary
+    user_user_communication_pb.ResponseParentPasswordUpdate.deserializeBinary
   );
 
-  parentUpdate(
-    request: user_user_communication_pb.RequestParentUpdate,
-    metadata: grpcWeb.Metadata | null): Promise<user_user_communication_pb.ResponseParentUpdate>;
+  parentPasswordUpdate(
+    request: user_user_communication_pb.RequestParentPasswordUpdate,
+    metadata: grpcWeb.Metadata | null): Promise<user_user_communication_pb.ResponseParentPasswordUpdate>;
 
-  parentUpdate(
-    request: user_user_communication_pb.RequestParentUpdate,
+  parentPasswordUpdate(
+    request: user_user_communication_pb.RequestParentPasswordUpdate,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: user_user_communication_pb.ResponseParentUpdate) => void): grpcWeb.ClientReadableStream<user_user_communication_pb.ResponseParentUpdate>;
+               response: user_user_communication_pb.ResponseParentPasswordUpdate) => void): grpcWeb.ClientReadableStream<user_user_communication_pb.ResponseParentPasswordUpdate>;
 
-  parentUpdate(
-    request: user_user_communication_pb.RequestParentUpdate,
+  parentPasswordUpdate(
+    request: user_user_communication_pb.RequestParentPasswordUpdate,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: user_user_communication_pb.ResponseParentUpdate) => void) {
+               response: user_user_communication_pb.ResponseParentPasswordUpdate) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/jisaem.user.UserService/ParentUpdate',
+          '/jisaem.user.UserService/ParentPasswordUpdate',
         request,
         metadata || {},
-        this.methodDescriptorParentUpdate,
+        this.methodDescriptorParentPasswordUpdate,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/jisaem.user.UserService/ParentUpdate',
+      '/jisaem.user.UserService/ParentPasswordUpdate',
     request,
     metadata || {},
-    this.methodDescriptorParentUpdate);
+    this.methodDescriptorParentPasswordUpdate);
   }
 
 }

@@ -49,7 +49,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, getCurrentInstance, onMounted, reactive, ref, watch } from "vue"
-import { LabelType } from "@/models/enum/label.type"
+import { LabelType } from "@/models/label/label.type"
 import { bindLabelInstance, Label } from "@/models/label/label"
 import { bindUpdateLabel, UpdateLabel } from "@/models/label/update.label"
 
@@ -92,27 +92,6 @@ export default defineComponent({
           selectedItemList.value.push(it.data)
         })
       },
-      // 셀 클릭 시 편집 중인 상태라면 초기화
-      onCellClicked: (params: any) => {
-        selectRow(params)
-        if (params.api.getEditingCells().length === 0) {
-          params.api.stopEditing(false)
-          _.forEach(labelGrid.value.getRowData(), it => {
-            if (it.isEditing) {
-              if (!_.has(it, 'id')) {
-                const rowData = labelGrid.value.getRowData()
-                rowData.shift()
-                params.api.setRowData(rowData)
-              } else {
-                _.merge(it, it.default)
-                it.isEditing = false
-                it.selected = false
-              }
-            }
-          })
-          params.api.redrawRows()
-        }
-      },
       onGridReady: (params: any) => {
         gridApi.value = params.api
         gridColumnApi.value = params.columnApi
@@ -142,7 +121,7 @@ export default defineComponent({
       // rowData Set
       await labelGrid.value.updateRowData(res)
       // rollback 용 데이터 Set
-      await setDefault(_.cloneDeep(res), gridApi.value.gridOptionsService.gridOptions.rowData)
+      await setDefault(_.cloneDeep(res), labelGrid.value.getRowData())
     }
     // mount 사이클에서 레이블 조회
     onMounted(() => {

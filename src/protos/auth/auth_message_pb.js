@@ -854,7 +854,9 @@ proto.jisaem.auth.ParentInfo.prototype.toObject = function(opt_includeInstance) 
 proto.jisaem.auth.ParentInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     username: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    password: jspb.Message.getFieldWithDefault(msg, 2, "")
+    password: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    phone: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    active: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
   };
 
   if (includeInstance) {
@@ -899,6 +901,14 @@ proto.jisaem.auth.ParentInfo.deserializeBinaryFromReader = function(msg, reader)
       var value = /** @type {string} */ (reader.readString());
       msg.setPassword(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPhone(value);
+      break;
+    case 4:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setActive(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -942,6 +952,20 @@ proto.jisaem.auth.ParentInfo.serializeBinaryToWriter = function(message, writer)
       f
     );
   }
+  f = message.getPhone();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+  f = message.getActive();
+  if (f) {
+    writer.writeBool(
+      4,
+      f
+    );
+  }
 };
 
 
@@ -978,6 +1002,42 @@ proto.jisaem.auth.ParentInfo.prototype.getPassword = function() {
  */
 proto.jisaem.auth.ParentInfo.prototype.setPassword = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string phone = 3;
+ * @return {string}
+ */
+proto.jisaem.auth.ParentInfo.prototype.getPhone = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.jisaem.auth.ParentInfo} returns this
+ */
+proto.jisaem.auth.ParentInfo.prototype.setPhone = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional bool active = 4;
+ * @return {boolean}
+ */
+proto.jisaem.auth.ParentInfo.prototype.getActive = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.jisaem.auth.ParentInfo} returns this
+ */
+proto.jisaem.auth.ParentInfo.prototype.setActive = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 4, value);
 };
 
 

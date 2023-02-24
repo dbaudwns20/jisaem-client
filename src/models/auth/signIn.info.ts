@@ -1,4 +1,4 @@
-import { AuthLevel, AuthLevelFromProto } from "@/models/enum/auth.level"
+import { AuthLevel, AuthLevelFromProto } from "@/models/auth/auth.level"
 import { ResponseSignIn } from "@/protos/auth/auth_communication_pb"
 
 /**

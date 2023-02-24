@@ -340,5 +340,48 @@ export class AuthServiceClient {
     this.methodDescriptorUsernameDuplicationCheck);
   }
 
+  methodDescriptorParentUsernameDuplicationCheck = new grpcWeb.MethodDescriptor(
+    '/jisaem.auth.AuthService/ParentUsernameDuplicationCheck',
+    grpcWeb.MethodType.UNARY,
+    auth_auth_communication_pb.RequestParentUsernameDuplicationCheck,
+    auth_auth_communication_pb.ResponseParentUsernameDuplicationCheck,
+    (request: auth_auth_communication_pb.RequestParentUsernameDuplicationCheck) => {
+      return request.serializeBinary();
+    },
+    auth_auth_communication_pb.ResponseParentUsernameDuplicationCheck.deserializeBinary
+  );
+
+  parentUsernameDuplicationCheck(
+    request: auth_auth_communication_pb.RequestParentUsernameDuplicationCheck,
+    metadata: grpcWeb.Metadata | null): Promise<auth_auth_communication_pb.ResponseParentUsernameDuplicationCheck>;
+
+  parentUsernameDuplicationCheck(
+    request: auth_auth_communication_pb.RequestParentUsernameDuplicationCheck,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: auth_auth_communication_pb.ResponseParentUsernameDuplicationCheck) => void): grpcWeb.ClientReadableStream<auth_auth_communication_pb.ResponseParentUsernameDuplicationCheck>;
+
+  parentUsernameDuplicationCheck(
+    request: auth_auth_communication_pb.RequestParentUsernameDuplicationCheck,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: auth_auth_communication_pb.ResponseParentUsernameDuplicationCheck) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.auth.AuthService/ParentUsernameDuplicationCheck',
+        request,
+        metadata || {},
+        this.methodDescriptorParentUsernameDuplicationCheck,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.auth.AuthService/ParentUsernameDuplicationCheck',
+    request,
+    metadata || {},
+    this.methodDescriptorParentUsernameDuplicationCheck);
+  }
+
 }
 

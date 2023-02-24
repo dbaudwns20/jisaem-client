@@ -4,7 +4,7 @@ import {
   RequestSignOut, RequestUsernameDuplicationCheck, RequestUsernameUpdate
 } from '@/protos/auth/auth_communication_pb'
 import { SignInInfo, bindSingUpInfo } from '@/models/auth/signIn.info'
-import { SignInType } from "@/models/enum/signIn.type"
+import { SignInType } from "@/models/auth/signIn.type"
 import { User } from '@/models/user/user'
 import { UpdateUser, getRequestProfileUpdate } from '@/models/user/update.user'
 

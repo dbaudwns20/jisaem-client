@@ -9,42 +9,64 @@
       </div>
     </section>
     <div class="container">
+      <div class="tabs is-boxed is-fullwidth is-marginless">
+        <ul>
+          <li :class="{ 'is-active': currentAuthLabel === authLevel.AUTH_LEVEL_UNSPECIFIED }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_UNSPECIFIED)"><a><strong>전체</strong></a></li>
+          <li :class="{ 'is-active': currentAuthLabel === authLevel.AUTH_LEVEL_STUDENT }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_STUDENT)"><a><strong>학생</strong></a></li>
+          <li :class="{ 'is-active': currentAuthLabel === authLevel.AUTH_LEVEL_TEACHER }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_TEACHER)"><a><strong>선생님</strong></a></li>
+          <li :class="{ 'is-active': currentAuthLabel === authLevel.AUTH_LEVEL_MANAGER }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_MANAGER)"><a><strong>관리자</strong></a></li>
+        </ul>
+      </div>
       <div class="grid-header">
         <div class="grid-header-buttons">
           <div class="grid-header-left">
             <div class="buttons">
-              <button class="button is-small is-success" @click="addNewUser">
+              <button class="button is-small is-success has-tooltip-arrow"
+                      data-tooltip="추가"
+                      v-if="currentAuthLabel !== authLevel.AUTH_LEVEL_UNSPECIFIED" @click="addNewUser">
                 <span class="icon"><i class="fa-solid fa-plus"></i></span>
-                <span><strong>추가</strong></span>
+              </button>
+              <button class="button is-small is-success has-tooltip-arrow"
+                      data-tooltip="레이블관리"
+                      v-if="selectedItemList.length > 0" @click="manageUserLabel(null)">
+                <span class="icon"><i class="fa-solid fa-tags"></i></span>
+              </button>
+              <button class="button is-small is-danger has-tooltip-arrow"
+                      data-tooltip="삭제"
+                      v-if="selectedItemList.length > 0" @click="deleteUser">
+                <span class="icon"><i class="fa-solid fa-trash"></i></span>
               </button>
             </div>
           </div>
           <div class="grid-header-right">
             <div class="buttons">
-              <button class="button is-small has-background-grey-lighter" @click="reload">
+              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
+                      data-tooltip="새로고침"
+                      @click="reload">
                 <span class="icon"><i class="fa-solid fa-arrows-rotate"></i></span>
-                <span><strong>새로고침</strong></span>
               </button>
             </div>
           </div>
         </div>
       </div>
-      <PagingGrid ref="userGrid" :grid-options="gridOptions"
-                  @read="read" />
+      <PagingGrid ref="userGrid" :grid-options="gridOptions" @read="read" />
     </div>
   </div>
-  <router-view @complete-function="completeFunction" />
+  <router-view :auth-level="currentAuthLabel"
+               @complete-function="completeFunction" />
   <AppFooter />
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, getCurrentInstance, onMounted } from "vue"
+import { defineComponent, reactive, ref, watch, getCurrentInstance, onMounted } from "vue"
 import { bindPaginationInstance, Pagination } from "@/models/util/util"
-import { ModalCreateUser } from "@/routers/user.router"
+import { AuthLevel } from "@/models/auth/auth.level"
+import { ModalCreateParent, ModalCreateUser, ModalEditUser, ModalManageUserLabel } from "@/routers/user.router"
 
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
 import PagingGrid from "@/components/grid/PagingGrid.vue"
+import UserDetail from "@/views/user/UserDetail.vue"
 
 import userUiService from "@/services/user.ui.service"
 import userGrpcService from "@/services/user.grpc.service"
@@ -62,6 +84,8 @@ export default defineComponent({
   },
   setup() {
     const userGrid = ref()
+    const currentAuthLabel = ref(AuthLevel.AUTH_LEVEL_UNSPECIFIED)
+    const selectedItemList = ref([] as object[])
     const gridApi = ref()
     const gridColumnApi = ref()
     const gridOptions = reactive({
@@ -74,49 +98,122 @@ export default defineComponent({
       context: {
         componentParent: getCurrentInstance()!.proxy
       },
+      // row detail component
+      fullWidthCellRenderer: UserDetail,
+      // 체크박스 선택 이벤트
+      onRowSelected: (params: any) => {
+        if (params.data.isFullWidth) {
+          params.node.selected = false
+        } else {
+          const idx = _.findIndex(selectedItemList.value, {id: params.data.id})
+          if (idx === -1) {
+            selectedItemList.value.push(params.data)
+          } else {
+            selectedItemList.value.splice(idx, 1)
+          }
+        }
+      },
       onGridReady: (params: any) => {
         gridApi.value = params.api
         gridColumnApi.value = params.columnApi
       }
     })
+    // 그리드 새로고침
+    const reload = () => {
+      read(userGrid.value.getPageInfo())
+    }
     // 조회
     const read = async (pageInfo: Pagination | null = null) => {
+      // parameter set
       const id: string[] = ['lwbdkXa9Z4QgvVl9L1M1t']
       const page = bindPaginationInstance(pageInfo)
-      const res: any = await userGrpcService.getUserList(id, page)
+      const res: any = await userGrpcService.getUserList(id, currentAuthLabel.value, page)
       // rowData Set
       await userGrid.value.updateRowData(res.list)
       await userGrid.value.setPageInfo(res.pageInfo)
     }
-    const reload = () => {
-      read(userGrid.value.getPageInfo())
-    }
+    // 사용자 신규
     const addNewUser = () => {
       router.push(ModalCreateUser.path)
     }
-    // mount 사이클에서 레이블 조회
+    // 사용자 편집
+    const editUser = (id: string, authLevel: AuthLevel) => {
+      router.push({name: ModalEditUser.name, params: {id: id, authLevel: authLevel}})
+    }
+    // 사용자 삭제
+    const deleteUser = async (id: string | undefined) => {
+      let result = confirm("삭제하시겠습니까?")
+      if (result) {
+        let idList = _.map(selectedItemList.value, 'id')
+        if (!_.isUndefined(id)) {
+          idList = [id]
+        }
+        await userGrpcService.deleteUser(idList)
+        await completeFunction('삭제되었습니다')
+        selectedItemList.value = []
+      } else {
+        return
+      }
+    }
+    // 부모님정보 생성
+    const addUserParentInfo = (id: string) => {
+      router.push({name: ModalCreateParent.name, params: {id: id}})
+    }
+    // 레이블 관리
+    const manageUserLabel = (userId: string | null = null, userLabelList: any = null) => {
+      if (_.isNull(userId)) {
+        ModalManageUserLabel.props.userId = _.map(selectedItemList.value, 'id').join(",")
+        ModalManageUserLabel.props.labelList = []
+      } else {
+        ModalManageUserLabel.props.userId = userId!
+        ModalManageUserLabel.props.labelList = userLabelList
+      }
+      router.push(ModalManageUserLabel)
+    }
+    const setCurrentAuthLevel = (authLevel: AuthLevel) => {
+      currentAuthLabel.value = authLevel
+      gridApi.value.sizeColumnsToFit()
+    }
+    // 텝이 선택될 때 사용자 목록 재조회
+    watch(() => currentAuthLabel.value, () => {
+      read()
+      // 체크박스 목록 초기화
+      selectedItemList.value = []
+    })
+    // mount 사이클에서 사용자 조회
     onMounted(() => {
       read()
     })
-
     // 함수 호출 후 처리
     const completeFunction = (msg: string = '처리되었습니다', isFromModal: boolean = false) => {
       // 모달에서 호출된거라면 모달 닫기
       if (isFromModal) router.go(-1)
       // 메시지 출력
       utils.message.showSuccessToastMsg(msg)
+      // 페이지 리로드
+      read()
     }
     return {
       userGrid,
+      currentAuthLabel,
+      selectedItemList,
       gridApi,
       gridColumnApi,
       gridOptions,
+      setCurrentAuthLevel,
       read,
       reload,
       addNewUser,
-      completeFunction
+      addUserParentInfo,
+      manageUserLabel,
+      editUser,
+      deleteUser,
+      completeFunction,
+      authLevel: AuthLevel
     }
   }
 })
 </script>
-
+<style lang="sass">
+@import "~@/assets/sass/grid.sass"
+</style>

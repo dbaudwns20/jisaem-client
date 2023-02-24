@@ -154,10 +154,10 @@ export namespace ResponseLabelUpdate {
 }
 
 export class RequestLabelDelete extends jspb.Message {
-  getIdList(): Array<string>;
-  setIdList(value: Array<string>): RequestLabelDelete;
-  clearIdList(): RequestLabelDelete;
-  addId(value: string, index?: number): RequestLabelDelete;
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): RequestLabelDelete;
+  clearIdsList(): RequestLabelDelete;
+  addIds(value: string, index?: number): RequestLabelDelete;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestLabelDelete.AsObject;
@@ -169,7 +169,7 @@ export class RequestLabelDelete extends jspb.Message {
 
 export namespace RequestLabelDelete {
   export type AsObject = {
-    idList: Array<string>,
+    idsList: Array<string>,
   }
 }
 

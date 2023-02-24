@@ -10,13 +10,13 @@ import { TestScore } from "@/models/test/test.score"
 import { TestExpectedGrade } from "@/models/test/test.expected.grade"
 
 import { Model} from "@/models/model"
-import { ExposeRankType, ExposeRankTypeFromProto} from "@/models/enum/expose.rank.type"
+import { ExposeRankType, ExposeRankTypeFromProto} from "@/models/test/expose.rank.type"
 
 /**
  * 시험 Class
  */
 export class Test extends Model {
-  uid: string
+  id: string
   createdAt: Date
   updatedAt: Date
   classUid: string
@@ -38,7 +38,7 @@ export class Test extends Model {
 
   constructor(data: ProtoTest) {
     super()
-    this.uid = data.getUid()
+    this.id = data.getUid()
     this.createdAt = data.getCreatedAt()!.toDate() as Date
     this.updatedAt = data.getUpdatedAt()!.toDate() as Date
     this.classUid = data.getClassUid()
