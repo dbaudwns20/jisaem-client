@@ -3,7 +3,7 @@ import { ClassParticipant as ProtoClassParticipant } from "@/protos/class/class_
 
 import { Label } from "@/models/label/label"
 import { Model } from "@/models/model"
-import { AuthLevel, AuthLevelFromProto } from "@/models/enum/auth.level";
+import { AuthLevel, AuthLevelFromProto } from "@/models/auth/auth.level";
 
 /**
  * 수업 참여자 Class

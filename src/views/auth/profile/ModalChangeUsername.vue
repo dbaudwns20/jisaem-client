@@ -1,5 +1,5 @@
 <template>
-  <AppModal>
+  <AppModal :title="'아이디변경'">
     <template v-slot:modalContent>
       <form @submit.prevent="updateUsername($event)" novalidate>
         <Username :label="'아이디'"

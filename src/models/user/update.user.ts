@@ -1,4 +1,6 @@
 import { RequestProfileUpdate } from "@/protos/auth/auth_communication_pb"
+import { RequestUserUpdate } from "@/protos/user/user_communication_pb"
+import { bindStudentInfoToProto, StudentInfo } from "@/models/user/student.info"
 import utils from "@/utils/utils"
 
 import _ from 'lodash'
@@ -10,7 +12,8 @@ export interface UpdateUser {
   name?: string
   phone?: string
   email?: string
-  userLabelId?: string
+  userLabelId?: string,
+  studentInfo?: StudentInfo
 }
 
 /**
@@ -22,6 +25,7 @@ function bindUpdateUser(data: any): UpdateUser {
     name: data?.name,
     phone: data?.phone,
     email: data?.email,
+    studentInfo: data?.studentInfo,
     userLabelId: _.isEmpty(data?.userLabel) ? '' : data?.userLabel.id
   }
 }
@@ -32,7 +36,7 @@ function bindUpdateUser(data: any): UpdateUser {
 function getUpdateUserKeys(): string[] {
   let keys: string[] = []
   if (utils.authority.isManager())
-    keys = ['name', 'phone', 'email', 'userLabel']
+    keys = ['name', 'phone', 'email', 'userLabelId', 'studentInfo']
   else if (utils.authority.isStudent())
     keys = ['phone', 'email']
   return keys
@@ -50,4 +54,15 @@ function getRequestProfileUpdate(updateUser: UpdateUser): RequestProfileUpdate {
   return request
 }
 
-export { bindUpdateUser, getUpdateUserKeys, getRequestProfileUpdate }
+function getRequestUserUpdate(id: string, updateUser: UpdateUser): RequestUserUpdate {
+  const request = new RequestUserUpdate
+  request.setId(id)
+  request.setEmail(updateUser.email!)
+  request.setPhone(updateUser.phone!)
+  request.setName(updateUser.name!)
+  request.setStudentInfo(bindStudentInfoToProto(updateUser.studentInfo!))
+  return request
+}
+
+
+export { bindUpdateUser, getUpdateUserKeys, getRequestProfileUpdate, getRequestUserUpdate }

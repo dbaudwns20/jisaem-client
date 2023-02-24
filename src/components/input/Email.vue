@@ -55,6 +55,8 @@ export default defineComponent({
       if (_.isEmpty(value)) {
         checkMsg.value = ''
         checkClass.value = ''
+        // validity 초기화
+        target.setCustomValidity('')
         return
       }
       if (!utils.validator.checkEmail(value)) {

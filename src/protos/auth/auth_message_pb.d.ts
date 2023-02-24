@@ -105,6 +105,12 @@ export class ParentInfo extends jspb.Message {
   getPassword(): string;
   setPassword(value: string): ParentInfo;
 
+  getPhone(): string;
+  setPhone(value: string): ParentInfo;
+
+  getActive(): boolean;
+  setActive(value: boolean): ParentInfo;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ParentInfo.AsObject;
   static toObject(includeInstance: boolean, msg: ParentInfo): ParentInfo.AsObject;
@@ -117,6 +123,8 @@ export namespace ParentInfo {
   export type AsObject = {
     username: string,
     password: string,
+    phone: string,
+    active: boolean,
   }
 }
 

@@ -1,9 +1,23 @@
-import utils from "@/utils/utils";
-import LabelElement from "@/components/label/LabelElement.vue"
+import LabelElementList from "@/components/label/LabelElementList.vue"
+import utils from "@/utils/utils"
 
 export default {
   setColumns() {
     return [
+      {
+        maxWidth: 45,
+        minWidth: 45,
+        lockPosition: 'left',
+        sortable: false,
+        resizable: false,
+        cellStyle: {justifyContent: 'center', display: 'flex', alignItems: 'center'},
+        cellRenderer: (params: any) => {
+          if (!params.data.isExpanded)
+            return `<a><i class="fa-solid fa-angle-right"></i></a>`
+          else
+            return `<a><i class="fa-solid fa-angle-down"></i></a>`
+        }
+      },
       {
         maxWidth: 52,
         minWidth: 52,
@@ -26,10 +40,14 @@ export default {
         }
       },
       {
-        minWidth: 100,
+        minWidth: 180,
         headerName: "레이블",
         cellStyle: {display: 'flex', alignItems: 'center'},
-        cellRenderer: LabelElement
+        cellRenderer: LabelElementList,
+        cellRendererParams: {
+          labelClass: 'cell-label-list',
+        },
+        autoHeight: true
       },
       {
         headerName: "아이디",
@@ -47,15 +65,15 @@ export default {
         minWidth: 100
       },
       {
-        headerName: "email",
+        headerName: "이메일",
         field: "email",
-        minWidth: 120
+        minWidth: 200
       },
       {
         headerName: "생성일",
         field: "createdAt",
-        cellStyle: { textAlign: 'center' },
-        minWidth: 100,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 80,
         cellRenderer: (params: any) => {
           return utils.convertDateToString(params.data.createdAt)
         }

@@ -1253,7 +1253,7 @@ proto.jisaem.label.RequestLabelDelete.prototype.toObject = function(opt_includeI
  */
 proto.jisaem.label.RequestLabelDelete.toObject = function(includeInstance, msg) {
   var f, obj = {
-    idList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f
+    idsList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -1292,7 +1292,7 @@ proto.jisaem.label.RequestLabelDelete.deserializeBinaryFromReader = function(msg
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.addId(value);
+      msg.addIds(value);
       break;
     default:
       reader.skipField();
@@ -1323,7 +1323,7 @@ proto.jisaem.label.RequestLabelDelete.prototype.serializeBinary = function() {
  */
 proto.jisaem.label.RequestLabelDelete.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getIdList();
+  f = message.getIdsList();
   if (f.length > 0) {
     writer.writeRepeatedString(
       1,
@@ -1334,10 +1334,10 @@ proto.jisaem.label.RequestLabelDelete.serializeBinaryToWriter = function(message
 
 
 /**
- * repeated string id = 1;
+ * repeated string ids = 1;
  * @return {!Array<string>}
  */
-proto.jisaem.label.RequestLabelDelete.prototype.getIdList = function() {
+proto.jisaem.label.RequestLabelDelete.prototype.getIdsList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
 };
 
@@ -1346,7 +1346,7 @@ proto.jisaem.label.RequestLabelDelete.prototype.getIdList = function() {
  * @param {!Array<string>} value
  * @return {!proto.jisaem.label.RequestLabelDelete} returns this
  */
-proto.jisaem.label.RequestLabelDelete.prototype.setIdList = function(value) {
+proto.jisaem.label.RequestLabelDelete.prototype.setIdsList = function(value) {
   return jspb.Message.setField(this, 1, value || []);
 };
 
@@ -1356,7 +1356,7 @@ proto.jisaem.label.RequestLabelDelete.prototype.setIdList = function(value) {
  * @param {number=} opt_index
  * @return {!proto.jisaem.label.RequestLabelDelete} returns this
  */
-proto.jisaem.label.RequestLabelDelete.prototype.addId = function(value, opt_index) {
+proto.jisaem.label.RequestLabelDelete.prototype.addIds = function(value, opt_index) {
   return jspb.Message.addToRepeatedField(this, 1, value, opt_index);
 };
 
@@ -1365,8 +1365,8 @@ proto.jisaem.label.RequestLabelDelete.prototype.addId = function(value, opt_inde
  * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.label.RequestLabelDelete} returns this
  */
-proto.jisaem.label.RequestLabelDelete.prototype.clearIdList = function() {
-  return this.setIdList([]);
+proto.jisaem.label.RequestLabelDelete.prototype.clearIdsList = function() {
+  return this.setIdsList([]);
 };
 
 

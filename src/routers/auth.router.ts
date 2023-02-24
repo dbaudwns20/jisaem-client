@@ -1,4 +1,4 @@
-import { AuthLevel } from "@/models/enum/auth.level"
+import { AuthLevel } from "@/models/auth/auth.level"
 
 export const SignInNormal = {
   path: '/sign-in',

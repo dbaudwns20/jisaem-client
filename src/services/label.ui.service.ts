@@ -2,8 +2,7 @@ import CellButtons from "@/components/grid/CellButtons.vue"
 import CellTextEditor from "@/components/grid/CellTextEditor.vue"
 import LabelColorEditor from "@/components/label/LabelColorEditor.vue"
 import LabelElement from "@/components/label/LabelElement.vue"
-import { LabelTypeToString } from "@/models/enum/label.type"
-
+import { LabelTypeToString } from "@/models/label/label.type"
 
 export default {
   setColumns() {
@@ -61,8 +60,8 @@ export default {
         cellEditor: CellTextEditor
       },
       {
-        maxWidth: 150,
-        minWidth: 150,
+        maxWidth: 120,
+        minWidth: 120,
         lockPosition: 'right',
         sortable: false,
         resizable: false,

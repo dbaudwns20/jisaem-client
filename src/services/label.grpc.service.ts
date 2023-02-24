@@ -5,7 +5,7 @@ import {
   RequestLabelDelete,
   RequestLabelListGet
 } from "@/protos/label/label_communication_pb"
-import { LabelType } from "@/models/enum/label.type"
+import { LabelType } from "@/models/label/label.type"
 import { getRequestLabelUpdate, UpdateLabel } from "@/models/label/update.label"
 import grpcService from '@/services/grpc.service'
 
@@ -58,7 +58,7 @@ export default {
 
   async deleteLabels(idList: string[]) {
     const req = new RequestLabelDelete()
-    req.setIdList(idList)
+    req.setIdsList(idList)
     return await new Promise(((resolve, reject) => {
       _client.labelDelete(req, grpcService.setToken(), async (err, res) => {
         if (err) {

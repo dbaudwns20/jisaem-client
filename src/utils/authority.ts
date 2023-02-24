@@ -1,4 +1,4 @@
-import { AuthLevel, AuthLevelToString } from "@/models/enum/auth.level"
+import { AuthLevel, AuthLevelToString } from "@/models/auth/auth.level"
 
 import store from "@/stores/store"
 import _ from 'lodash'

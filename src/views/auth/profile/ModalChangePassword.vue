@@ -1,5 +1,5 @@
 <template>
-  <AppModal>
+  <AppModal :title="'비밀번호변경'">
     <template v-slot:modalContent>
       <form @submit.prevent="updatePassword($event)" novalidate>
         <Password :label="'기존비밀번호'"

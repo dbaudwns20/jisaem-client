@@ -2,7 +2,7 @@ import {
   LabelType,
   Label as ProtoLabel
 } from "@/protos/label/label_message_pb"
-import { LabelTypeFromProto } from "@/models/enum/label.type"
+import { LabelTypeFromProto } from "@/models/label/label.type"
 
 /**
  * 레이블 Class
@@ -15,6 +15,8 @@ export class Label {
   name: string
   description: string
   color: string
+  selected?: boolean
+  focused?: boolean
 
   constructor(data: ProtoLabel) {
     this.id = data.getId()

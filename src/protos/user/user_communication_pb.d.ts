@@ -110,6 +110,40 @@ export namespace ResponseTeacherCreate {
   }
 }
 
+export class RequestManagerCreate extends jspb.Message {
+  getUser(): auth_auth_message_pb.User | undefined;
+  setUser(value?: auth_auth_message_pb.User): RequestManagerCreate;
+  hasUser(): boolean;
+  clearUser(): RequestManagerCreate;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestManagerCreate.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestManagerCreate): RequestManagerCreate.AsObject;
+  static serializeBinaryToWriter(message: RequestManagerCreate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestManagerCreate;
+  static deserializeBinaryFromReader(message: RequestManagerCreate, reader: jspb.BinaryReader): RequestManagerCreate;
+}
+
+export namespace RequestManagerCreate {
+  export type AsObject = {
+    user?: auth_auth_message_pb.User.AsObject,
+  }
+}
+
+export class ResponseManagerCreate extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseManagerCreate.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseManagerCreate): ResponseManagerCreate.AsObject;
+  static serializeBinaryToWriter(message: ResponseManagerCreate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseManagerCreate;
+  static deserializeBinaryFromReader(message: ResponseManagerCreate, reader: jspb.BinaryReader): ResponseManagerCreate;
+}
+
+export namespace ResponseManagerCreate {
+  export type AsObject = {
+  }
+}
+
 export class RequestUserListGet extends jspb.Message {
   getAuthLevel(): auth_auth_message_pb.Level;
   setAuthLevel(value: auth_auth_message_pb.Level): RequestUserListGet;
@@ -291,11 +325,65 @@ export namespace ResponseUserUpdate {
   }
 }
 
+export class RequestParentUpdate extends jspb.Message {
+  getId(): string;
+  setId(value: string): RequestParentUpdate;
+
+  getUsername(): string;
+  setUsername(value: string): RequestParentUpdate;
+  hasUsername(): boolean;
+  clearUsername(): RequestParentUpdate;
+
+  getPhone(): string;
+  setPhone(value: string): RequestParentUpdate;
+  hasPhone(): boolean;
+  clearPhone(): RequestParentUpdate;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestParentUpdate.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestParentUpdate): RequestParentUpdate.AsObject;
+  static serializeBinaryToWriter(message: RequestParentUpdate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestParentUpdate;
+  static deserializeBinaryFromReader(message: RequestParentUpdate, reader: jspb.BinaryReader): RequestParentUpdate;
+}
+
+export namespace RequestParentUpdate {
+  export type AsObject = {
+    id: string,
+    username?: string,
+    phone?: string,
+  }
+
+  export enum UsernameCase { 
+    _USERNAME_NOT_SET = 0,
+    USERNAME = 2,
+  }
+
+  export enum PhoneCase { 
+    _PHONE_NOT_SET = 0,
+    PHONE = 3,
+  }
+}
+
+export class ResponseParentUpdate extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseParentUpdate.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseParentUpdate): ResponseParentUpdate.AsObject;
+  static serializeBinaryToWriter(message: ResponseParentUpdate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseParentUpdate;
+  static deserializeBinaryFromReader(message: ResponseParentUpdate, reader: jspb.BinaryReader): ResponseParentUpdate;
+}
+
+export namespace ResponseParentUpdate {
+  export type AsObject = {
+  }
+}
+
 export class RequestUserDelete extends jspb.Message {
-  getIdList(): Array<string>;
-  setIdList(value: Array<string>): RequestUserDelete;
-  clearIdList(): RequestUserDelete;
-  addId(value: string, index?: number): RequestUserDelete;
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): RequestUserDelete;
+  clearIdsList(): RequestUserDelete;
+  addIds(value: string, index?: number): RequestUserDelete;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestUserDelete.AsObject;
@@ -307,7 +395,7 @@ export class RequestUserDelete extends jspb.Message {
 
 export namespace RequestUserDelete {
   export type AsObject = {
-    idList: Array<string>,
+    idsList: Array<string>,
   }
 }
 
@@ -325,14 +413,74 @@ export namespace ResponseUserDelete {
   }
 }
 
+export class RequestParentDelete extends jspb.Message {
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): RequestParentDelete;
+  clearIdsList(): RequestParentDelete;
+  addIds(value: string, index?: number): RequestParentDelete;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestParentDelete.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestParentDelete): RequestParentDelete.AsObject;
+  static serializeBinaryToWriter(message: RequestParentDelete, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestParentDelete;
+  static deserializeBinaryFromReader(message: RequestParentDelete, reader: jspb.BinaryReader): RequestParentDelete;
+}
+
+export namespace RequestParentDelete {
+  export type AsObject = {
+    idsList: Array<string>,
+  }
+}
+
+export class ResponseParentDelete extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseParentDelete.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseParentDelete): ResponseParentDelete.AsObject;
+  static serializeBinaryToWriter(message: ResponseParentDelete, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseParentDelete;
+  static deserializeBinaryFromReader(message: ResponseParentDelete, reader: jspb.BinaryReader): ResponseParentDelete;
+}
+
+export namespace ResponseParentDelete {
+  export type AsObject = {
+  }
+}
+
+export class RequestUserLabelAttach extends jspb.Message {
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): RequestUserLabelAttach;
+  clearIdsList(): RequestUserLabelAttach;
+  addIds(value: string, index?: number): RequestUserLabelAttach;
+
+  getUserLabelId(): string;
+  setUserLabelId(value: string): RequestUserLabelAttach;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestUserLabelAttach.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestUserLabelAttach): RequestUserLabelAttach.AsObject;
+  static serializeBinaryToWriter(message: RequestUserLabelAttach, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestUserLabelAttach;
+  static deserializeBinaryFromReader(message: RequestUserLabelAttach, reader: jspb.BinaryReader): RequestUserLabelAttach;
+}
+
+export namespace RequestUserLabelAttach {
+  export type AsObject = {
+    idsList: Array<string>,
+    userLabelId: string,
+  }
+}
+
 export class RequestUserLabelUpdate extends jspb.Message {
   getIdsList(): Array<string>;
   setIdsList(value: Array<string>): RequestUserLabelUpdate;
   clearIdsList(): RequestUserLabelUpdate;
   addIds(value: string, index?: number): RequestUserLabelUpdate;
 
-  getUserLabelId(): string;
-  setUserLabelId(value: string): RequestUserLabelUpdate;
+  getUserLabelIdsList(): Array<string>;
+  setUserLabelIdsList(value: Array<string>): RequestUserLabelUpdate;
+  clearUserLabelIdsList(): RequestUserLabelUpdate;
+  addUserLabelIds(value: string, index?: number): RequestUserLabelUpdate;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestUserLabelUpdate.AsObject;
@@ -345,7 +493,7 @@ export class RequestUserLabelUpdate extends jspb.Message {
 export namespace RequestUserLabelUpdate {
   export type AsObject = {
     idsList: Array<string>,
-    userLabelId: string,
+    userLabelIdsList: Array<string>,
   }
 }
 
@@ -363,11 +511,63 @@ export namespace ResponseUserLabelUpdate {
   }
 }
 
+export class ResponseUserLabelAttach extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseUserLabelAttach.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseUserLabelAttach): ResponseUserLabelAttach.AsObject;
+  static serializeBinaryToWriter(message: ResponseUserLabelAttach, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseUserLabelAttach;
+  static deserializeBinaryFromReader(message: ResponseUserLabelAttach, reader: jspb.BinaryReader): ResponseUserLabelAttach;
+}
+
+export namespace ResponseUserLabelAttach {
+  export type AsObject = {
+  }
+}
+
+export class RequestUserLabelDetach extends jspb.Message {
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): RequestUserLabelDetach;
+  clearIdsList(): RequestUserLabelDetach;
+  addIds(value: string, index?: number): RequestUserLabelDetach;
+
+  getUserLabelId(): string;
+  setUserLabelId(value: string): RequestUserLabelDetach;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestUserLabelDetach.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestUserLabelDetach): RequestUserLabelDetach.AsObject;
+  static serializeBinaryToWriter(message: RequestUserLabelDetach, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestUserLabelDetach;
+  static deserializeBinaryFromReader(message: RequestUserLabelDetach, reader: jspb.BinaryReader): RequestUserLabelDetach;
+}
+
+export namespace RequestUserLabelDetach {
+  export type AsObject = {
+    idsList: Array<string>,
+    userLabelId: string,
+  }
+}
+
+export class ResponseUserLabelDetach extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseUserLabelDetach.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseUserLabelDetach): ResponseUserLabelDetach.AsObject;
+  static serializeBinaryToWriter(message: ResponseUserLabelDetach, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseUserLabelDetach;
+  static deserializeBinaryFromReader(message: ResponseUserLabelDetach, reader: jspb.BinaryReader): ResponseUserLabelDetach;
+}
+
+export namespace ResponseUserLabelDetach {
+  export type AsObject = {
+  }
+}
+
 export class RequestUserPasswordUpdate extends jspb.Message {
-  getIdList(): Array<string>;
-  setIdList(value: Array<string>): RequestUserPasswordUpdate;
-  clearIdList(): RequestUserPasswordUpdate;
-  addId(value: string, index?: number): RequestUserPasswordUpdate;
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): RequestUserPasswordUpdate;
+  clearIdsList(): RequestUserPasswordUpdate;
+  addIds(value: string, index?: number): RequestUserPasswordUpdate;
 
   getNewPassword(): string;
   setNewPassword(value: string): RequestUserPasswordUpdate;
@@ -382,7 +582,7 @@ export class RequestUserPasswordUpdate extends jspb.Message {
 
 export namespace RequestUserPasswordUpdate {
   export type AsObject = {
-    idList: Array<string>,
+    idsList: Array<string>,
     newPassword: string,
   }
 }
@@ -401,40 +601,40 @@ export namespace ResponseUserPasswordUpdate {
   }
 }
 
-export class RequestParentUpdate extends jspb.Message {
-  getIdList(): Array<string>;
-  setIdList(value: Array<string>): RequestParentUpdate;
-  clearIdList(): RequestParentUpdate;
-  addId(value: string, index?: number): RequestParentUpdate;
+export class RequestParentPasswordUpdate extends jspb.Message {
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): RequestParentPasswordUpdate;
+  clearIdsList(): RequestParentPasswordUpdate;
+  addIds(value: string, index?: number): RequestParentPasswordUpdate;
 
   getNewPassword(): string;
-  setNewPassword(value: string): RequestParentUpdate;
+  setNewPassword(value: string): RequestParentPasswordUpdate;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): RequestParentUpdate.AsObject;
-  static toObject(includeInstance: boolean, msg: RequestParentUpdate): RequestParentUpdate.AsObject;
-  static serializeBinaryToWriter(message: RequestParentUpdate, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): RequestParentUpdate;
-  static deserializeBinaryFromReader(message: RequestParentUpdate, reader: jspb.BinaryReader): RequestParentUpdate;
+  toObject(includeInstance?: boolean): RequestParentPasswordUpdate.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestParentPasswordUpdate): RequestParentPasswordUpdate.AsObject;
+  static serializeBinaryToWriter(message: RequestParentPasswordUpdate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestParentPasswordUpdate;
+  static deserializeBinaryFromReader(message: RequestParentPasswordUpdate, reader: jspb.BinaryReader): RequestParentPasswordUpdate;
 }
 
-export namespace RequestParentUpdate {
+export namespace RequestParentPasswordUpdate {
   export type AsObject = {
-    idList: Array<string>,
+    idsList: Array<string>,
     newPassword: string,
   }
 }
 
-export class ResponseParentUpdate extends jspb.Message {
+export class ResponseParentPasswordUpdate extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ResponseParentUpdate.AsObject;
-  static toObject(includeInstance: boolean, msg: ResponseParentUpdate): ResponseParentUpdate.AsObject;
-  static serializeBinaryToWriter(message: ResponseParentUpdate, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ResponseParentUpdate;
-  static deserializeBinaryFromReader(message: ResponseParentUpdate, reader: jspb.BinaryReader): ResponseParentUpdate;
+  toObject(includeInstance?: boolean): ResponseParentPasswordUpdate.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseParentPasswordUpdate): ResponseParentPasswordUpdate.AsObject;
+  static serializeBinaryToWriter(message: ResponseParentPasswordUpdate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseParentPasswordUpdate;
+  static deserializeBinaryFromReader(message: ResponseParentPasswordUpdate, reader: jspb.BinaryReader): ResponseParentPasswordUpdate;
 }
 
-export namespace ResponseParentUpdate {
+export namespace ResponseParentPasswordUpdate {
   export type AsObject = {
   }
 }
