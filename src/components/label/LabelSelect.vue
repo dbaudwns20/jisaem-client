@@ -12,15 +12,12 @@
             <LabelElement v-for="(label, key) in selectedLabels" :key=key
                           :params="{data: {name: label.name, color: label.color, id: label.id}}"
                           :is-deletable="true"
-                          @remove-tag="removeTag"/>
+                          @remove-label="removeLabel"/>
             <input ref="labelInput" type="text" class="input labels-input"
                    :disabled="isDisabled"
                    :required="isRequired"
                    :placeholder="showPlaceholder"
-                   @click="click($event)"
-                   @blur="blur($event)"
-                   @keydown="keydown($event)"
-                   @invalid="checkIfIsInvalid" >
+                   @keydown="keydown($event)" >
           </div>
           <span class="icon is-small is-left" :style="[ isActive ? 'color: hsl(0, 0%, 29%)' : '' ]">
             <i class="fa-solid fa-tags"></i>
@@ -30,9 +27,9 @@
       <div class="dropdown-menu" id="dropdown-menu" role="menu">
         <div ref="dropdownContent" class="dropdown-content">
           <a class="dropdown-item" :class="[{'selected': label.selected}, {'focused': label.focused}]"
-             v-for="(label, key) in labelList" :key=key
+             v-for="(label, idx) in labelList" :key=idx
              @click="setLabel(label)">
-            <span class="icon" v-if="label.selected"><i class="fa-regular fa-circle-check"></i></span>
+            <span class="label-checked-icon" v-if="label.selected"><i class="fa-regular fa-circle-check"></i></span>
             <LabelElement :params="{data: {name: label.name, color: label.color, id: label.id}}" :size="'is-small'" />
             <span class="label-description" v-if="label.description"> - {{ label.description }}</span>
           </a>
@@ -46,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, watch } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 import { Label } from "@/models/label/label"
 import LabelElement from '@/components/label/LabelElement.vue'
 import labelGrpcService from "@/services/label.grpc.service"
@@ -69,23 +66,30 @@ export default defineComponent({
     LabelElement
   },
   setup(props, { emit }) {
+    // valid 표시용 변수
     const checkClass = ref('')
     const checkMsg = ref('')
-    const componentKey = ref(false)
+    // ref
     const labelSelect = ref()
     const labelInput = ref()
-    const selectedLabels = ref([] as any[])
     const dropdownContent = ref()
+    // 레이블 목록 보이기 여부
     const isActive = ref(false)
+    // 컴포넌트 키
+    const componentKey = ref(false)
+    // gRPC 레이블 목록
     const labelList = ref([] as Label[])
+    // 선택한 레이블 목록
+    const selectedLabels = ref([] as Label[])
+    // placeholder
     const showPlaceholder = ref(props.placeholder)
+
     // 컴포넌트 reload
     const reloadComponent = () => {
       componentKey.value = !componentKey.value
     }
     // props 값을 반영
     const setLabelList = () => {
-      if (!_.isEmpty(selectedLabels.value) || _.isNull(props.modelValue)) return
       _.forEach(props.modelValue, (it: any) => {
         selectedLabels.value.push(it)
         for (const label of labelList.value) {
@@ -96,81 +100,70 @@ export default defineComponent({
         }
       })
       setPlaceholder()
-      reloadComponent()
     }
-    // 레이블목록 조회
+    // gRPC 레이블 목록 조회
     const getLabelList = async () => {
       labelList.value = await labelGrpcService.getLabels(props.labelType!)
-      await focus()
+      await setLabelInputFocus()
       if (props.modelValue.length > 0) {
-        setLabelList()
+        await setLabelList()
       }
     }
-    // 레이블 선택, 복수 선택 가능. 같은 레이블을 선택하면 취소
+    // 레이블 선택, 복수 선택 가능. 같은 레이블을 선택하면 제거
     const setLabel = (label: Label) => {
       const idx = _.findIndex(selectedLabels.value, {id: label.id})
       if (idx !== -1) {
+        // 같은 레이블이라면 제거
         selectedLabels.value.splice(idx, 1)
         label.selected = false
       } else {
+        // 레이블 추가
         selectedLabels.value.push(label)
         label.selected = true
       }
       emit('update:modelValue', selectedLabels.value)
-      setPlaceholder()
       reloadComponent()
-      const labelIdx = _.findIndex(labelList.value, {id: label.id})
-      _.forEach(labelList.value, it => {it.focused = false})
-      labelList.value[labelIdx].focused = true
-      focus()
+      setPlaceholder()
+      setLabelInputFocus()
+      setLabelFocus(label.id)
     }
     // 레이블 삭제
-    const removeTag = (id: string) => {
-      const selectedIdx = _.findIndex(selectedLabels.value, {id: id})
-      selectedLabels.value.splice(selectedIdx, 1)
-      const labelIdx = _.findIndex(labelList.value, {id: id})
-      labelList.value[labelIdx].selected = false
+    const removeLabel = (id: string) => {
+      labelList.value[_.findIndex(labelList.value, {id: id})].selected = false
+      selectedLabels.value.splice(_.findIndex(selectedLabels.value, {id: id}), 1)
       emit('update:modelValue', selectedLabels.value)
-      setPlaceholder()
       reloadComponent()
+      setPlaceholder()
     }
     // 레이블이 선택되면 placeholder 감추기
     const setPlaceholder = () => {
       showPlaceholder.value = selectedLabels.value.length > 0 ? '' : props.placeholder
     }
     // labelInput focus
-    const focus = () => {
+    const setLabelInputFocus = () => {
       setTimeout(() => {
         checkClass.value = 'is-focused'
         labelInput.value.focus()
-      }, 0)
+      })
     }
-    const focusout = () => {
-
-    }
-    // 클릭 이벤트
-    const click = (event: any = null) => {
-      focus()
-      if (isActive.value) {
-        isActive.value = false
-        _.forEach(labelList.value, it => {it.focused = false})
-      } else {
-        isActive.value = true
-        labelList.value[0].focused = true
+    // LabelInput 클릭 시
+    const onLabelInputClick = () => {
+      setLabelInputFocus()
+      isActive.value = !isActive.value
+      if (_.findIndex(labelList.value, {focused: true}) === -1) {
+        // 리스트 목록이 닫혀있다면 열고 첫번째 목록에 focus
+        setLabelFocus(labelList.value[0].id)
       }
     }
     // blur 시 처리
     const blur = (event: any) => {
-      if (props.isRequired && selectedLabels.value.length === 0) {
-        isActive.value = false
-        checkClass.value = 'is-danger'
-        checkMsg.value = '레이블을 선택해주세요'
-        event.target.setCustomValidity('label invalid')
-      } else {
-        checkClass.value = ''
-        checkMsg.value = ''
-        // isActive.value = false
-      }
+      isActive.value = false
+    }
+    // 레이블 focus
+    const setLabelFocus = (id: string | null = null)  => {
+      if (_.isEmpty(labelList.value)) return
+      if (_.isNull(id)) _.forEach(labelList.value, it => {it.focused = false})
+      else _.forEach(labelList.value, it => {it.focused = it.id === id})
     }
     // 키보드 입력 이벤트
     const keydown = (event: any) => {
@@ -179,38 +172,39 @@ export default defineComponent({
         case 'ArrowDown':
           if (focusedIdx === -1) {
             isActive.value = true
-            labelList.value[0].focused = true
+            setLabelFocus(labelList.value[0].id)
           } else if (focusedIdx !== labelList.value.length - 1) {
+            if (!isActive.value) isActive.value = true
             labelList.value[focusedIdx].focused = false
             labelList.value[focusedIdx + 1].focused = true
+            moveScroll(event.code)
           }
-          moveScroll(event.code)
           break
         case 'ArrowUp':
           if (focusedIdx < 1) {
-            if (isActive.value) {
-              isActive.value = false
-              _.forEach(labelList.value, it => {
-                it.focused = false
-              })
-            }
+            isActive.value = false
+            setLabelFocus()
           } else {
+            if (!isActive.value) isActive.value = true
             labelList.value[focusedIdx].focused = false
             labelList.value[focusedIdx - 1].focused = true
+            moveScroll(event.code)
           }
-          moveScroll(event.code)
           break
         case 'Enter':
-          event.preventDefault()
-          setLabel(labelList.value[focusedIdx])
-          isActive.value = true
+          if (isActive.value) {
+            setLabel(labelList.value[focusedIdx])
+          } else {
+            event.preventDefault()
+          }
           break
         case 'Backspace':
           if (selectedLabels.value.length === 0) {
-            isActive.value = false
+            setLabelInputFocus()
             return
+          } else {
+            removeLabel(selectedLabels.value[selectedLabels.value.length - 1].id)
           }
-          removeTag(selectedLabels.value[selectedLabels.value.length - 1].id)
           break
         case 'Escape':
           isActive.value = false
@@ -218,10 +212,10 @@ export default defineComponent({
         default:
           event.preventDefault()
       }
-      focus()
+      setLabelInputFocus()
     }
     // 키보드 위/이래 이동 시 스크롤 이동
-    const moveScroll = (code: string) => {
+    const moveScroll = (code: string | null = null) => {
       setTimeout(() => {
         const offsetHeight: number = dropdownContent.value.offsetHeight
         const dropdownItem: any = document.getElementsByClassName('dropdown-item focused')[0]
@@ -229,32 +223,47 @@ export default defineComponent({
         if (code === 'ArrowDown') {
           if (offsetHeight <= dropdownItem.offsetTop)
             dropdownContent.value.scrollTop += dropdownItem.offsetHeight
-        } else {
+        } else if (code === 'ArrowUp') {
           if (dropdownContent.value.scrollTop >= dropdownItem.offsetTop)
             dropdownContent.value.scrollTop -= dropdownItem.offsetHeight
         }
       }, 0)
     }
-
-    const checkIfIsInvalid = () => {
-      checkClass.value = 'is-danger'
-      if (selectedLabels.value.length === 0)
-        checkMsg.value = '레이블을 선택해주세요'
+    // dropdown item 외 클릭 시 리스트 목록 숨기기 이벤트
+    const keepActiveClasses: string[] = ['dropdown-item', 'label-checked-icon', 'label-description', 'tag is-rounded', 'fa-regular fa-circle-check']
+    const clickListener: EventListener = (event: any) => {
+      const className: string = event.target.className
+      if (className === 'input labels-input')
+        onLabelInputClick() // 레이블 인풋 클릭
+      else if (className === 'delete-label')
+        return // 레이블 삭제 버튼 클릭 시
+      else {
+        // 정해진 클래스 외 클릭시 blur
+        let isDoBlur = true
+        for (const cl of keepActiveClasses) {
+          if (_.startsWith(className, cl)) {
+            isDoBlur = false
+            break
+          }
+        }
+        if (isDoBlur) blur(event)
+      }
     }
 
     onMounted(() => {
       // disabled 시 속성 추가
-      if (props.isDisabled)
-        labelSelect.value.setAttribute('disabled', 'disabled')
+      if (props.isDisabled) labelSelect.value.setAttribute('disabled', 'disabled')
+      // 레이블 목록 불러오기
       getLabelList()
+      // dropdown item 외 클릭 시 리스트 목록 숨기기 이벤트 추가
+      window.addEventListener('click', clickListener)
     })
 
-    // watch(() => [props.modelValue], ([newA], [prevA]) => {
-    //   console.log(2)
-    //   // 컴포넌트 렌더링 시 props 값은 아직 default 값으로 정의되어 있다, default 가 정의되어 있지 않으면 undefined
-    //   if (_.isUndefined(prevA) || JSON.stringify(newA) === JSON.stringify(prevA))
-    //     setLabelList()
-    // })
+    onUnmounted(() => {
+      // 컴포넌트 제거 시 이벤트 제거
+      window.removeEventListener('click', clickListener)
+    })
+
     return {
       checkClass,
       checkMsg,
@@ -267,11 +276,9 @@ export default defineComponent({
       labelList,
       showPlaceholder,
       setLabel,
-      click,
       blur,
       keydown,
-      checkIfIsInvalid,
-      removeTag
+      removeLabel
     }
   }
 })

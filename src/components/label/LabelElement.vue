@@ -1,7 +1,7 @@
 <template>
   <span class="tag is-rounded" :class="size" ref="label">
     {{ name }}
-    <button v-if="isDeletable" @click.prevent="removeTag" class="delete" tabindex="-1"></button>
+    <button v-if="isDeletable" @click.prevent="removeLabel" class="delete-label" tabindex="-1"></button>
   </span>
 </template>
 <script setup lang="ts">
@@ -9,7 +9,7 @@ import { ref, onMounted } from 'vue'
 import utils from "@/utils/utils"
 import _ from "lodash"
 
-const emits = defineEmits(['remove-tag'])
+const emits = defineEmits(['remove-label'])
 
 const props = defineProps({
   params: { type: Object, required: true },
@@ -23,8 +23,8 @@ const name = ref(_.isEmpty(data.name) ? '레이블' : data.name)
 const color = ref(data.color)
 
 // 레이블 제거
-const removeTag = () => {
-  emits('remove-tag', data.id)
+const removeLabel = (event: any) => {
+  emits('remove-label', data.id)
 }
 
 onMounted(() => {

@@ -1,7 +1,10 @@
 @charset "utf-8"
 // Import Bulma first
 @import '~bulma/bulma.sass'
+// Bulma Extensions bulma-tooltip
 @import '~@creativebulma/bulma-tooltip'
+// Bulma Extensions bulma-divider
+@import '~@creativebulma/bulma-divider'
 
 // label required 뒤에 * 표시
 .label.required:after
@@ -118,7 +121,7 @@
     flex: 1 0 auto
     height: 2.3rem
     margin: .1rem
-    width: 10%
+    width: 0
 
   .labels-input:hover
     border-color: transparent !important
@@ -128,6 +131,12 @@
 
   .label-icon
     color: hsl(0, 0%, 29%) !important
+
+.label-checked-icon
+  @extend .icon
+
+.delete-label
+  @extend .delete
 
 .modal-card
   overflow: visible

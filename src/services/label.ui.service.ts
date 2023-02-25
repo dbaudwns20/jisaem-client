@@ -21,6 +21,7 @@ export default {
         maxWidth: 120,
         minWidth: 120,
         cellStyle: {textAlign: 'center'},
+        field: 'labelType',
         headerName: "레이블유형",
         cellRenderer: (params: any) => {
           return LabelTypeToString(params.data.labelType)
