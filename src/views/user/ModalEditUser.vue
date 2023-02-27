@@ -4,8 +4,7 @@
       <form @submit.prevent="updateUser" novalidate>
         <Username :label="'아이디'"
                   :is-required="true"
-                  :is-disabled="true"
-                  :is-dup-check="false"
+                  :dup-check-target="'user'"
                   :placeholder="'아이디를 입력해주세요'"
                   icons-left="fa-solid fa-user"
                   v-model="editUser.username"/>
@@ -26,10 +25,10 @@
             </div>
           </div>
         </div>
-        <Text :label="'학교명'" icons-left="fa-solid fa-school"
+        <Text :label="'학교명'" icons-left="fa-solid fa-school" v-if="isStudent"
               :placeholder="'학교명을 입력해주세요'"
               v-model="editStudentInfo.school" />
-        <div class="field">
+        <div class="field" v-if="isStudent">
           <label class="label">
             {{ '메모' }}
           </label>
@@ -48,13 +47,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, onMounted } from "vue"
-import { useRoute } from "vue-router"
+import { defineComponent, reactive, onMounted } from "vue"
 
 import { AuthLevel } from "@/models/auth/auth.level"
-import {bindUserInstance, User} from "@/models/user/user"
+import { User } from "@/models/user/user"
 import { StudentInfo } from "@/models/user/student.info"
-import {bindUpdateUser, getUpdateUserKeys} from "@/models/user/update.user"
+import { bindUpdateUser, getUpdateUserKeys } from "@/models/user/update.user"
 
 import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
@@ -68,6 +66,7 @@ import _ from 'lodash'
 
 export default defineComponent({
   name: "ModalEditUser",
+  props: ['userId', 'userAuthLevel'],
   components: {
     AppModal,
     Username,
@@ -80,12 +79,12 @@ export default defineComponent({
     const defaultUser = reactive({} as User)
     const defaultStudentInfo = reactive({} as StudentInfo)
 
-    const route = useRoute()
-    const userId: string = route.params.id as string
-    const authLevel = ref(route.params.authLevel)
+    const userId: string = props.userId
+    const authLevel: AuthLevel = props.userAuthLevel
+    const isStudent = utils.authority.isStudent(authLevel)
 
-    const getUser = async (id: string) => {
-      const res = await userGrpcService.getUser(id)
+    const getUser = async () => {
+      const res = await userGrpcService.getUser(userId)
       await Object.assign(editUser, res)
       await Object.assign(defaultUser, res)
       await Object.assign(editStudentInfo, res.studentInfo)
@@ -105,14 +104,13 @@ export default defineComponent({
       await emit("complete-function", '수정되었습니다', true)
     }
     onMounted(() => {
-      getUser(userId)
+      getUser()
     })
     return {
       editUser,
       editStudentInfo,
-      updateUser,
-      authLevel,
-      AuthLevel
+      isStudent,
+      updateUser
     }
   }
 })

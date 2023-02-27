@@ -1,5 +1,6 @@
 import { AuthServiceClient } from '@/protos/auth/Auth_serviceServiceClientPb'
 import {
+  RequestParentUsernameDuplicationCheck,
   RequestPasswordUpdate, RequestProfileGet, RequestSignIn,
   RequestSignOut, RequestUsernameDuplicationCheck, RequestUsernameUpdate
 } from '@/protos/auth/auth_communication_pb'
@@ -126,5 +127,20 @@ export default {
         }
       })
     })
+  },
+
+  async parentUsernameDuplicationCheck(username: string): Promise<boolean> {
+    const req = new RequestParentUsernameDuplicationCheck()
+    req.setUsername(username)
+    return await new Promise(((resolve, reject) => {
+      _client.parentUsernameDuplicationCheck(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res.getExist()!)
+        }
+      })
+    }))
   }
 }

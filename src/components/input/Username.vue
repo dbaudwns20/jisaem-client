@@ -39,7 +39,7 @@ export default defineComponent({
     isRequired: { type: Boolean, default: false },
     isReadOnly: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
-    isDupCheck: { type: Boolean, default: false },
+    dupCheckTarget: { type: String, default: null },
     isLogin: { type: Boolean, default: false },
     modelValue: { type: String, default: '' }
   },
@@ -80,9 +80,10 @@ export default defineComponent({
         }
       }
       // 아이디 중복체크
-      if (props.isDupCheck && value.length >= 4) {
+      if (props.dupCheckTarget && value.length >= 4) {
         if (oldValue === value) return
-        authGrpcService.usernameDuplicationCheck(value).then((isExists) => {
+        const func = props.dupCheckTarget === 'user' ? authGrpcService.usernameDuplicationCheck(value) : authGrpcService.parentUsernameDuplicationCheck(value)
+        func.then((isExists) => {
           oldValue = value
           checkClass.value = isExists ? 'is-danger': 'is-success'
           checkMsg.value = isExists ? '이미 사용 중인 아이디입니다' : '사용할 수 있는 아이디입니다'

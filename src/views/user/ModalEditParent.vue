@@ -1,20 +1,16 @@
 <template>
-  <AppModal :title="'부모님정보 생성'">
+  <AppModal :title="'부모님정보편집'">
     <template v-slot:modalContent>
-      <form @submit.prevent="createParent" novalidate>
+      <form @submit.prevent="updateParent" novalidate>
         <Username :label="'아이디'"
                   :is-required="true"
                   :dup-check-target="'parent'"
                   :placeholder="'아이디를 입력해주세요'"
                   icons-left="fa-solid fa-user"
-                  v-model="newParentInfo.username"/>
-        <Password :label="'비밀번호'" :show-inline="true"
-                  :is-required="true"
-                  :is-login="false"
-                  v-model="newParentInfo.password"/>
+                  v-model="editParentInfo.username"/>
         <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
               :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-              v-model="newParentInfo.phone"/>
+              v-model="editParentInfo.phone" />
         <div class="field">
           <div class="buttons is-centered">
             <button class="button is-info" type="submit">저장</button>
@@ -26,39 +22,41 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive } from "vue"
 import { ParentInfo } from "@/models/user/parent.info"
 
 import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
-import Password from "@/components/input/Password.vue"
 import Text from "@/components/input/Text.vue"
 
-import userGrpcService from '@/services/user.grpc.service'
+import userGrpcService from "@/services/user.grpc.service"
 
 import utils from "@/utils/utils"
+import _ from "lodash"
 
 export default defineComponent({
-  name: "ModalCreateUser",
-  props: ['userId'],
+  Name: 'ModalEditParent',
   components: {
-    AppModal,
-    Username,
-    Password,
-    Text
+    AppModal, Username, Text
   },
+  props: ['userId', 'userParentInfo'],
   setup(props, { emit }) {
-    const newParentInfo = reactive({} as ParentInfo)
+    const editParentInfo = reactive(props.userParentInfo as ParentInfo)
+    const defaultParentInfo = _.cloneDeep(editParentInfo)
 
-    const createParent = async (form: any) => {
+    const updateParent = async (form: any) => {
+      const updatedUserFields = utils.getUpdatedFields(defaultParentInfo, editParentInfo)
+      if (_.isEmpty(updatedUserFields)) {
+        utils.message.showWarningToastMsg("변경사항이 없습니다")
+        return
+      }
       if (!utils.validator.validateForm(form.target)) return
-      await userGrpcService.createParent(newParentInfo, props.userId)
-      await emit("complete-function", '생성되었습니다', true)
+      await userGrpcService.updateUserParentInfo(props.userId, editParentInfo)
+      await emit("complete-function", '수정되었습니다', true)
     }
-
     return {
-      newParentInfo,
-      createParent
+      editParentInfo,
+      updateParent
     }
   }
 })

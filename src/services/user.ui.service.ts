@@ -77,6 +77,19 @@ export default {
         cellRenderer: (params: any) => {
           return utils.convertDateToString(params.data.createdAt)
         }
+      },
+      {
+        headerName: "부모님정보",
+        field: "isParentInfo",
+        cellStyle: {textAlign: 'center'},
+        minWidth: 80,
+        hide: true,
+        cellRenderer: (params: any) => {
+          if (!params.data.parentInfo?.active)
+            return ''
+          else
+            return `<i class="fa-solid fa-user-group"></i>`
+        }
       }
     ]
   }

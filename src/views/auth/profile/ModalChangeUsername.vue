@@ -4,7 +4,7 @@
       <form @submit.prevent="updateUsername($event)" novalidate>
         <Username :label="'아이디'"
                   :is-required="true"
-                  :is-dup-check="true"
+                  :dup-check-target="dupCheckTarget"
                   :placeholder="'변경할 아이디를 입력해주세요'"
                   icons-left="fa-solid fa-user"
                   v-model="newUsername"/>
@@ -32,8 +32,10 @@ export default defineComponent({
   },
   setup() {
     const newUsername = ref('')
+    const dupCheckTarget = ref(utils.authority.isParent() ? 'parent' : 'user')
     return {
-      newUsername
+      newUsername,
+      dupCheckTarget
     }
   },
   methods: {

@@ -4,7 +4,7 @@
       <form @submit.prevent="createUser" novalidate v-if="authLevel === AuthLevel.AUTH_LEVEL_STUDENT">
         <Username :label="'아이디'"
                   :is-required="true"
-                  :is-dup-check="true"
+                  :dup-check-target="'user'"
                   :placeholder="'아이디를 입력해주세요'"
                   icons-left="fa-solid fa-user"
                   v-model="newUser.username"/>
@@ -49,7 +49,7 @@
       <form @submit.prevent="createUser" novalidate v-if="authLevel !== AuthLevel.AUTH_LEVEL_STUDENT">
         <Username :label="'아이디'"
                   :is-required="true"
-                  :is-dup-check="true"
+                  :dup-check-target="'user'"
                   :placeholder="'아이디를 입력해주세요'"
                   icons-left="fa-solid fa-user"
                   v-model="newUser.username"/>

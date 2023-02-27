@@ -31,11 +31,11 @@
             <div class="buttons">
               <router-link :to="profilePath" tag="a" class="button is-info is-light has-tooltip-arrow has-tooltip-bottom"
                            data-tooltip="내정보">
-                <span class="icon"><i class="fa-regular fa-address-card"></i></span>
+                <span class="icon"><i class="fa-solid fa-circle-user"></i></span>
               </router-link>
               <a class="button is-info is-light has-tooltip-arrow has-tooltip-bottom" @click="signOut"
                  data-tooltip="로그아웃">
-                <span class="icon"><i class="fa-solid fa-power-off"></i></span>
+                <span class="icon"><i class="fa-solid fa-right-to-bracket"></i></span>
               </a>
             </div>
           </div>
