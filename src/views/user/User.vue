@@ -38,7 +38,7 @@
               </button>
               <button class="button is-small has-tooltip-arrow"
                       data-tooltip="비밀번호변경"
-                      v-if="selectedItemList.length > 0" @click="updatePassword(false)">
+                      v-if="selectedItemList.length > 0" @click="updatePassword(false, null)">
                 <span class="icon"><i class="fa-solid fa-lock"></i></span>
               </button>
               <button class="button is-small has-tooltip-arrow"
@@ -139,6 +139,7 @@ export default defineComponent({
         } else {
           selectedItemList.value.splice(idx, 1)
         }
+        // 부모님정보 기능 버튼이 보임여부 설정
         if (currentAuthLabel.value === AuthLevel.AUTH_LEVEL_STUDENT) {
           showParentFunctionButtons.value = _.filter(selectedItemList.value, (it: any) => { return it.parentInfo?.active }).length > 0
         }
