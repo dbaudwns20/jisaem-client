@@ -214,9 +214,9 @@ export default defineComponent({
     setCurrentLabelType(labelType: LabelType) {
       this.currentLabelType = labelType
       if (labelType === LabelType.LABEL_TYPE_UNSPECIFIED) {
-        this.gridColumnApi.setColumnVisible('1', true)
+        this.gridColumnApi.setColumnVisible('labelType', true)
       } else {
-        this.gridColumnApi.setColumnVisible('1', false)
+        this.gridColumnApi.setColumnVisible('labelType', false)
       }
       this.gridApi.sizeColumnsToFit()
     },
