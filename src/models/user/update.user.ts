@@ -36,7 +36,7 @@ function bindUpdateUser(data: any): UpdateUser {
 function getUpdateUserKeys(): string[] {
   let keys: string[] = []
   if (utils.authority.isManager())
-    keys = ['name', 'phone', 'email', 'userLabelId', 'studentInfo']
+    keys = ['username', 'name', 'phone', 'email', 'userLabelId', 'studentInfo']
   else if (utils.authority.isStudent())
     keys = ['phone', 'email']
   return keys

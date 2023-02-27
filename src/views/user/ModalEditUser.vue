@@ -92,8 +92,8 @@ export default defineComponent({
     }
 
     const updateUser = async (form: any) => {
-      const updatedUserFields = utils.getUpdatedFields(editUser, defaultUser, getUpdateUserKeys())
-      const updatedStudentInfoFields = utils.getUpdatedFields(editStudentInfo, defaultStudentInfo)
+      const updatedUserFields = utils.getUpdatedFields(defaultUser, editUser, getUpdateUserKeys())
+      const updatedStudentInfoFields = utils.getUpdatedFields(defaultStudentInfo, editStudentInfo)
       if (_.isEmpty(updatedUserFields) && _.isEmpty(updatedStudentInfoFields)) {
         utils.message.showWarningToastMsg("변경사항이 없습니다")
         return

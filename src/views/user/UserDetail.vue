@@ -66,7 +66,7 @@
         <span>{{ params.data.parentInfo?.phone }}</span>
       </li>
     </ul>
-    <div class="buttons">
+    <div class="buttons is-right">
       <button class="button is-small has-tooltip-arrow" data-tooltip="편집" @click="editUser">
         <span class="icon"><i class="fas fa-pencil"></i></span>
       </button>

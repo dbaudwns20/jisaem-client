@@ -13,7 +13,6 @@ export default {
    * @param keys 정의된 key 만 가져오기, 미정의 시 defaultForm 의 key 사용
    */
   getUpdatedFields(defaultForm: any, currentForm: any, keys: string[] = []) {
-    console.log(2)
     let result: any = {}
     const _keys = _.isEmpty(keys) ? Object.keys(defaultForm) : keys
     _keys.forEach((key) => {

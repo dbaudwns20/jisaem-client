@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import authGrpcService from '@/services/auth.grpc.service'
 import utils from '@/utils/utils'
 import * as _ from 'lodash'
@@ -46,6 +46,7 @@ export default defineComponent({
   setup(props) {
     const checkClass = ref('')
     const checkMsg = ref('')
+    let originUsername: string = ''
     let oldValue = ''
 
     const checkValue = (target: HTMLInputElement) => {
@@ -81,7 +82,14 @@ export default defineComponent({
       }
       // 아이디 중복체크
       if (props.dupCheckTarget && value.length >= 4) {
-        if (oldValue === value) return
+        // 기존 아이디와 같은 값인 경우
+        if (originUsername === value) {
+          checkClass.value = ''
+          checkMsg.value = ''
+          target.setCustomValidity('username invalid')
+          oldValue = value
+          return
+        } else if (oldValue === value) return
         const func = props.dupCheckTarget === 'user' ? authGrpcService.usernameDuplicationCheck(value) : authGrpcService.parentUsernameDuplicationCheck(value)
         func.then((isExists) => {
           oldValue = value
@@ -98,6 +106,13 @@ export default defineComponent({
         checkMsg.value = '아이디를 입력해주세요'
       }
     }
+
+    watch(() => props.modelValue, (newVal: string, preVal: string) => {
+        if (_.isEmpty(originUsername) && _.isEmpty(preVal) && !_.isEmpty(newVal)) {
+          originUsername = newVal
+        }
+      }
+    )
 
     return {
       checkClass,
