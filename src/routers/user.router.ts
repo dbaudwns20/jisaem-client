@@ -12,24 +12,61 @@ export const ModalCreateUser = {
 }
 
 export const ModalEditUser = {
-  path: '/user/edit/:id/:authLevel',
+  path: '/user/edit',
   name: 'ModalEditUser',
   component: () => import('../views/user/ModalEditUser.vue'),
   meta: {
     needLogin: true,
     accessiblePaths: ['/user'],
     accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
+  },
+  props: {
+    userId: '',
+    userAuthLevel: 0
   }
 }
 
 export const ModalCreateParent = {
-  path: '/user/:id/create-parent',
+  path: '/user/create-parent',
   name: 'ModalCreateParent',
   component: () => import('../views/user/ModalCreateParent.vue'),
   meta: {
     needLogin: true,
     accessiblePaths: ['/user'],
     accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
+  },
+  props: {
+    userId: ''
+  }
+}
+
+export const ModalEditParent = {
+  path: '/user/edit-parent',
+  name: 'ModalEditParent',
+  component: () => import('../views/user/ModalEditParent.vue'),
+  meta: {
+    needLogin: true,
+    accessiblePaths: ['/user'],
+    accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
+  },
+  props: {
+    userId: '',
+    userParentInfo: {}
+  }
+}
+
+export const ModalUpdatePassword = {
+  path: '/user/update-password',
+  name: 'ModalUpdatePassword',
+  component: () => import('../views/user/ModalUpdatePassword.vue'),
+  meta: {
+    needLogin: true,
+    accessiblePaths: ['/user'],
+    accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
+  },
+  props: {
+    userId: '',
+    isParent: false
   }
 }
 
@@ -42,7 +79,10 @@ export const ModalManageUserLabel = {
     accessiblePaths: ['/user'],
     accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
   },
-  props: {userId: '', labelList: []}
+  props: {
+    userId: '',
+    labelList: []
+  }
 }
 
 export const User = {
@@ -57,7 +97,9 @@ export const User = {
     ModalCreateUser,
     ModalCreateParent,
     ModalManageUserLabel,
-    ModalEditUser
+    ModalEditUser,
+    ModalEditParent,
+    ModalUpdatePassword
   ]
 }
 

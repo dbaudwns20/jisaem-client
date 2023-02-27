@@ -22,7 +22,7 @@
               <div class="media-content">
                 <p class="title is-3 is-marginless">{{ showData.name }}<span class="profile-auth-level">{{ authName }}</span></p>
                 <p class="subtitle is-4 is-marginless profile-username">
-                  {{ isParent ? parentUsername : showData.username }}
+                  {{ isParent ? parentInfo.username : showData.username }}
                 </p>
                 <hr class="profile-hr">
                 <p class="subtitle is-6">
@@ -32,7 +32,7 @@
                   </span>
                   <span class="icon-text profile-info" v-if="showData.phone">
                     <span class="icon"><i class="fa-solid fa-mobile"></i></span>
-                    <span>{{ showData.phone }}</span>
+                    <span>{{ isParent ? parentInfo.phone : showData.phone }}</span>
                   </span>
                   <span class="icon-text profile-info" v-if="showData.studentInfo?.school">
                     <span class="icon"><i class="fa-solid fa-school"></i></span>
@@ -48,7 +48,7 @@
         <!-- 부모님 계정 폼 -->
         <form class="box" v-if="isParent" novalidate>
           <Username :label="'부모님 아이디'" :is-disabled="true" :is-required="true"
-                    v-model="parentUsername" />
+                    v-model="parentInfo.username" />
           <div class="field">
             <label class="label required">비밀번호</label>
             <div class="field is-grouped">
@@ -56,23 +56,23 @@
                 <Password :is-disabled="true" v-model="passwordValue" />
               </p>
               <p class="control">
-                <router-link :to="changePasswordPath" tag="a" class="button is-success is-light">
-                  변경
+                <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
+                             data-tooltip="비밀번호변경">
+                  <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
                 </router-link>
               </p>
             </div>
           </div>
-          <Text :label="'자녀 이름'" icons-left="fa-solid fa-user"
+          <Text :label="'전화번호'" icons-left="fa-solid fa-mobile" :is-disabled="true" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
+                v-model="parentInfo.phone" />
+          <div class="divider">자녀 정보</div>
+          <Text :label="'이름'" icons-left="fa-solid fa-user"
                 :is-required="true" :is-disabled="true"
                 v-model="editData.name" />
           <Email :label="'이메일'" :is-login="false" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile" :is-disabled="true" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
-          <LabelSelect :label="'레이블'" :key="componentKey"
-                       :is-disabled="true"
-                       :label-type="labelType.LABEL_TYPE_USER"
-                       v-model="editData.userLabel" />
         </form>
         <!-- 학생 계정 폼 -->
         <form class="box" v-if="isStudent" @submit.prevent="updateProfile" novalidate>
@@ -85,8 +85,9 @@
                 <Password :is-disabled="true" v-model="passwordValue" />
               </p>
               <p class="control">
-                <router-link :to="changePasswordPath" tag="a" class="button is-success is-light">
-                  변경
+                <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
+                             data-tooltip="비밀번호변경">
+                  <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
                 </router-link>
               </p>
             </div>
@@ -100,10 +101,6 @@
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
                 :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
-          <LabelSelect :label="'레이블'" :key="componentKey"
-                       :is-disabled="true"
-                       :label-type="labelType.LABEL_TYPE_USER"
-                       v-model="editData.userLabel" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -118,8 +115,9 @@
                           v-model="editData.username"/>
               </p>
               <p class="control">
-                <router-link :to="changeUsernamePath" tag="a" class="button is-success is-light">
-                  변경
+                <router-link :to="changeUsernamePath" tag="a" class="button is-info is-light has-tooltip-arrow"
+                             data-tooltip="아이디변경">
+                  <span class="icon"><i class="fa-solid fa-user-pen"></i></span>
                 </router-link>
               </p>
             </div>
@@ -131,8 +129,9 @@
                 <Password :is-disabled="true" v-model="passwordValue" />
               </p>
               <p class="control">
-                <router-link :to="changePasswordPath" tag="a" class="button is-success is-light">
-                  변경
+                <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
+                             data-tooltip="비밀번호변경">
+                  <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
                 </router-link>
               </p>
             </div>
@@ -146,9 +145,6 @@
           <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
                 :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
                 v-model="editData.phone" />
-          <LabelSelect :label="'레이블'" :is-disabled="true"
-                       :label-type="labelType.LABEL_TYPE_USER"
-                       v-model="editData.userLabel" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -162,7 +158,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive, ref, onMounted } from 'vue'
 import { User } from "@/models/user/user"
 import { getUpdateUserKeys, bindUpdateUser } from "@/models/user/update.user"
 import { ModalChangePassword, ModalChangeUsername } from "@/routers/auth.router"
@@ -174,7 +170,6 @@ import Username from "@/components/input/Username.vue"
 import Text from "@/components/input/Text.vue"
 import Email from "@/components/input/Email.vue"
 import Password from "@/components/input/Password.vue"
-import LabelSelect from "@/components/label/LabelSelect.vue"
 
 import authGrpcService from "@/services/auth.grpc.service"
 
@@ -193,7 +188,6 @@ export default defineComponent({
     Text,
     Email,
     Password,
-    LabelSelect
   },
   setup() {
     const showData = reactive({} as User)
@@ -201,62 +195,68 @@ export default defineComponent({
     const componentKey = ref(false)
     const passwordValue = ref("****************")
     const myAuthLevel = store.getters["sessionStore/authLevel"]
-    const parentUsername = ref('')
-    return {
-      showData,
-      editData,
-      passwordValue,
-      componentKey,
-      parentUsername,
-      authName: utils.authority.getMyAuthName(myAuthLevel),
-      isManager: utils.authority.isManager(myAuthLevel),
-      isStudent: utils.authority.isStudent(myAuthLevel),
-      isParent: utils.authority.isParent(myAuthLevel),
-      changeUsernamePath: ModalChangeUsername.path,
-      changePasswordPath: ModalChangePassword.path,
-      labelType: LabelType
+    let parentInfo = reactive({})
+
+    // 컴포넌트 갱신 component key 값이 변경되면 컴포넌트가 갱신된다
+    const reloadComponents = () => {
+      componentKey.value = !componentKey.value
     }
-  },
-  created() {
-    this.getProfile()
-  },
-  methods: {
-    // 컴포넌트 갱신
-    reloadComponents() {
-      // component key 값이 변경되면 컴포넌트가 갱신된다
-      this.componentKey = !this.componentKey
-    },
+
     // 내정보 가져오기
-    async getProfile() {
+    const getProfile = async () => {
       const res = await authGrpcService.profileGet()
-      await store.commit("userStore/setUser", res)
-      await Object.assign(this.showData, store.getters["userStore/user"])
-      await Object.assign(this.editData, _.cloneDeep(this.showData))
+      await Object.assign(showData, res)
+      await Object.assign(editData, _.cloneDeep(showData))
       // 부모님 아이디 set
-      if (this.isParent)
-        this.parentUsername = this.showData.parentInfo!.username!
-    },
+      if (utils.authority.isParent(myAuthLevel)) {
+        Object.assign(parentInfo, {username: showData.parentInfo?.username, phone: showData.parentInfo?.phone})
+      }
+    }
+
     // 내 정보 수정
-    async updateProfile(form: any) {
-      const updatedFields = utils.getUpdatedFields(this.showData, this.editData, getUpdateUserKeys())
+    const updateProfile = async (form: any) => {
+      const updatedFields = utils.getUpdatedFields(showData, editData, getUpdateUserKeys())
       if (_.isEmpty(updatedFields)) {
         utils.message.showWarningToastMsg("변경사항이 없습니다")
         return
       }
       if (!utils.validator.validateForm(form.target)) return
       await authGrpcService.profileUpdate(bindUpdateUser(updatedFields))
-      this.completeFunction('수정되었습니다')
-    },
+      await completeFunction('수정되었습니다')
+    }
+
     // 함수 호출 후 처리
-    completeFunction(msg: string = '처리되었습니다', isFromModal: boolean = false) {
+    const completeFunction = (msg: string = '처리되었습니다', isFromModal: boolean = false) => {
       // 모달에서 호출된거라면 모달 닫기
       if (isFromModal) router.go(-1)
       // 메시지 출력
       utils.message.showSuccessToastMsg(msg)
       // 정보 갱신
-      this.getProfile()
+      getProfile()
       // 컴포넌트 reload
-      this.reloadComponents()
+      reloadComponents()
+    }
+
+    onMounted(() => {
+      getProfile()
+    })
+
+    return {
+      showData,
+      editData,
+      passwordValue,
+      componentKey,
+      parentInfo,
+      authName: utils.authority.getMyAuthName(myAuthLevel),
+      isManager: utils.authority.isManager(myAuthLevel),
+      isStudent: utils.authority.isStudent(myAuthLevel),
+      isParent: utils.authority.isParent(myAuthLevel),
+      changeUsernamePath: ModalChangeUsername.path,
+      changePasswordPath: ModalChangePassword.path,
+      labelType: LabelType,
+      reloadComponents,
+      updateProfile,
+      completeFunction
     }
   }
 })

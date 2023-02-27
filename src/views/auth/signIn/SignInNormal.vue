@@ -7,7 +7,7 @@
             <p class="level-left"><label class="label required">아이디</label></p>
             <p class="level-right">
               <router-link :to="signInParentPath" tag="a" tabindex="-1">
-                <small>부모 계정이신가요?</small>
+                <small>부모님 계정이신가요?</small>
               </router-link>
             </p>
           </div>

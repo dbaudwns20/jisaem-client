@@ -69,7 +69,7 @@ export default defineComponent({
       page: 1,
       unit: 20,
       totalCount: 0,
-      totalPage: 1,
+      totalPage: 1
     }))
     // 그리드 옵션
     const gridOptions = props.gridOptions
@@ -81,9 +81,14 @@ export default defineComponent({
     gridOptions.suppressRowClickSelection = true
     // 셀 마우스 오버 시 hover 스타일이 적용되지 않음
     gridOptions.suppressRowHoverHighlight = true
+    // 셀 텍스트 드레그 셀렉트 가능 옵션
+    gridOptions.enableCellTextSelection = true
     // 그리드 사이즈 변경 시 컬럼 길이 재조정
     gridOptions.onGridSizeChanged = (params: any) => {
       params.api.sizeColumnsToFit()
+    }
+    gridOptions.onSortChanged = (params: any) => {
+      console.log(gridOptions.api.getSortModel())
     }
     // 행이 선택될 때 클래스 추가 (커스텀)
     gridOptions.rowClassRules = {
@@ -93,8 +98,10 @@ export default defineComponent({
     gridOptions.onCellClicked = (params: any) => {
       // 첫번째 셀 (디테일 확장) 버튼을 클릭하면
       if (params.column.colId === '0') {
-        if (!params.data.isExpanded) expandRow(params)
-        else collapseRow(params)
+        setTimeout(() => {
+          if (!params.data.isExpanded) expandRow(params)
+          else collapseRow(params)
+        })
       }
       // 선택 영역 표시
       gridOptions.api.forEachNode((rowNode: any) => {
@@ -108,33 +115,29 @@ export default defineComponent({
       if (!params.data.isExpanded) expandRow(params)
       else collapseRow(params)
     }
-    const isFullWidth = ref((params: any) => {
+    // 행이 detail(isFullWidth) 인지 체크
+    const isFullWidth = (params: any) => {
       if (params.rowNode.data?.isFullWidth) {
         // 확장된 상태에서 '전체선택' 시 선택 방지
         params.rowNode.selectable = false
+        // detail 영역 높이 설정
         setDetailRowHeight(params)
         return true
       }
-    })
+    }
+    // detail 영역 높이 설정
     const setDetailRowHeight = (params: any) => {
+      // 인터벌을 줘서 querySelect 하기
       setTimeout(() => {
         const detailParent: any = document.querySelectorAll(`div[row-index="${params.rowNode.rowIndex}"]`)
         if (detailParent[0].childElementCount === 1) {
           const detailHeight: number = detailParent[0].childNodes[0].offsetHeight + 1
-          detailParent[0].style.height = detailHeight + 'px'
-          params.rowNode.rowHeight = detailHeight
+          params.rowNode.setRowHeight(detailHeight)
+          params.api.onRowHeightChanged()
         }
       })
     }
-    const fullWidthCellRenderer = gridOptions.fullWidthCellRenderer
-
-    const getRowData = () => {
-      return rowData.value
-    }
-    const updateRowData = (newRowData: any[]) => {
-      rowData.value = newRowData
-    }
-    // row 확장
+    // 행 확장
     const expandRow = (params: any) => {
       const detailData = _.cloneDeep(params.data)
       detailData.isFullWidth = true
@@ -144,12 +147,22 @@ export default defineComponent({
       newRowData.splice(params.rowIndex + 1, 0, detailData)
       updateRowData(newRowData)
     }
-    // row 접기
+    // 행 접기
     const collapseRow = (params: any) => {
       params.data.isExpanded = false
       const newRowData = _.cloneDeep(getRowData())
       newRowData.splice(params.rowIndex + 1, 1)
       updateRowData(newRowData)
+    }
+    // 상세 컴포넌트 설정
+    const fullWidthCellRenderer = gridOptions.fullWidthCellRenderer
+    // 현재 그리드 리스트 가져오기
+    const getRowData = () => {
+      return rowData.value
+    }
+    // 그리드 리스트 업테이트
+    const updateRowData = (newRowData: any[]) => {
+      rowData.value = newRowData
     }
     // 현재 페이지 가져오기
     const getCurrentPage = (): number => {
@@ -212,8 +225,8 @@ export default defineComponent({
       rowData,
       pageRange,
       pagination,
-      isFullWidth,
       fullWidthCellRenderer,
+      isFullWidth,
       getRowData,
       updateRowData,
       getPageInfo,

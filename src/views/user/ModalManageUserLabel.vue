@@ -2,7 +2,9 @@
   <AppModal :title="'레이블관리'">
     <template v-slot:modalContent>
       <form @submit.prevent="updateUserLabel" novalidate>
-        <LabelSelect :label="'사용자레이블'" v-model="userLabelList" />
+        <LabelSelect :label="'사용자레이블'"
+                     :label-type="LabelType.LABEL_TYPE_USER"
+                     v-model="userLabelList" />
         <div class="field">
           <div class="buttons is-centered">
             <button class="button is-info" type="submit">저장</button>
@@ -16,6 +18,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Label } from "@/models/label/label"
+import { LabelType } from "@/models/label/label.type"
+
 import AppModal from "@/components/AppModal.vue"
 import LabelSelect from '@/components/label/LabelSelect.vue'
 
@@ -35,6 +39,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const userLabelList = ref([] as Label[])
+    // 이미 레이블이 존재하는 경우 리스트에 담기
     if (props.labelList.length > 0) {
       _.forEach(props.labelList, (it: any) => {
         userLabelList.value.push(it.labelInfo)
@@ -44,11 +49,12 @@ export default defineComponent({
       const userIdList: string[] = _.indexOf(props.userId, ",") ? props.userId.split(',') : [props.userId]
       const labelIdList: string[] = _.map(userLabelList.value, 'id')
       await userGrpcService.updateUserLabel(userIdList, labelIdList)
-      await emit("complete-function", '생성되었습니다', true)
+      await emit("complete-function", '처리되었습니다', true)
     }
     return {
       userLabelList,
-      updateUserLabel
+      updateUserLabel,
+      LabelType
     }
   }
 })

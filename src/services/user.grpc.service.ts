@@ -1,21 +1,20 @@
 import {UserServiceClient} from "@/protos/user/User_serviceServiceClientPb"
 import {
   RequestManagerCreate,
-  RequestParentCreate,
+  RequestParentCreate, RequestParentDelete, RequestParentPasswordUpdate, RequestParentUpdate,
   RequestStudentCreate,
   RequestTeacherCreate,
   RequestUserDelete,
   RequestUserGet, RequestUserLabelUpdate,
-  RequestUserListGet, RequestUserUpdate
+  RequestUserListGet, RequestUserPasswordUpdate, RequestUserUpdate
 } from "@/protos/user/user_communication_pb"
 import { bindUserToProto, User } from "@/models/user/user"
-import { bindPaginationToProto, Pagination } from "@/models/util/util"
+import { bindPaginationInstance, bindPaginationToProto, Pagination} from "@/models/util/util"
 import { bindParentInfoToProto, ParentInfo } from "@/models/user/parent.info"
 import { AuthLevel, AuthLevelToProto } from "@/models/auth/auth.level"
+import { getRequestProfileUpdate, getRequestUserUpdate, UpdateUser } from "@/models/user/update.user"
 
 import grpcService from '@/services/grpc.service'
-import {getRequestProfileUpdate, getRequestUserUpdate, UpdateUser} from "@/models/user/update.user";
-import {Label} from "@/models/label/label";
 
 const _client: UserServiceClient = new UserServiceClient(grpcService.GRPC_HOST)
 
@@ -32,7 +31,7 @@ export default {
           grpcService.handlingError(err)
           reject(err)
         } else {
-          resolve(grpcService.resolvePaginationResponse(User, res.getUsersList(), new Pagination(res.getPagination()!)))
+          resolve(grpcService.resolvePaginationResponse(User, res.getUsersList(), bindPaginationInstance(res.getPagination()!)))
         }
       })
     }))
@@ -92,22 +91,6 @@ export default {
       return await this._createManager(user)
   },
 
-  async createParent(parentInfo: ParentInfo, studentId: string) {
-    const req = new RequestParentCreate()
-    req.setParentInfo(bindParentInfoToProto(parentInfo))
-    req.setStudentId(studentId)
-    return await new Promise(((resolve, reject) => {
-      _client.parentCreate(req, grpcService.setToken(), async (err, res) => {
-        if (err) {
-          grpcService.handlingError(err)
-          reject(err)
-        } else {
-          resolve(res!)
-        }
-      })
-    }))
-  },
-
   async getUser(userId: string): Promise<User> {
     const req = new RequestUserGet()
     req.setId(userId)
@@ -141,6 +124,86 @@ export default {
     req.setIdsList(idList)
     return await new Promise(((resolve, reject) => {
       _client.userDelete(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    }))
+  },
+
+  async updateUserPassword(idList: string[], newPassword: string) {
+    const req = new RequestUserPasswordUpdate()
+    req.setIdsList(idList)
+    req.setNewPassword(newPassword)
+    return await new Promise(((resolve, reject) => {
+      _client.userPasswordUpdate(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    }))
+  },
+
+  async createParent(parentInfo: ParentInfo, studentId: string) {
+    const req = new RequestParentCreate()
+    req.setParentInfo(bindParentInfoToProto(parentInfo))
+    req.setStudentId(studentId)
+    return await new Promise(((resolve, reject) => {
+      _client.parentCreate(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res!)
+        }
+      })
+    }))
+  },
+
+  async updateUserParentInfo(userId: string, parentInfo: ParentInfo) {
+    const req = new RequestParentUpdate()
+    req.setId(userId)
+    req.setPhone(parentInfo.phone)
+    req.setUsername(parentInfo.username)
+    return await new Promise(((resolve, reject) => {
+      _client.parentUpdate(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    }))
+  },
+
+  async deleteUserParentInfo(userIdList: string[]) {
+    const req = new RequestParentDelete()
+    req.setIdsList(userIdList)
+    return await new Promise(((resolve, reject) => {
+      _client.parentDelete(req, grpcService.setToken(), async (err, res) => {
+        if (err) {
+          grpcService.handlingError(err)
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    }))
+  },
+
+  async updateUserParentPassword(idList: string[], newPassword: string) {
+    const req = new RequestParentPasswordUpdate()
+    req.setIdsList(idList)
+    req.setNewPassword(newPassword)
+    return await new Promise(((resolve, reject) => {
+      _client.parentPasswordUpdate(req, grpcService.setToken(), async (err, res) => {
         if (err) {
           grpcService.handlingError(err)
           reject(err)
