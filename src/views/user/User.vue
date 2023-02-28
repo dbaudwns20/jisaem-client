@@ -11,10 +11,11 @@
     <div class="container">
       <div class="tabs is-boxed is-fullwidth is-marginless">
         <ul>
-          <li :class="{ 'is-active': currentAuthLabel === authLevel.AUTH_LEVEL_UNSPECIFIED }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_UNSPECIFIED)"><a><strong>전체</strong></a></li>
-          <li :class="{ 'is-active': currentAuthLabel === authLevel.AUTH_LEVEL_STUDENT }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_STUDENT)"><a><strong>학생</strong></a></li>
-          <li :class="{ 'is-active': currentAuthLabel === authLevel.AUTH_LEVEL_TEACHER }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_TEACHER)"><a><strong>선생님</strong></a></li>
-          <li :class="{ 'is-active': currentAuthLabel === authLevel.AUTH_LEVEL_MANAGER }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_MANAGER)"><a><strong>관리자</strong></a></li>
+<!--          TODO 한줄로 줄일 수 있을 것 같음 & AuthLevel.isStudent() 사용하도록-->
+          <li :class="{ 'is-active': currentAuthLevel === authLevel.AUTH_LEVEL_UNSPECIFIED }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_UNSPECIFIED)"><a><strong>전체</strong></a></li>
+          <li :class="{ 'is-active': currentAuthLevel === authLevel.AUTH_LEVEL_STUDENT }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_STUDENT)"><a><strong>학생</strong></a></li>
+          <li :class="{ 'is-active': currentAuthLevel === authLevel.AUTH_LEVEL_TEACHER }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_TEACHER)"><a><strong>선생님</strong></a></li>
+          <li :class="{ 'is-active': currentAuthLevel === authLevel.AUTH_LEVEL_MANAGER }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_MANAGER)"><a><strong>관리자</strong></a></li>
         </ul>
       </div>
       <div class="grid-header">
@@ -23,7 +24,7 @@
             <div class="buttons">
               <button class="button is-small has-tooltip-arrow"
                       data-tooltip="추가"
-                      v-if="currentAuthLabel !== authLevel.AUTH_LEVEL_UNSPECIFIED" @click="addNewUser">
+                      v-if="currentAuthLevel !== authLevel.AUTH_LEVEL_UNSPECIFIED" @click="addNewUser">
                 <span class="icon"><i class="fa-solid fa-plus"></i></span>
               </button>
               <button class="button is-small has-tooltip-arrow"
@@ -74,7 +75,7 @@
       <PagingGrid ref="userGrid" :grid-options="gridOptions" @read="read" />
     </div>
   </div>
-  <router-view :auth-level="currentAuthLabel"
+  <router-view :auth-level="currentAuthLevel"
                @complete-function="completeFunction" />
   <AppFooter />
 </template>
@@ -114,7 +115,7 @@ export default defineComponent({
   },
   setup() {
     const userGrid = ref()
-    const currentAuthLabel = ref(AuthLevel.AUTH_LEVEL_UNSPECIFIED)
+    const currentAuthLevel = ref(AuthLevel.AUTH_LEVEL_UNSPECIFIED)
     const selectedItemList = ref([] as object[])
     const showParentFunctionButtons = ref(false)
     const gridApi = ref()
@@ -140,7 +141,7 @@ export default defineComponent({
           selectedItemList.value.splice(idx, 1)
         }
         // 부모님정보 기능 버튼이 보임여부 설정
-        if (currentAuthLabel.value === AuthLevel.AUTH_LEVEL_STUDENT) {
+        if (AuthLevel.isStudent(currentAuthLevel.value)) {
           showParentFunctionButtons.value = _.filter(selectedItemList.value, (it: any) => { return it.parentInfo?.active }).length > 0
         }
       },
@@ -158,9 +159,9 @@ export default defineComponent({
     // 조회
     const read = async (pageInfo: Pagination | null = null) => {
       // parameter set
-      const id: string[] = ['lwbdkXa9Z4QgvVl9L1M1t']
+      const id: string[] = ['lwbdkXa9Z4QgvVl9L1M1t'] // TODO remove
       const page = bindPaginationInstance(pageInfo)
-      const res: any = await userGrpcService.getUserList(id, currentAuthLabel.value, page)
+      const res: any = await userGrpcService.getUserList(id, currentAuthLevel.value, page)
       // rowData Set
       await userGrid.value.updateRowData(res.list)
       await userGrid.value.setPageInfo(res.pageInfo)
@@ -177,7 +178,7 @@ export default defineComponent({
     }
     // 사용자 삭제
     const deleteUser = async (userId: string | null) => {
-      let result = confirm("삭제하시겠습니까?")
+      let result = confirm("삭제하시겠습니까?") // TODO manage text one place
       if (result) {
         let idList: string[] = []
         if (_.isNull(userId))
@@ -244,15 +245,12 @@ export default defineComponent({
       router.push(ModalManageUserLabel)
     }
     const setCurrentAuthLevel = (authLevel: AuthLevel) => {
-      currentAuthLabel.value = authLevel
-      if (authLevel === AuthLevel.AUTH_LEVEL_STUDENT)
-        gridColumnApi.value.setColumnVisible('isParentInfo', true)
-      else
-        gridColumnApi.value.setColumnVisible('isParentInfo', false)
+      currentAuthLevel.value = authLevel
+      gridColumnApi.value.setColumnVisible('isParentInfo', AuthLevel.isStudent(authLevel))
       gridApi.value.sizeColumnsToFit()
     }
     // 텝이 선택될 때 사용자 목록 재조회
-    watch(() => currentAuthLabel.value, () => {
+    watch(() => currentAuthLevel.value, () => {
       read()
       // 체크박스 목록 초기화
       selectedItemList.value = []
@@ -274,7 +272,7 @@ export default defineComponent({
     }
     return {
       userGrid,
-      currentAuthLabel,
+      currentAuthLevel: currentAuthLevel,
       selectedItemList,
       showParentFunctionButtons,
       gridApi,

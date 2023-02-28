@@ -8,6 +8,31 @@ export enum AuthLevel {
   AUTH_LEVEL_MANAGER,
   AUTH_LEVEL_SUPER
 }
+export namespace AuthLevel {
+  export function isUnspecified(comp: AuthLevel): boolean {
+    return AuthLevel.AUTH_LEVEL_UNSPECIFIED === comp
+  }
+  // TODO isParent 어디서 쓰는거지
+  export function isParent(comp: AuthLevel): boolean {
+    return AuthLevel.AUTH_LEVEL_PARENT === comp
+  }
+
+  export function isStudent(comp: AuthLevel): boolean {
+    return AuthLevel.AUTH_LEVEL_STUDENT === comp
+  }
+
+  export function isTeacher(comp: AuthLevel): boolean {
+    return AuthLevel.AUTH_LEVEL_TEACHER === comp
+  }
+
+  export function isManager(comp: AuthLevel): boolean {
+    return AuthLevel.AUTH_LEVEL_MANAGER === comp
+  }
+
+  export function isSuper(comp: AuthLevel): boolean {
+    return AuthLevel.AUTH_LEVEL_SUPER === comp
+  }
+}
 
 export function AuthLevelFromProto(pv: Level): AuthLevel {
   switch (pv.valueOf()) {

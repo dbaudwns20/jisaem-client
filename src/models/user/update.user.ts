@@ -60,7 +60,8 @@ function getRequestUserUpdate(id: string, updateUser: UpdateUser): RequestUserUp
   request.setEmail(updateUser.email!)
   request.setPhone(updateUser.phone!)
   request.setName(updateUser.name!)
-  request.setStudentInfo(bindStudentInfoToProto(updateUser.studentInfo!))
+  request.setStudentSchool(updateUser.studentInfo!.school)
+  request.setStudentDescription(updateUser.studentInfo!.description)
   return request
 }
 

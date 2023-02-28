@@ -26,7 +26,7 @@ import utils from "@/utils/utils"
 
 export default defineComponent({
   Name: 'ModalUpdatePassword',
-  props: ['userId', 'isParent'],
+  props: ['userId', 'isParent'], // TODO 이거 함수?
   components: {
     AppModal, Password
   },
