@@ -13,7 +13,7 @@
                   :is-login="false"
                   v-model="newUser.password" />
         <Text :label="'이름'" icons-left="fa-solid fa-user"
-              :is-required="true" :placeholder="'이름을 입력해 주세요'"
+              :is-required="true" :placeholder="'이름을 입력해주세요'"
               v-model="newUser.name" />
         <div class="field">
           <div class="columns">
@@ -23,9 +23,8 @@
                      v-model="newUser.email" />
             </div>
             <div class="column">
-              <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
-                    :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-                    v-model="newUser.phone" />
+              <Phone :label="'전화번호'"
+                     v-model="newUser.phone" />
             </div>
           </div>
         </div>
@@ -58,14 +57,13 @@
                   :is-login="false"
                   v-model="newUser.password" />
         <Text :label="'이름'" icons-left="fa-solid fa-user"
-              :is-required="true" :placeholder="'이름을 입력해 주세요'"
+              :is-required="true" :placeholder="'이름을 입력해주세요'"
               v-model="newUser.name" />
         <Email :label="'이메일'" :is-login="false"
                :placeholder="'이메일을 입력해주세요'"
                v-model="newUser.email" />
-        <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
-              :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-              v-model="newUser.phone" />
+        <Phone :label="'전화번호'"
+               v-model="newUser.phone" />
         <div class="field">
           <div class="buttons is-centered">
             <button class="button is-info" type="submit">저장</button>
@@ -81,11 +79,13 @@ import { defineComponent, ref, reactive } from 'vue'
 import { bindUserInstance, User } from "@/models/user/user"
 import { StudentInfo } from "@/models/user/student.info"
 import { AuthLevel } from "@/models/auth/auth.level"
+
 import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
 import Password from "@/components/input/Password.vue"
 import Email from "@/components/input/Email.vue"
 import Text from "@/components/input/Text.vue"
+import Phone from "@/components/input/Phone.vue"
 
 import userGrpcService from '@/services/user.grpc.service'
 
@@ -102,7 +102,8 @@ export default defineComponent({
     Username,
     Password,
     Email,
-    Text
+    Text,
+    Phone
   },
   setup(props, { emit }) {
     const newUser = reactive({} as User)
