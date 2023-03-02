@@ -164,7 +164,7 @@ export default defineComponent({
     const updateRowData = (newRowData: any[]) => {
       // 그리드 순번 set
       _.forEach(newRowData, (it: any, idx: number) => {
-        it.cellNo = idx + 1 + ((getCurrentPage() - 1) * 10)
+        it.cellNo = idx + 1 + ((getCurrentPage() - 1) * pagination.unit)
       })
       rowData.value = newRowData
     }
