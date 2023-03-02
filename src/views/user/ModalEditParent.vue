@@ -8,9 +8,8 @@
                   :placeholder="'아이디를 입력해주세요'"
                   icons-left="fa-solid fa-user"
                   v-model="editParentInfo.username"/>
-        <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
-              :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-              v-model="editParentInfo.phone" />
+        <Phone :label="'전화번호'"
+               v-model="editParentInfo.phone" />
         <div class="field">
           <div class="buttons is-centered">
             <button class="button is-info" type="submit">저장</button>
@@ -27,7 +26,7 @@ import { ParentInfo } from "@/models/user/parent.info"
 
 import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
-import Text from "@/components/input/Text.vue"
+import Phone from "@/components/input/Phone.vue"
 
 import userGrpcService from "@/services/user.grpc.service"
 
@@ -37,7 +36,7 @@ import _ from "lodash"
 export default defineComponent({
   Name: 'ModalEditParent',
   components: {
-    AppModal, Username, Text
+    AppModal, Username, Phone
   },
   props: ['userId', 'userParentInfo'],
   setup(props, { emit }) {

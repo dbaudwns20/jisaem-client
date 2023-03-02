@@ -9,7 +9,7 @@
                   icons-left="fa-solid fa-user"
                   v-model="editUser.username"/>
         <Text :label="'이름'" icons-left="fa-solid fa-user"
-              :is-required="true" :placeholder="'이름을 입력해 주세요'"
+              :is-required="true" :placeholder="'이름을 입력해주세요'"
               v-model="editUser.name" />
         <div class="field">
           <div class="columns">
@@ -19,9 +19,8 @@
                      v-model="editUser.email" />
             </div>
             <div class="column">
-              <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
-                    :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-                    v-model="editUser.phone" />
+              <Phone :label="'전화번호'"
+                     v-model="editUser.phone" />
             </div>
           </div>
         </div>
@@ -57,6 +56,7 @@ import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
 import Email from "@/components/input/Email.vue"
 import Text from "@/components/input/Text.vue"
+import Phone from "@/components/input/Phone.vue"
 
 import userGrpcService from "@/services/user.grpc.service"
 
@@ -70,7 +70,8 @@ export default defineComponent({
     AppModal,
     Username,
     Email,
-    Text
+    Text,
+    Phone
   },
   setup(props, { emit }) {
     const editUser = reactive({} as User)

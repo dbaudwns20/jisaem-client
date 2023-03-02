@@ -12,9 +12,8 @@
                   :is-required="true"
                   :is-login="false"
                   v-model="newParentInfo.password"/>
-        <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
-              :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-              v-model="newParentInfo.phone"/>
+        <Phone :label="'전화번호'"
+               v-model="newParentInfo.phone" />
         <div class="field">
           <div class="buttons is-centered">
             <button class="button is-info" type="submit">저장</button>
@@ -32,7 +31,7 @@ import { ParentInfo } from "@/models/user/parent.info"
 import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
 import Password from "@/components/input/Password.vue"
-import Text from "@/components/input/Text.vue"
+import Phone from "@/components/input/Phone.vue"
 
 import userGrpcService from '@/services/user.grpc.service'
 
@@ -45,7 +44,7 @@ export default defineComponent({
     AppModal,
     Username,
     Password,
-    Text
+    Phone
   },
   setup(props, { emit }) {
     const newParentInfo = reactive({} as ParentInfo)

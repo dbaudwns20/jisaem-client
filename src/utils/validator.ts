@@ -4,6 +4,7 @@ const USERNAME_RULE: RegExp = new RegExp(/^(?=.*[A-z\d])[A-z\d]{1,15}$/)
 const KOR_RULE: RegExp = new RegExp(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/)
 const BLANK_RULE: RegExp = new RegExp(/[\s]/gm)
 const COLOR_CODE_RULE: RegExp = new RegExp(/^#(?:[0-9a-fA-F]{6}){1,2}$/)
+const PHONE_RULE: RegExp = new RegExp(/^\d{3}\d{3,4}\d{4}$/)
 
 export default {
   /**
@@ -68,6 +69,14 @@ export default {
    */
   checkCodeCode(value: string): boolean {
     return COLOR_CODE_RULE.test(value)
+  },
+
+  /**
+   * 전화번호 체크
+   * @param value
+   */
+  checkPhoneNumber(value: string): boolean {
+    return PHONE_RULE.test(value)
   }
 
 }

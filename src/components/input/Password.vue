@@ -105,7 +105,7 @@ export default defineComponent({
   name: "Password",
   props: {
     label: { type: String, default: "" },
-    placeholder: { type: String, default: "비밀번호를 입력해 주세요" },
+    placeholder: { type: String, default: "비밀번호를 입력해주세요" },
     isRequired: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
     isLogin: { type: Boolean, default: true },

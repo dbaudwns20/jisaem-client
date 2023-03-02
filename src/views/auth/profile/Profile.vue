@@ -63,16 +63,16 @@
               </p>
             </div>
           </div>
-          <Text :label="'전화번호'" icons-left="fa-solid fa-mobile" :is-disabled="true" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-                v-model="parentInfo.phone" />
+          <Phone :label="'전화번호'" :key="componentKey" :is-disabled="true"
+                 v-model="parentInfo.phone" />
           <div class="divider">자녀 정보</div>
           <Text :label="'이름'" icons-left="fa-solid fa-user"
                 :is-required="true" :is-disabled="true"
                 v-model="editData.name" />
           <Email :label="'이메일'" :is-login="false" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
-          <Text :label="'전화번호'" icons-left="fa-solid fa-mobile" :is-disabled="true" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-                v-model="editData.phone" />
+          <Phone :label="'전화번호'" :key="componentKey" :is-disabled="true"
+                 v-model="editData.phone" />
         </form>
         <!-- 학생 계정 폼 -->
         <form class="box" v-if="isStudent" @submit.prevent="updateProfile" novalidate>
@@ -98,9 +98,8 @@
           <Email :label="'이메일'" :is-login="false"
                  :key="componentKey" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
-          <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
-                :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-                v-model="editData.phone" />
+          <Phone :label="'전화번호'" :key="componentKey"
+                 v-model="editData.phone" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -137,14 +136,13 @@
             </div>
           </div>
           <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
-                :is-required="true" :placeholder="'이름을 입력해 주세요'"
+                :is-required="true" :placeholder="'이름을 입력해주세요'"
                 v-model="editData.name" />
           <Email :label="'이메일'" :is-login="false"
                  :key="componentKey" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
-          <Text :label="'전화번호'" icons-left="fa-solid fa-mobile"
-                :key="componentKey" :placeholder="'(-) 없이 숫자로만 입력해주세요'"
-                v-model="editData.phone" />
+          <Phone :label="'전화번호'" :key="componentKey"
+                 v-model="editData.phone" />
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -170,11 +168,11 @@ import Username from "@/components/input/Username.vue"
 import Text from "@/components/input/Text.vue"
 import Email from "@/components/input/Email.vue"
 import Password from "@/components/input/Password.vue"
+import Phone from "@/components/input/Phone.vue"
 
 import authGrpcService from "@/services/auth.grpc.service"
 
 import utils from "@/utils/utils"
-import store from "@/stores/store"
 import router from "@/routers/router"
 import _ from 'lodash'
 
@@ -188,13 +186,14 @@ export default defineComponent({
     Text,
     Email,
     Password,
+    Phone
   },
   setup() {
     const showData = reactive({} as User)
     const editData = reactive({} as User)
     const componentKey = ref(false)
     const passwordValue = ref("****************")
-    const myAuthLevel = store.getters["sessionStore/authLevel"]
+    const myAuthLevel = utils.authority.getMyAuthLevel()
     let parentInfo = reactive({})
 
     // 컴포넌트 갱신 component key 값이 변경되면 컴포넌트가 갱신된다
@@ -215,12 +214,12 @@ export default defineComponent({
 
     // 내 정보 수정
     const updateProfile = async (form: any) => {
+      if (!utils.validator.validateForm(form.target)) return
       const updatedFields = utils.getUpdatedFields(showData, editData, getUpdateUserKeys())
       if (_.isEmpty(updatedFields)) {
         utils.message.showWarningToastMsg("변경사항이 없습니다")
         return
       }
-      if (!utils.validator.validateForm(form.target)) return
       await authGrpcService.profileUpdate(bindUpdateUser(updatedFields))
       await completeFunction('수정되었습니다')
     }
