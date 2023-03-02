@@ -51,7 +51,7 @@ export default defineComponent({
         return
       }
       if (!utils.validator.validateForm(form.target)) return
-      await userGrpcService.updateUserParentInfo(props.userId, editParentInfo)
+      await userGrpcService.updateUserParentInfo(props.userId, updatedUserFields)
       await emit("complete-function", '수정되었습니다', true)
     }
     return {

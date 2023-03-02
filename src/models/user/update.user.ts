@@ -9,6 +9,7 @@ import _ from 'lodash'
  * 사용자 수정 Interface
  */
 export interface UpdateUser {
+  username?: string
   name?: string
   phone?: string
   email?: string
@@ -22,6 +23,7 @@ export interface UpdateUser {
  */
 function bindUpdateUser(data: any): UpdateUser {
   return {
+    username: data?.username,
     name: data?.name,
     phone: data?.phone,
     email: data?.email,
@@ -35,7 +37,7 @@ function bindUpdateUser(data: any): UpdateUser {
  */
 function getUpdateUserKeys(): string[] {
   let keys: string[] = []
-  if (utils.authority.isManager())
+  if (utils.authority.isManager() || utils.authority.isTeacher() || utils.authority.isSuper())
     keys = ['username', 'name', 'phone', 'email', 'userLabelId', 'studentInfo']
   else if (utils.authority.isStudent())
     keys = ['phone', 'email']
@@ -57,10 +59,12 @@ function getRequestProfileUpdate(updateUser: UpdateUser): RequestProfileUpdate {
 function getRequestUserUpdate(id: string, updateUser: UpdateUser): RequestUserUpdate {
   const request = new RequestUserUpdate
   request.setId(id)
+  request.setUsername(updateUser.username!)
   request.setEmail(updateUser.email!)
   request.setPhone(updateUser.phone!)
   request.setName(updateUser.name!)
-  request.setStudentInfo(bindStudentInfoToProto(updateUser.studentInfo!))
+  request.setStudentSchool(updateUser.studentInfo?.school!)
+  request.setStudentDescription(updateUser.studentInfo?.description!)
   return request
 }
 

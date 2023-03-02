@@ -5,8 +5,8 @@ import _ from 'lodash'
  * 학생정보 Class
  */
 export class StudentInfo {
-  school: string
-  description: string
+  school?: string
+  description?: string
 
   constructor(data: ProtoStudentInfo) {
     this.school = data.getSchool()
@@ -17,7 +17,11 @@ export class StudentInfo {
 export function bindStudentInfoToProto(studentInfo: StudentInfo): ProtoStudentInfo | undefined {
   if (_.isUndefined(studentInfo)) return undefined
   const protoStudentInfo: ProtoStudentInfo = new ProtoStudentInfo()
-  protoStudentInfo.setSchool(studentInfo.school)
-  protoStudentInfo.setDescription(studentInfo.description)
+  protoStudentInfo.setSchool(studentInfo.school!)
+  protoStudentInfo.setDescription(studentInfo.description!)
   return protoStudentInfo
+}
+
+export function getStudentInfoKeys(): string[] {
+  return ['school', 'description']
 }

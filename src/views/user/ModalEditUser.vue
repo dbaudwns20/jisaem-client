@@ -49,10 +49,9 @@
 <script lang="ts">
 import { defineComponent, reactive, onMounted } from "vue"
 
-import { AuthLevel } from "@/models/auth/auth.level"
 import { User } from "@/models/user/user"
-import { StudentInfo } from "@/models/user/student.info"
-import { bindUpdateUser, getUpdateUserKeys } from "@/models/user/update.user"
+import { getStudentInfoKeys, StudentInfo } from "@/models/user/student.info"
+import { bindUpdateUser } from "@/models/user/update.user"
 
 import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
@@ -78,39 +77,41 @@ export default defineComponent({
     const editStudentInfo = reactive({} as StudentInfo)
     const defaultUser = reactive({} as User)
     const defaultStudentInfo = reactive({} as StudentInfo)
-
     const userId: string = props.userId
-    const authLevel: AuthLevel = props.userAuthLevel
-    const isStudent = utils.authority.isStudent(authLevel)
 
     const getUser = async () => {
       const res = await userGrpcService.getUser(userId)
       await Object.assign(editUser, res)
-      await Object.assign(defaultUser, res)
+      await Object.assign(defaultUser, editUser)
       await Object.assign(editStudentInfo, res.studentInfo)
-      await Object.assign(defaultStudentInfo, res.studentInfo)
+      await Object.assign(defaultStudentInfo, editStudentInfo)
     }
 
     const updateUser = async (form: any) => {
-      const updatedUserFields = utils.getUpdatedFields(defaultUser, editUser, getUpdateUserKeys())
-      const updatedStudentInfoFields = utils.getUpdatedFields(defaultStudentInfo, editStudentInfo)
+      const updatedUserFields = utils.getUpdatedFields(defaultUser, editUser)
+      const updatedStudentInfoFields = utils.getUpdatedFields(defaultStudentInfo, editStudentInfo, getStudentInfoKeys())
       if (_.isEmpty(updatedUserFields) && _.isEmpty(updatedStudentInfoFields)) {
         utils.message.showWarningToastMsg("변경사항이 없습니다")
         return
       }
       if (!utils.validator.validateForm(form.target)) return
-      editUser.studentInfo = editStudentInfo
-      await userGrpcService.updateUser(userId, bindUpdateUser(editUser))
+      const reqData = updatedUserFields
+      if (!_.isEmpty(updatedStudentInfoFields)) {
+        _.merge(updatedUserFields, {studentInfo: updatedStudentInfoFields})
+      }
+      await userGrpcService.updateUser(userId, bindUpdateUser(reqData))
       await emit("complete-function", '수정되었습니다', true)
     }
+
     onMounted(() => {
       getUser()
     })
+
     return {
       editUser,
       editStudentInfo,
-      isStudent,
-      updateUser
+      updateUser,
+      isStudent: utils.authority.isStudent(props.userAuthLevel)
     }
   }
 })

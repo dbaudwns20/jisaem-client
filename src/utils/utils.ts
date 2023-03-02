@@ -15,7 +15,7 @@ export default {
   getUpdatedFields(defaultForm: any, currentForm: any, keys: string[] = []) {
     let result: any = {}
     const _keys = _.isEmpty(keys) ? Object.keys(defaultForm) : keys
-    _keys.forEach((key) => {
+    _keys.forEach((key: string) => {
         if (defaultForm[key] instanceof Date) {
           if (defaultForm[key].getTime() !== currentForm[key].getTime())
             result[key] = currentForm[key]
@@ -56,6 +56,10 @@ export default {
     return (brightness > 125) ? 'black' : 'white'
   },
 
+  /**
+   * Date to String (format YYYY-MM-DD)
+   * @param date
+   */
   convertDateToString(date: Date): string {
     let d = new Date(date),
       month = '' + (d.getMonth() + 1),

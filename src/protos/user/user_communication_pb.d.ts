@@ -262,10 +262,15 @@ export class RequestUserUpdate extends jspb.Message {
   hasEmail(): boolean;
   clearEmail(): RequestUserUpdate;
 
-  getStudentInfo(): auth_auth_message_pb.StudentInfo | undefined;
-  setStudentInfo(value?: auth_auth_message_pb.StudentInfo): RequestUserUpdate;
-  hasStudentInfo(): boolean;
-  clearStudentInfo(): RequestUserUpdate;
+  getStudentSchool(): string;
+  setStudentSchool(value: string): RequestUserUpdate;
+  hasStudentSchool(): boolean;
+  clearStudentSchool(): RequestUserUpdate;
+
+  getStudentDescription(): string;
+  setStudentDescription(value: string): RequestUserUpdate;
+  hasStudentDescription(): boolean;
+  clearStudentDescription(): RequestUserUpdate;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestUserUpdate.AsObject;
@@ -282,7 +287,8 @@ export namespace RequestUserUpdate {
     name?: string,
     phone?: string,
     email?: string,
-    studentInfo?: auth_auth_message_pb.StudentInfo.AsObject,
+    studentSchool?: string,
+    studentDescription?: string,
   }
 
   export enum UsernameCase { 
@@ -305,9 +311,14 @@ export namespace RequestUserUpdate {
     EMAIL = 5,
   }
 
-  export enum StudentInfoCase { 
-    _STUDENT_INFO_NOT_SET = 0,
-    STUDENT_INFO = 6,
+  export enum StudentSchoolCase { 
+    _STUDENT_SCHOOL_NOT_SET = 0,
+    STUDENT_SCHOOL = 6,
+  }
+
+  export enum StudentDescriptionCase { 
+    _STUDENT_DESCRIPTION_NOT_SET = 0,
+    STUDENT_DESCRIPTION = 7,
   }
 }
 
