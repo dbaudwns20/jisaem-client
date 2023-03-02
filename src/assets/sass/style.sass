@@ -58,6 +58,27 @@
   border-left: 1px solid #babfc7
   border-right: 1px solid #babfc7
 
+  > ul
+    border-bottom: 0
+    > li
+      border-right: 0.5px solid #babfc7
+      > a
+        background-color: #F9F9F9
+        font-weight: normal
+    > li:first-child
+      border-left: 0
+    > li:last-child
+      border-right: 0
+
+.tabs.is-boxed li.is-active a
+  border: 0
+  font-weight: bold
+  &:before
+    font-family: "Font Awesome 5 Free", serif
+    content: '\f3c5'
+    padding-right: 5px
+    font-size: 12px
+
 .dropdown
   width: 100%
 
@@ -87,6 +108,10 @@
 
     &.selected
       background-color: #EFF2F7
+      &:before
+        font-family: "Font Awesome 5 Free", serif
+        content: '\f058'
+        padding-right: 5px
 
     &.focused
       background-color: #E1E1E1
@@ -131,9 +156,6 @@
 
   .label-icon
     color: hsl(0, 0%, 29%) !important
-
-.label-checked-icon
-  @extend .icon
 
 .delete-label
   @extend .delete
