@@ -11,11 +11,10 @@
     <div class="container">
       <div class="tabs is-boxed is-fullwidth is-marginless">
         <ul>
-<!--          TODO 한줄로 줄일 수 있을 것 같음 & AuthLevel.isStudent() 사용하도록-->
-          <li :class="{ 'is-active': currentAuthLevel === authLevel.AUTH_LEVEL_UNSPECIFIED }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_UNSPECIFIED)"><a><strong>전체</strong></a></li>
-          <li :class="{ 'is-active': currentAuthLevel === authLevel.AUTH_LEVEL_STUDENT }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_STUDENT)"><a><strong>학생</strong></a></li>
-          <li :class="{ 'is-active': currentAuthLevel === authLevel.AUTH_LEVEL_TEACHER }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_TEACHER)"><a><strong>선생님</strong></a></li>
-          <li :class="{ 'is-active': currentAuthLevel === authLevel.AUTH_LEVEL_MANAGER }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_MANAGER)"><a><strong>관리자</strong></a></li>
+          <li :class="{ 'is-active': isUnspecified(currentAuthLevel) }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_UNSPECIFIED)"><a><strong>전체</strong></a></li>
+          <li :class="{ 'is-active': isStudent(currentAuthLevel) }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_STUDENT)"><a><strong>학생</strong></a></li>
+          <li :class="{ 'is-active': isTeacher(currentAuthLevel) }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_TEACHER)"><a><strong>선생님</strong></a></li>
+          <li :class="{ 'is-active': isManager(currentAuthLevel) }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_MANAGER)"><a><strong>관리자</strong></a></li>
         </ul>
       </div>
       <div class="grid-header">
@@ -141,7 +140,7 @@ export default defineComponent({
           selectedItemList.value.splice(idx, 1)
         }
         // 부모님정보 기능 버튼이 보임여부 설정
-        if (AuthLevel.isStudent(currentAuthLevel.value)) {
+        if (utils.authority.isParent(currentAuthLevel.value)) {
           showParentFunctionButtons.value = _.filter(selectedItemList.value, (it: any) => { return it.parentInfo?.active }).length > 0
         }
       },
@@ -246,7 +245,7 @@ export default defineComponent({
     }
     const setCurrentAuthLevel = (authLevel: AuthLevel) => {
       currentAuthLevel.value = authLevel
-      gridColumnApi.value.setColumnVisible('isParentInfo', AuthLevel.isStudent(authLevel))
+      gridColumnApi.value.setColumnVisible('isParentInfo', utils.authority.isStudent(authLevel))
       gridApi.value.sizeColumnsToFit()
     }
     // 텝이 선택될 때 사용자 목록 재조회
@@ -254,6 +253,8 @@ export default defineComponent({
       read()
       // 체크박스 목록 초기화
       selectedItemList.value = []
+      // 부모님정보 기능 버튼 보이기 초기화
+      showParentFunctionButtons.value = false
     })
     // mount 사이클에서 사용자 조회
     onMounted(() => {
@@ -272,7 +273,7 @@ export default defineComponent({
     }
     return {
       userGrid,
-      currentAuthLevel: currentAuthLevel,
+      currentAuthLevel,
       selectedItemList,
       showParentFunctionButtons,
       gridApi,
@@ -290,7 +291,12 @@ export default defineComponent({
       editUser,
       deleteUser,
       completeFunction,
-      authLevel: AuthLevel
+      authLevel: AuthLevel,
+      isUnspecified: utils.authority.isUnspecified,
+      isStudent: utils.authority.isStudent,
+      isParent: utils.authority.isParent,
+      isTeacher: utils.authority.isTeacher,
+      isManager: utils.authority.isManager,
     }
   }
 })

@@ -4,16 +4,14 @@ import store from "@/stores/store"
 import _ from 'lodash'
 
 export default {
-  // 권한 레벨 가져오기
+  // 내 권한 레벨 가져오기
   getMyAuthLevel(): AuthLevel {
     return store.getters["sessionStore/authLevel"] as AuthLevel
   },
-  // 매니져 권한인지 체크
-  isManager(authLevel?: AuthLevel): boolean {
+  // 미지정(전체) 권한인지 체크
+  isUnspecified(authLevel?: AuthLevel): boolean {
     if (_.isUndefined(authLevel)) authLevel = this.getMyAuthLevel()
-    return authLevel === AuthLevel.AUTH_LEVEL_TEACHER ||
-           authLevel === AuthLevel.AUTH_LEVEL_MANAGER ||
-           authLevel === AuthLevel.AUTH_LEVEL_SUPER
+    return authLevel === AuthLevel.AUTH_LEVEL_UNSPECIFIED
   },
   // 학생 권한인지 체크
   isStudent(authLevel?: AuthLevel): boolean {
@@ -24,6 +22,21 @@ export default {
   isParent(authLevel?: AuthLevel): boolean {
     if (_.isUndefined(authLevel)) authLevel = this.getMyAuthLevel()
     return authLevel === AuthLevel.AUTH_LEVEL_PARENT
+  },
+  // 선생님 권한인지 체크
+  isTeacher(authLevel?: AuthLevel): boolean {
+    if (_.isUndefined(authLevel)) authLevel = this.getMyAuthLevel()
+    return authLevel === AuthLevel.AUTH_LEVEL_TEACHER
+  },
+  // 매니져 권한인지 체크
+  isManager(authLevel?: AuthLevel): boolean {
+    if (_.isUndefined(authLevel)) authLevel = this.getMyAuthLevel()
+    return authLevel === AuthLevel.AUTH_LEVEL_MANAGER
+  },
+  // 수퍼관리지 권한인지 체크
+  isSuper(authLevel?: AuthLevel): boolean {
+    if (_.isUndefined(authLevel)) authLevel = this.getMyAuthLevel()
+    return authLevel === AuthLevel.AUTH_LEVEL_SUPER
   },
   // 권한 이름 가져오기
   getMyAuthName(authLevel?: AuthLevel): string {

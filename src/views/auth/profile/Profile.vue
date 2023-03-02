@@ -105,8 +105,8 @@
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
         </form>
-        <!-- 매니져 계정 폼 -->
-        <form class="box" v-if="isManager" @submit.prevent="updateProfile" novalidate>
+        <!-- 매니저, 선생, 슈퍼관리자 계정 폼 -->
+        <form class="box" v-if="isManager || isSuper || isTeacher" @submit.prevent="updateProfile" novalidate>
           <div class="field">
             <label class="label required">아이디</label>
             <div class="field is-grouped">
@@ -248,9 +248,11 @@ export default defineComponent({
       componentKey,
       parentInfo,
       authName: utils.authority.getMyAuthName(myAuthLevel),
-      isManager: utils.authority.isManager(myAuthLevel),
       isStudent: utils.authority.isStudent(myAuthLevel),
       isParent: utils.authority.isParent(myAuthLevel),
+      isManager: utils.authority.isManager(myAuthLevel),
+      isTeacher: utils.authority.isTeacher(myAuthLevel),
+      isSuper: utils.authority.isSuper(myAuthLevel),
       changeUsernamePath: ModalChangeUsername.path,
       changePasswordPath: ModalChangePassword.path,
       labelType: LabelType,
