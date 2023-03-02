@@ -27,9 +27,7 @@
       <div class="dropdown-menu" id="dropdown-menu" role="menu">
         <div ref="dropdownContent" class="dropdown-content">
           <a class="dropdown-item" :class="[{'selected': label.selected}, {'focused': label.focused}]"
-             v-for="(label, idx) in labelList" :key=idx
-             @click="setLabel(label)">
-            <span class="label-checked-icon" v-if="label.selected"><i class="fa-regular fa-circle-check"></i></span>
+             v-for="(label, idx) in labelList" :key=idx @click="setLabel(label)">
             <LabelElement :params="{data: {name: label.name, color: label.color, id: label.id}}" :size="'is-small'" />
             <span class="label-description" v-if="label.description"> - {{ label.description }}</span>
           </a>
@@ -230,7 +228,7 @@ export default defineComponent({
       }, 0)
     }
     // dropdown item 외 클릭 시 리스트 목록 숨기기 이벤트
-    const keepActiveClasses: string[] = ['dropdown-item', 'label-checked-icon', 'label-description', 'tag is-rounded', 'fa-regular fa-circle-check']
+    const keepActiveClasses: string[] = ['dropdown-item', 'label-description', 'tag is-rounded', 'fa-regular fa-circle-check']
     const clickListener: EventListener = (event: any) => {
       const className: string = event.target.className
       if (className === 'input labels-input')
