@@ -47,6 +47,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { bindPaginationInstance, Pagination } from "@/models/util/util"
 
 import { AgGridVue } from "ag-grid-vue3"
+import { RowNode } from "ag-grid-community"
 
 import _ from 'lodash'
 
@@ -81,14 +82,16 @@ export default defineComponent({
     gridOptions.suppressRowClickSelection = true
     // 셀 마우스 오버 시 hover 스타일이 적용되지 않음
     gridOptions.suppressRowHoverHighlight = true
-    // 셀 텍스트 드레그 셀렉트 가능 옵션
-    gridOptions.enableCellTextSelection = true
     // 그리드 사이즈 변경 시 컬럼 길이 재조정
     gridOptions.onGridSizeChanged = (params: any) => {
       params.api.sizeColumnsToFit()
+      // detail 이 확장된 경우 높이 재조정
+      _.forEach(params.api.getModel().rowsToDisplay, (rowNode: RowNode) => {
+        if (rowNode.data.isFullWidth) setDetailRowHeight(rowNode)
+      })
     }
     gridOptions.onSortChanged = (params: any) => {
-      console.log(gridOptions.api.getSortModel())
+      // sorting event
     }
     // 행이 선택될 때 클래스 추가 (커스텀)
     gridOptions.rowClassRules = {
@@ -98,10 +101,11 @@ export default defineComponent({
     gridOptions.onCellClicked = (params: any) => {
       // 첫번째 셀 (디테일 확장) 버튼을 클릭하면
       if (params.column.colId === '0') {
-        setTimeout(() => {
-          if (!params.data.isExpanded) expandRow(params)
-          else collapseRow(params)
-        })
+        if (!params.data.isExpanded) {
+          expandRow(params)
+        } else {
+          collapseRow(params)
+        }
       }
       // 선택 영역 표시
       gridOptions.api.forEachNode((rowNode: any) => {
@@ -110,32 +114,28 @@ export default defineComponent({
         rowNode.setData(newData)
       })
     }
-    // 셀 더블 클릭 시
-    gridOptions.onCellDoubleClicked = (params: any) => {
-      if (!params.data.isExpanded) expandRow(params)
-      else collapseRow(params)
-    }
     // 행이 detail(isFullWidth) 인지 체크
     const isFullWidth = (params: any) => {
       if (params.rowNode.data?.isFullWidth) {
         // 확장된 상태에서 '전체선택' 시 선택 방지
         params.rowNode.selectable = false
         // detail 영역 높이 설정
-        setDetailRowHeight(params)
+        setDetailRowHeight(params.rowNode)
         return true
       }
     }
     // detail 영역 높이 설정
-    const setDetailRowHeight = (params: any) => {
+    const setDetailRowHeight = (rowNode: RowNode) => {
       // 인터벌을 줘서 querySelect 하기
       setTimeout(() => {
-        const detailParent: any = document.querySelectorAll(`div[row-index="${params.rowNode.rowIndex}"]`)
-        if (detailParent[0].childElementCount === 1) {
+        const detailParent: any = document.querySelectorAll(`div[row-index="${rowNode.rowIndex}"]`)
+        if (detailParent[0]?.childElementCount === 1) {
           const detailHeight: number = detailParent[0].childNodes[0].offsetHeight + 1
-          params.rowNode.setRowHeight(detailHeight)
-          params.api.onRowHeightChanged()
+          rowNode.setRowHeight(detailHeight)
+          gridOptions.api.onRowHeightChanged()
+          gridOptions.api.ensureIndexVisible(rowNode.rowIndex, 'middle')
         }
-      })
+      }, 100)
     }
     // 행 확장
     const expandRow = (params: any) => {
