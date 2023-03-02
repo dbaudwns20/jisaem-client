@@ -162,6 +162,10 @@ export default defineComponent({
     }
     // 그리드 리스트 업테이트
     const updateRowData = (newRowData: any[]) => {
+      // 그리드 순번 set
+      _.forEach(newRowData, (it: any, idx: number) => {
+        it.cellNo = idx + 1 + ((getCurrentPage() - 1) * 10)
+      })
       rowData.value = newRowData
     }
     // 현재 페이지 가져오기

@@ -5,8 +5,8 @@ export default {
   setColumns() {
     return [
       {
-        maxWidth: 45,
-        minWidth: 45,
+        maxWidth: 40,
+        minWidth: 40,
         lockPosition: 'left',
         sortable: false,
         resizable: false,
@@ -19,8 +19,8 @@ export default {
         }
       },
       {
-        maxWidth: 52,
-        minWidth: 52,
+        maxWidth: 45,
+        minWidth: 45,
         lockPosition: 'left',
         sortable: false,
         resizable: false,
@@ -30,14 +30,13 @@ export default {
       },
       {
         headerName: '순번',
+        field: 'cellNo',
         maxWidth: 65,
         minWidth: 65,
+        lockPosition: 'left',
         sortable: false,
         resizable: false,
-        cellStyle: { textAlign: 'center' },
-        cellRenderer: (params: any) => {
-          return parseInt(params.node.id) + 1
-        }
+        cellStyle: { textAlign: 'center' }
       },
       {
         minWidth: 180,

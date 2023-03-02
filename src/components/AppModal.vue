@@ -24,16 +24,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import router from "@/routers/router";
+import router from "@/routers/router"
 
 export default defineComponent({
   name: 'AppModal',
   props: {
-    title: { type: String, default: '' },
-    width: { type: Number, default: 640 }
+    title: { type: String, default: '' }
   },
   setup(props) {
-    let modalTitle = ref(props.title)
+    const modalTitle = ref(props.title)
 
     const closeModal = (): void => {
       router.go(-1)

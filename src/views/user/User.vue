@@ -161,9 +161,10 @@ export default defineComponent({
       const id: string[] = ['lwbdkXa9Z4QgvVl9L1M1t'] // TODO remove
       const page = bindPaginationInstance(pageInfo)
       const res: any = await userGrpcService.getUserList(id, currentAuthLevel.value, page)
-      // rowData Set
-      await userGrid.value.updateRowData(res.list)
+      // 1. pagination set
       await userGrid.value.setPageInfo(res.pageInfo)
+      // 2. rowData Set
+      await userGrid.value.updateRowData(res.list)
     }
     // 사용자 신규
     const addNewUser = () => {
