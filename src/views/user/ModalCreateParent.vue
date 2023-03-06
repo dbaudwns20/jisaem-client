@@ -2,11 +2,10 @@
   <AppModal :title="'부모님정보 생성'">
     <template v-slot:modalContent>
       <form @submit.prevent="createParent" novalidate>
-        <Username :label="'아이디'"
+        <Username :label="'아이디'" ref="usernameComp"
                   :is-required="true"
                   :dup-check-target="'parent'"
                   :placeholder="'아이디를 입력해주세요'"
-                  icons-left="fa-solid fa-user"
                   v-model="newParentInfo.username"/>
         <Password :label="'비밀번호'" :show-inline="true"
                   :is-required="true"
@@ -25,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref, onMounted } from 'vue'
 import { ParentInfo } from "@/models/user/parent.info"
 
 import AppModal from "@/components/AppModal.vue"
@@ -47,6 +46,7 @@ export default defineComponent({
     Phone
   },
   setup(props, { emit }) {
+    const usernameComp = ref()
     const newParentInfo = reactive({} as ParentInfo)
 
     const createParent = async (form: any) => {
@@ -55,7 +55,12 @@ export default defineComponent({
       await emit("complete-function", '생성되었습니다', true)
     }
 
+    onMounted(() => {
+      usernameComp.value.focusin()
+    })
+
     return {
+      usernameComp,
       newParentInfo,
       createParent
     }

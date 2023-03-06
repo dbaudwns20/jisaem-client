@@ -1,6 +1,5 @@
 import { ParentInfo as ProtoParentInfo } from "@/protos/auth/auth_message_pb"
 import _ from 'lodash'
-import {User} from "@/models/user/user";
 
 /**
  * 부모정보 Class
@@ -13,7 +12,6 @@ export class ParentInfo {
 
   constructor(data: ProtoParentInfo) {
     this.username = data.getUsername()
-    this.password = data.getPassword()
     this.phone = data.getPhone()
     this.active = data.getActive()
   }
@@ -26,4 +24,8 @@ export function bindParentInfoToProto(parentInfo: ParentInfo): ProtoParentInfo |
   protoParentInfo.setPassword(parentInfo.password!)
   protoParentInfo.setPhone(parentInfo?.phone)
   return protoParentInfo
+}
+
+export function getParentInfoKeys(): string[] {
+  return ['username', 'phone']
 }

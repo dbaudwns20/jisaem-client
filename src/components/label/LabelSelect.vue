@@ -102,7 +102,6 @@ export default defineComponent({
     // gRPC 레이블 목록 조회
     const getLabelList = async () => {
       labelList.value = await labelGrpcService.getLabels(props.labelType!)
-      await setLabelInputFocus()
       if (props.modelValue.length > 0) {
         await setLabelList()
       }
@@ -276,7 +275,8 @@ export default defineComponent({
       setLabel,
       blur,
       keydown,
-      removeLabel
+      removeLabel,
+      setLabelInputFocus
     }
   }
 })

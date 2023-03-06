@@ -1,12 +1,11 @@
 <template>
   <AppModal :title="'사용자신규'">
     <template v-slot:modalContent>
-      <form @submit.prevent="createUser" novalidate v-if="authLevel === AuthLevel.AUTH_LEVEL_STUDENT">
-        <Username :label="'아이디'"
+      <form @submit.prevent="createUser" novalidate v-if="isStudent">
+        <Username :label="'아이디'" ref="usernameComp"
                   :is-required="true"
                   :dup-check-target="'user'"
                   :placeholder="'아이디를 입력해주세요'"
-                  icons-left="fa-solid fa-user"
                   v-model="newUser.username"/>
         <Password :label="'비밀번호'" :show-inline="true"
                   :is-required="true"
@@ -18,7 +17,7 @@
         <div class="field">
           <div class="columns">
             <div class="column">
-              <Email :label="'이메일'" :is-login="false"
+              <Email :label="'이메일'"
                      :placeholder="'이메일을 입력해주세요'"
                      v-model="newUser.email" />
             </div>
@@ -45,12 +44,11 @@
           </div>
         </div>
       </form>
-      <form @submit.prevent="createUser" novalidate v-if="authLevel !== AuthLevel.AUTH_LEVEL_STUDENT">
-        <Username :label="'아이디'"
+      <form @submit.prevent="createUser" novalidate v-if="!isStudent">
+        <Username :label="'아이디'" ref="usernameComp"
                   :is-required="true"
                   :dup-check-target="'user'"
                   :placeholder="'아이디를 입력해주세요'"
-                  icons-left="fa-solid fa-user"
                   v-model="newUser.username"/>
         <Password :label="'비밀번호'" :show-inline="true"
                   :is-required="true"
@@ -59,7 +57,7 @@
         <Text :label="'이름'" icons-left="fa-solid fa-user"
               :is-required="true" :placeholder="'이름을 입력해주세요'"
               v-model="newUser.name" />
-        <Email :label="'이메일'" :is-login="false"
+        <Email :label="'이메일'"
                :placeholder="'이메일을 입력해주세요'"
                v-model="newUser.email" />
         <Phone :label="'전화번호'"
@@ -75,10 +73,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, reactive, ref, onMounted } from 'vue'
 import { bindUserInstance, User } from "@/models/user/user"
 import { StudentInfo } from "@/models/user/student.info"
-import { AuthLevel } from "@/models/auth/auth.level"
 
 import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
@@ -95,7 +92,7 @@ import _ from 'lodash'
 export default defineComponent({
   name: "ModalCreateUser",
   props: {
-    authLevel: { type: Number, required: true}
+    userAuthLevel: { type: Number, required: true}
   },
   components: {
     AppModal,
@@ -106,6 +103,7 @@ export default defineComponent({
     Phone
   },
   setup(props, { emit }) {
+    const usernameComp = ref()
     const newUser = reactive({} as User)
     const newStudentInfo = reactive({} as StudentInfo)
 
@@ -114,15 +112,20 @@ export default defineComponent({
       if (!_.isEmpty(newStudentInfo.school) || !_.isEmpty(newStudentInfo.description)) {
         newUser.studentInfo = newStudentInfo
       }
-      await userGrpcService.createUser(bindUserInstance(newUser), props.authLevel)
+      await userGrpcService.createUser(bindUserInstance(newUser), props.userAuthLevel)
       await emit("complete-function", '생성되었습니다', true)
     }
 
+    onMounted(() => {
+      usernameComp.value.focusin()
+    })
+
     return {
+      usernameComp,
       newUser,
       newStudentInfo,
       createUser,
-      AuthLevel
+      isStudent: utils.authority.isStudent(props.userAuthLevel)
     }
   }
 })

@@ -13,13 +13,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = (function() { return this || window || global || self || Function('return this')(); }).call(null);
 
 var auth_auth_message_pb = require('../auth/auth_message_pb.js');
 goog.object.extend(proto, auth_auth_message_pb);
@@ -2490,7 +2484,9 @@ proto.jisaem.user.RequestUserUpdate.toObject = function(includeInstance, msg) {
     phone: jspb.Message.getFieldWithDefault(msg, 4, ""),
     email: jspb.Message.getFieldWithDefault(msg, 5, ""),
     studentSchool: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    studentDescription: jspb.Message.getFieldWithDefault(msg, 7, "")
+    studentDescription: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    parentUsername: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    parentPhone: jspb.Message.getFieldWithDefault(msg, 9, "")
   };
 
   if (includeInstance) {
@@ -2554,6 +2550,14 @@ proto.jisaem.user.RequestUserUpdate.deserializeBinaryFromReader = function(msg, 
     case 7:
       var value = /** @type {string} */ (reader.readString());
       msg.setStudentDescription(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setParentUsername(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setParentPhone(value);
       break;
     default:
       reader.skipField();
@@ -2630,6 +2634,20 @@ proto.jisaem.user.RequestUserUpdate.serializeBinaryToWriter = function(message, 
   if (f != null) {
     writer.writeString(
       7,
+      f
+    );
+  }
+  f = /** @type {string} */ (jspb.Message.getField(message, 8));
+  if (f != null) {
+    writer.writeString(
+      8,
+      f
+    );
+  }
+  f = /** @type {string} */ (jspb.Message.getField(message, 9));
+  if (f != null) {
+    writer.writeString(
+      9,
       f
     );
   }
@@ -2867,6 +2885,78 @@ proto.jisaem.user.RequestUserUpdate.prototype.clearStudentDescription = function
  */
 proto.jisaem.user.RequestUserUpdate.prototype.hasStudentDescription = function() {
   return jspb.Message.getField(this, 7) != null;
+};
+
+
+/**
+ * optional string parent_username = 8;
+ * @return {string}
+ */
+proto.jisaem.user.RequestUserUpdate.prototype.getParentUsername = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.jisaem.user.RequestUserUpdate} returns this
+ */
+proto.jisaem.user.RequestUserUpdate.prototype.setParentUsername = function(value) {
+  return jspb.Message.setField(this, 8, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.jisaem.user.RequestUserUpdate} returns this
+ */
+proto.jisaem.user.RequestUserUpdate.prototype.clearParentUsername = function() {
+  return jspb.Message.setField(this, 8, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.jisaem.user.RequestUserUpdate.prototype.hasParentUsername = function() {
+  return jspb.Message.getField(this, 8) != null;
+};
+
+
+/**
+ * optional string parent_phone = 9;
+ * @return {string}
+ */
+proto.jisaem.user.RequestUserUpdate.prototype.getParentPhone = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.jisaem.user.RequestUserUpdate} returns this
+ */
+proto.jisaem.user.RequestUserUpdate.prototype.setParentPhone = function(value) {
+  return jspb.Message.setField(this, 9, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.jisaem.user.RequestUserUpdate} returns this
+ */
+proto.jisaem.user.RequestUserUpdate.prototype.clearParentPhone = function() {
+  return jspb.Message.setField(this, 9, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.jisaem.user.RequestUserUpdate.prototype.hasParentPhone = function() {
+  return jspb.Message.getField(this, 9) != null;
 };
 
 

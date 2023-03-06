@@ -1,8 +1,9 @@
 import { RequestProfileUpdate } from "@/protos/auth/auth_communication_pb"
 import { RequestUserUpdate } from "@/protos/user/user_communication_pb"
-import { bindStudentInfoToProto, StudentInfo } from "@/models/user/student.info"
-import utils from "@/utils/utils"
+import { StudentInfo } from "@/models/user/student.info"
+import { ParentInfo } from "@/models/user/parent.info"
 
+import utils from "@/utils/utils"
 import _ from 'lodash'
 
 /**
@@ -14,20 +15,22 @@ export interface UpdateUser {
   phone?: string
   email?: string
   userLabelId?: string,
-  studentInfo?: StudentInfo
+  studentInfo?: StudentInfo,
+  parentInfo?: ParentInfo
 }
 
 /**
  * 데이터를 UpdateUser 로 바인드
  * @param data
  */
-function bindUpdateUser(data: any): UpdateUser {
+export function bindUpdateUser(data: any): UpdateUser {
   return {
     username: data?.username,
     name: data?.name,
     phone: data?.phone,
     email: data?.email,
     studentInfo: data?.studentInfo,
+    parentInfo: data?.parentInfo,
     userLabelId: _.isEmpty(data?.userLabel) ? '' : data?.userLabel.id
   }
 }
@@ -35,7 +38,7 @@ function bindUpdateUser(data: any): UpdateUser {
 /**
  * 권한별 수정할 수 있는 필드 키 가져오기
  */
-function getUpdateUserKeys(): string[] {
+export function getUpdateUserKeys(): string[] {
   let keys: string[] = []
   if (utils.authority.isManager() || utils.authority.isTeacher() || utils.authority.isSuper())
     keys = ['username', 'name', 'phone', 'email', 'userLabelId', 'studentInfo']
@@ -48,7 +51,7 @@ function getUpdateUserKeys(): string[] {
  * UpdateUser 데이터를 RequestProfileUpdate 변환
  * @param updateUser
  */
-function getRequestProfileUpdate(updateUser: UpdateUser): RequestProfileUpdate {
+export function getRequestProfileUpdate(updateUser: UpdateUser): RequestProfileUpdate {
   const request = new RequestProfileUpdate()
   request.setName(updateUser.name!)
   request.setPhone(updateUser.phone!)
@@ -56,7 +59,7 @@ function getRequestProfileUpdate(updateUser: UpdateUser): RequestProfileUpdate {
   return request
 }
 
-function getRequestUserUpdate(id: string, updateUser: UpdateUser): RequestUserUpdate {
+export function getRequestUserUpdate(id: string, updateUser: UpdateUser): RequestUserUpdate {
   const request = new RequestUserUpdate
   request.setId(id)
   request.setUsername(updateUser.username!)
@@ -65,8 +68,7 @@ function getRequestUserUpdate(id: string, updateUser: UpdateUser): RequestUserUp
   request.setName(updateUser.name!)
   request.setStudentSchool(updateUser.studentInfo?.school!)
   request.setStudentDescription(updateUser.studentInfo?.description!)
+  request.setParentUsername(updateUser.parentInfo?.username!)
+  request.setParentPhone(updateUser.parentInfo?.phone!)
   return request
 }
-
-
-export { bindUpdateUser, getUpdateUserKeys, getRequestProfileUpdate, getRequestUserUpdate }

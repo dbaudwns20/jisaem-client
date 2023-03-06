@@ -36,7 +36,7 @@ export default {
         lockPosition: 'left',
         sortable: false,
         resizable: false,
-        cellStyle: { textAlign: 'center' }
+        cellStyle: {justifyContent: 'center', display: 'flex', alignItems: 'center'},
       },
       {
         minWidth: 180,

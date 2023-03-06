@@ -69,10 +69,17 @@
           <Text :label="'이름'" icons-left="fa-solid fa-user"
                 :is-required="true" :is-disabled="true"
                 v-model="editData.name" />
-          <Email :label="'이메일'" :is-login="false" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
+          <Email :label="'이메일'" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Phone :label="'전화번호'" :key="componentKey" :is-disabled="true"
                  v-model="editData.phone" />
+          <div class="field" v-if="showData?.userLabelList?.length > 0">
+            <label class="label">
+              레이블
+            </label>
+            <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
+                                        labelClass: 'detail-label-list'}"/>
+          </div>
         </form>
         <!-- 학생 계정 폼 -->
         <form class="box" v-if="isStudent" @submit.prevent="updateProfile" novalidate>
@@ -95,11 +102,18 @@
           <Text :label="'이름'" icons-left="fa-solid fa-user"
                 :is-required="true" :is-disabled="true"
                 v-model="editData.name" />
-          <Email :label="'이메일'" :is-login="false"
+          <Email :label="'이메일'"
                  :key="componentKey" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Phone :label="'전화번호'" :key="componentKey"
                  v-model="editData.phone" />
+          <div class="field" v-if="showData?.userLabelList?.length > 0">
+            <label class="label">
+              레이블
+            </label>
+            <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
+                                        labelClass: 'detail-label-list'}"/>
+          </div>
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -138,11 +152,18 @@
           <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
                 :is-required="true" :placeholder="'이름을 입력해주세요'"
                 v-model="editData.name" />
-          <Email :label="'이메일'" :is-login="false"
+          <Email :label="'이메일'"
                  :key="componentKey" :placeholder="'이메일을 입력해주세요'"
                  v-model="editData.email" />
           <Phone :label="'전화번호'" :key="componentKey"
                  v-model="editData.phone" />
+          <div class="field" v-if="showData?.userLabelList?.length > 0">
+            <label class="label">
+              레이블
+            </label>
+            <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
+                                        labelClass: 'detail-label-list'}"/>
+          </div>
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
           </div>
@@ -169,6 +190,7 @@ import Text from "@/components/input/Text.vue"
 import Email from "@/components/input/Email.vue"
 import Password from "@/components/input/Password.vue"
 import Phone from "@/components/input/Phone.vue"
+import LabelElementList from "@/components/label/LabelElementList.vue"
 
 import authGrpcService from "@/services/auth.grpc.service"
 
@@ -186,7 +208,8 @@ export default defineComponent({
     Text,
     Email,
     Password,
-    Phone
+    Phone,
+    LabelElementList
   },
   setup() {
     const showData = reactive({} as User)
@@ -197,9 +220,7 @@ export default defineComponent({
     let parentInfo = reactive({})
 
     // 컴포넌트 갱신 component key 값이 변경되면 컴포넌트가 갱신된다
-    const reloadComponents = () => {
-      componentKey.value = !componentKey.value
-    }
+    const reloadComponents = () => componentKey.value = !componentKey.value
 
     // 내정보 가져오기
     const getProfile = async () => {

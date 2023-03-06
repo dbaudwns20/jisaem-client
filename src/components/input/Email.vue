@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="field" v-if="!isHorizontal">
     <label class="label" :class="{ 'required': isRequired }" v-if="label">
       {{ label }}
     </label>
@@ -7,7 +7,7 @@
       <input type="email" class="input"
              :class="checkClass"
              :required="isRequired"
-             :readonly="isReadOnly"
+             :readonly="isReadonly"
              :disabled="isDisabled"
              :placeholder="placeholder"
              :value="modelValue"
@@ -23,6 +23,36 @@
       {{ checkMsg }}
     </p>
   </div>
+  <div class="field is-horizontal" v-if="isHorizontal">
+    <div class="field-label is-small">
+      <label class="detail-label" :class="{ 'required': isRequired }" v-if="label">
+        {{ label }}
+      </label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control has-icons-left has-icons-right">
+          <input type="email" class="input is-small"
+                 :class="checkClass"
+                 :required="isRequired"
+                 :readonly="isReadonly"
+                 :disabled="isDisabled"
+                 :placeholder="placeholder"
+                 :value="modelValue"
+                 @input="$emit('update:modelValue', $event.target.value)"
+                 @invalid="checkIfIsInvalid($event.target.value)"
+                 @keyup="checkEmailRule($event.target)">
+          <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+          <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
+                                                            'fas fa-exclamation-triangle': checkClass === 'is-danger',
+                                                            '': checkClass === ''}"></i></span>
+        </div>
+        <p class="help" :class="checkClass" style="font-size: 10px;">
+          {{ checkMsg }}
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -36,8 +66,9 @@ export default defineComponent({
     label: { type: String, default: "" },
     placeholder: { type: String, default: "이메일을 입력해주세요" },
     isRequired: { type: Boolean, default: false },
-    isReadOnly: { type: Boolean, default: false },
+    isReadonly: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
+    isHorizontal: { type: Boolean, default: false },
     modelValue: { type: String, default: "" }
   },
   setup(props, context) {

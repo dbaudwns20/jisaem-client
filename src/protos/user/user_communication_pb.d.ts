@@ -272,6 +272,16 @@ export class RequestUserUpdate extends jspb.Message {
   hasStudentDescription(): boolean;
   clearStudentDescription(): RequestUserUpdate;
 
+  getParentUsername(): string;
+  setParentUsername(value: string): RequestUserUpdate;
+  hasParentUsername(): boolean;
+  clearParentUsername(): RequestUserUpdate;
+
+  getParentPhone(): string;
+  setParentPhone(value: string): RequestUserUpdate;
+  hasParentPhone(): boolean;
+  clearParentPhone(): RequestUserUpdate;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestUserUpdate.AsObject;
   static toObject(includeInstance: boolean, msg: RequestUserUpdate): RequestUserUpdate.AsObject;
@@ -289,6 +299,8 @@ export namespace RequestUserUpdate {
     email?: string,
     studentSchool?: string,
     studentDescription?: string,
+    parentUsername?: string,
+    parentPhone?: string,
   }
 
   export enum UsernameCase { 
@@ -319,6 +331,16 @@ export namespace RequestUserUpdate {
   export enum StudentDescriptionCase { 
     _STUDENT_DESCRIPTION_NOT_SET = 0,
     STUDENT_DESCRIPTION = 7,
+  }
+
+  export enum ParentUsernameCase { 
+    _PARENT_USERNAME_NOT_SET = 0,
+    PARENT_USERNAME = 8,
+  }
+
+  export enum ParentPhoneCase { 
+    _PARENT_PHONE_NOT_SET = 0,
+    PARENT_PHONE = 9,
   }
 }
 

@@ -6,7 +6,6 @@
                   :is-required="true"
                   :dup-check-target="dupCheckTarget"
                   :placeholder="'변경할 아이디를 입력해주세요'"
-                  icons-left="fa-solid fa-user"
                   v-model="newUsername"/>
         <div class="buttons is-centered">
           <button class="button is-info" type="submit">아이디 변경</button>
@@ -30,19 +29,20 @@ export default defineComponent({
     AppModal,
     Username
   },
-  setup() {
+  setup(props, { emit }) {
     const newUsername = ref('')
     const dupCheckTarget = ref(utils.authority.isParent() ? 'parent' : 'user')
+
+    const updateUsername = async (form: any) => {
+      if (!utils.validator.validateForm(form.target)) return
+      await AuthGrpcService.usernameUpdate(newUsername.value)
+      await emit("complete-function", '수정되었습니다', true)
+    }
+
     return {
       newUsername,
-      dupCheckTarget
-    }
-  },
-  methods: {
-    async updateUsername(form: any) {
-      if (!utils.validator.validateForm(form.target)) return
-      await AuthGrpcService.usernameUpdate(this.newUsername)
-      this.$emit("complete-function", '수정되었습니다', true)
+      dupCheckTarget,
+      updateUsername
     }
   }
 })

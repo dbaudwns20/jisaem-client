@@ -1,7 +1,7 @@
 <template>
   <AppModal :title="'비밀번호변경'">
     <template v-slot:modalContent>
-      <form @submit.prevent="updatePassword($event)" novalidate>
+      <form @submit.prevent="updatePassword" novalidate>
         <Password :label="'기존비밀번호'"
                   :is-required="true"
                   :is-login="true"
@@ -32,24 +32,21 @@ export default defineComponent({
     AppModal,
     Password
   },
-  setup() {
+  setup(props, { emit }) {
     const prevPassword = ref('')
     const newPassword = ref('')
+
+    const updatePassword = async (form: any) => {
+      if (!utils.validator.validateForm(form.target)) return
+      await authGrpcService.passwordUpdate(prevPassword.value, newPassword.value)
+      await emit("complete-function", '수정되었습니다', true)
+    }
+
     return {
       prevPassword,
       newPassword,
-    }
-  },
-  methods: {
-    async updatePassword(form: any) {
-      if (!utils.validator.validateForm(form.target)) return
-      await authGrpcService.passwordUpdate(this.prevPassword, this.newPassword)
-      this.$emit("complete-function", '수정되었습니다', true)
+      updatePassword
     }
   }
 })
 </script>
-
-<style scoped>
-
-</style>

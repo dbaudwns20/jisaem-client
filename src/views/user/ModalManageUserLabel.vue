@@ -2,7 +2,7 @@
   <AppModal :title="'레이블관리'">
     <template v-slot:modalContent>
       <form @submit.prevent="updateUserLabel" novalidate>
-        <LabelSelect :label="'사용자레이블'"
+        <LabelSelect :label="'사용자레이블'" ref="labelSelectComp"
                      :label-type="LabelType.LABEL_TYPE_USER"
                      v-model="userLabelList" />
         <div class="field">
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { Label } from "@/models/label/label"
 import { LabelType } from "@/models/label/label.type"
 
@@ -38,6 +38,7 @@ export default defineComponent({
     LabelSelect
   },
   setup(props, { emit }) {
+    const labelSelectComp = ref()
     const userLabelList = ref([] as Label[])
     // 이미 레이블이 존재하는 경우 리스트에 담기
     if (props.labelList.length > 0) {
@@ -51,7 +52,13 @@ export default defineComponent({
       await userGrpcService.updateUserLabel(userIdList, labelIdList)
       await emit("complete-function", '처리되었습니다', true)
     }
+
+    onMounted(() => {
+      labelSelectComp.value.setLabelInputFocus()
+    })
+
     return {
+      labelSelectComp,
       userLabelList,
       updateUserLabel,
       LabelType

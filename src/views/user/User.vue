@@ -17,37 +17,37 @@
           <li :class="{ 'is-active': isManager(currentAuthLevel) }" @click="setCurrentAuthLevel(authLevel.AUTH_LEVEL_MANAGER)"><a><strong>관리자</strong></a></li>
         </ul>
       </div>
-      <div class="grid-header">
-        <div class="grid-header-buttons">
+      <PagingGrid ref="userGrid" :grid-options="gridOptions" @read="read">
+        <template v-slot:gridHeaderContent>
           <div class="grid-header-left">
             <div class="buttons">
-              <button class="button is-small has-tooltip-arrow"
+              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
                       data-tooltip="추가"
                       v-if="currentAuthLevel !== authLevel.AUTH_LEVEL_UNSPECIFIED" @click="addNewUser">
                 <span class="icon"><i class="fa-solid fa-plus"></i></span>
               </button>
-              <button class="button is-small has-tooltip-arrow"
+              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
                       data-tooltip="삭제"
                       v-if="selectedItemList.length > 0" @click="deleteUser(null)">
                 <span class="icon"><i class="fa-solid fa-trash"></i></span>
               </button>
-              <button class="button is-small has-tooltip-arrow"
+              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
                       data-tooltip="레이블관리"
                       v-if="selectedItemList.length > 0" @click="manageUserLabel(null)">
                 <span class="icon"><i class="fa-solid fa-tags"></i></span>
               </button>
-              <button class="button is-small has-tooltip-arrow"
+              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
                       data-tooltip="비밀번호변경"
                       v-if="selectedItemList.length > 0" @click="updatePassword(false, null)">
                 <span class="icon"><i class="fa-solid fa-lock"></i></span>
               </button>
-              <button class="button is-small has-tooltip-arrow"
+              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
                       data-tooltip="부모님정보삭제"
                       v-if="selectedItemList.length > 0 && showParentFunctionButtons"
                       @click="deleteUserParentInfo(null)">
                 <span class="icon"><i class="fa-solid fa-user-xmark"></i></span>
               </button>
-              <button class="button is-small has-tooltip-arrow"
+              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
                       data-tooltip="부모님비밀번호변경"
                       v-if="selectedItemList.length > 0 && showParentFunctionButtons"
                       @click="updatePassword(true, null)">
@@ -58,24 +58,22 @@
           <div class="grid-header-right">
             <div class="buttons">
               <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
-                      data-tooltip="새로고침"
-                      @click="reload">
-                <span class="icon"><i class="fa-solid fa-arrows-rotate"></i></span>
-              </button>
-              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
                       data-tooltip="검색조건"
                       @click="reload">
                 <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
               </button>
+              <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
+                      data-tooltip="새로고침"
+                      @click="reload">
+                <span class="icon"><i class="fa-solid fa-arrows-rotate"></i></span>
+              </button>
             </div>
           </div>
-        </div>
-      </div>
-      <PagingGrid ref="userGrid" :grid-options="gridOptions" @read="read" />
+        </template>
+      </PagingGrid>
     </div>
   </div>
-  <router-view :auth-level="currentAuthLevel"
-               @complete-function="completeFunction" />
+  <router-view @complete-function="completeFunction" />
   <AppFooter />
 </template>
 
@@ -83,12 +81,10 @@
 import { defineComponent, getCurrentInstance, onMounted, reactive, ref, watch } from "vue"
 import { bindPaginationInstance, Pagination } from "@/models/util/util"
 import { AuthLevel } from "@/models/auth/auth.level"
-import { ParentInfo } from "@/models/user/parent.info"
+import { UpdateUser} from "@/models/user/update.user"
 import {
   ModalCreateParent,
   ModalCreateUser,
-  ModalEditParent,
-  ModalEditUser,
   ModalManageUserLabel,
   ModalUpdatePassword
 } from "@/routers/user.router"
@@ -140,8 +136,10 @@ export default defineComponent({
           selectedItemList.value.splice(idx, 1)
         }
         // 부모님정보 기능 버튼이 보임여부 설정
-        if (utils.authority.isParent(currentAuthLevel.value)) {
-          showParentFunctionButtons.value = _.filter(selectedItemList.value, (it: any) => { return it.parentInfo?.active }).length > 0
+        if (utils.authority.isStudent(currentAuthLevel.value)) {
+          showParentFunctionButtons.value = _.filter(selectedItemList.value, (it: any) => {
+            return it.parentInfo?.active
+          }).length > 0
         }
       },
       onGridReady: (params: any) => {
@@ -168,13 +166,13 @@ export default defineComponent({
     }
     // 사용자 신규
     const addNewUser = () => {
+      ModalCreateUser.props.userAuthLevel = currentAuthLevel.value
       router.push(ModalCreateUser.path)
     }
     // 사용자 편집
-    const editUser = (userId: string, userAuthLevel: AuthLevel) => {
-      ModalEditUser.props.userId = userId
-      ModalEditUser.props.userAuthLevel = userAuthLevel
-      router.push(ModalEditUser)
+    const editUser = async (userId: string, updateUser: UpdateUser) => {
+      await userGrpcService.updateUser(userId, updateUser)
+      await completeFunction('수정되었습니다')
     }
     // 사용자 삭제
     const deleteUser = async (userId: string | null) => {
@@ -187,7 +185,6 @@ export default defineComponent({
           idList.push(userId)
         await userGrpcService.deleteUser(idList)
         await completeFunction('삭제되었습니다')
-        selectedItemList.value = []
       } else {
         return
       }
@@ -211,12 +208,6 @@ export default defineComponent({
       ModalCreateParent.props.userId = userId
       router.push(ModalCreateParent)
     }
-    // 부모님정보 편집
-    const editUserParentInfo = (userId: string, parentInfo: ParentInfo) => {
-      ModalEditParent.props.userId = userId
-      ModalEditParent.props.userParentInfo = parentInfo
-      router.push(ModalEditParent)
-    }
     // 부모님정보 삭제
     const deleteUserParentInfo = async (userId: string | null) => {
       let result = confirm("삭제하시겠습니까?")
@@ -228,7 +219,6 @@ export default defineComponent({
           idList.push(userId)
         await userGrpcService.deleteUserParentInfo(idList)
         await completeFunction('삭제되었습니다')
-        selectedItemList.value = []
       } else {
         return
       }
@@ -285,7 +275,6 @@ export default defineComponent({
       reload,
       addNewUser,
       addUserParentInfo,
-      editUserParentInfo,
       deleteUserParentInfo,
       updatePassword,
       manageUserLabel,
