@@ -79,6 +79,36 @@ export namespace UserLabel {
   }
 }
 
+export class ClassLabel extends jspb.Message {
+  getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): ClassLabel;
+  hasCreatedAt(): boolean;
+  clearCreatedAt(): ClassLabel;
+
+  getClassId(): string;
+  setClassId(value: string): ClassLabel;
+
+  getLabelInfo(): Label | undefined;
+  setLabelInfo(value?: Label): ClassLabel;
+  hasLabelInfo(): boolean;
+  clearLabelInfo(): ClassLabel;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ClassLabel.AsObject;
+  static toObject(includeInstance: boolean, msg: ClassLabel): ClassLabel.AsObject;
+  static serializeBinaryToWriter(message: ClassLabel, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ClassLabel;
+  static deserializeBinaryFromReader(message: ClassLabel, reader: jspb.BinaryReader): ClassLabel;
+}
+
+export namespace ClassLabel {
+  export type AsObject = {
+    createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    classId: string,
+    labelInfo?: Label.AsObject,
+  }
+}
+
 export enum LabelType { 
   LABEL_TYPE_UNSPECIFIED = 0,
   LABEL_TYPE_USER = 1,

@@ -46,6 +46,11 @@
       </ul>
     </nav>
   </div>
+  <div class="grid-search" :class="{ 'is-active': showGridSearch }">
+    <div class="grid-search-content">
+      <slot name="gridSearchContent"></slot>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -80,6 +85,10 @@ export default defineComponent({
       totalCount: 0,
       totalPage: 1
     }))
+    // 체크 리스트
+    let selectedItemList: any = []
+    // 그리드 검색조건
+    const showGridSearch = ref(false)
     // 그리드 옵션
     const gridOptions = props.gridOptions
     // 체크박스 다중 선택
@@ -92,7 +101,7 @@ export default defineComponent({
     gridOptions.onGridSizeChanged = (params: any) => {
       params.api.sizeColumnsToFit()
       // detail 이 확장된 경우 높이 재조정
-      _.forEach(params.api.getModel().rowsToDisplay, (rowNode: RowNode) => {
+      params.api.forEachNode((rowNode: RowNode) => {
         if (rowNode.data.isFullWidth) setDetailRowHeight(rowNode)
       })
     }
@@ -105,6 +114,15 @@ export default defineComponent({
     }
     // 셀 클릭 시
     gridOptions.onCellClicked = (params: any) => {
+      // 선택 영역 표시
+      gridOptions.api.forEachNode((rowNode: RowNode) => {
+        const newData: any = rowNode.data
+        // 디테일 영역은 적용되지 않도록 분기
+        if (!rowNode.data.isFullWidth) {
+          newData.selected = params.data.id === newData.id
+          rowNode.setData(newData)
+        }
+      })
       // 첫번째 셀 (디테일 확장) 버튼을 클릭하면
       if (params.column.colId === '0') {
         if (!params.data.isExpanded) {
@@ -114,15 +132,14 @@ export default defineComponent({
           collapseRow(params)
         }
       }
-      // 선택 영역 표시
-      gridOptions.api.forEachNode((rowNode: any) => {
-        const newData = rowNode.data
-        newData.selected = params.data.id === newData.id
-        rowNode.setData(newData)
-      })
     }
     // 행이 detail(isFullWidth) 인지 체크
     const isFullWidth = (params: any) => {
+      // 체크박스로 선택된 대상이라면 체크 유지
+      _.forEach(selectedItemList, (item: any) => {
+        if (item.id === params.rowNode.data.id && !params.rowNode.data?.isFullWidth)
+          params.rowNode.selected = !params.rowNode.selected
+      })
       if (params.rowNode.data?.isFullWidth) {
         // 확장된 상태에서 '전체선택' 시 선택 방지
         params.rowNode.selectable = false
@@ -174,6 +191,10 @@ export default defineComponent({
       const newRowData = _.cloneDeep(getRowData())
       newRowData.splice(params.rowIndex + 1, 1)
       updateRowData(newRowData)
+      // 닫은 스크롤 위치 고정
+      setTimeout(() => {
+        gridOptions.api.ensureIndexVisible(params.rowIndex, 'middle')
+      })
     }
     // 상세 컴포넌트 설정
     const fullWidthCellRenderer = gridOptions.fullWidthCellRenderer
@@ -260,6 +281,14 @@ export default defineComponent({
       pagination.page = page!
       emit('read', pagination)
     }
+    // 체크박스 리스트 동기화
+    const setSelectedItemList = (list: any) => {
+      selectedItemList = list
+    }
+    //
+    const setShowGridSearch = () => {
+      showGridSearch.value = !showGridSearch.value
+    }
     return {
       rowData,
       pageRangeText,
@@ -267,6 +296,7 @@ export default defineComponent({
       pageRange,
       pagination,
       fullWidthCellRenderer,
+      showGridSearch,
       isFullWidth,
       getRowData,
       updateRowData,
@@ -275,7 +305,9 @@ export default defineComponent({
       goToPage,
       getCurrentPage,
       getCurrentPageNums,
-      getMaxPage
+      getMaxPage,
+      setSelectedItemList,
+      setShowGridSearch
     }
   }
 })

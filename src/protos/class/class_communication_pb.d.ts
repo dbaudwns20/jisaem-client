@@ -5,43 +5,77 @@ import * as class_class_message_pb from '../class/class_message_pb';
 import * as utils_utils_pb from '../utils/utils_pb';
 
 
-export class RequestClassCreate extends jspb.Message {
+export class RequestClassCreateAsManager extends jspb.Message {
   getClass(): class_class_message_pb.Class | undefined;
-  setClass(value?: class_class_message_pb.Class): RequestClassCreate;
+  setClass(value?: class_class_message_pb.Class): RequestClassCreateAsManager;
   hasClass(): boolean;
-  clearClass(): RequestClassCreate;
+  clearClass(): RequestClassCreateAsManager;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): RequestClassCreate.AsObject;
-  static toObject(includeInstance: boolean, msg: RequestClassCreate): RequestClassCreate.AsObject;
-  static serializeBinaryToWriter(message: RequestClassCreate, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): RequestClassCreate;
-  static deserializeBinaryFromReader(message: RequestClassCreate, reader: jspb.BinaryReader): RequestClassCreate;
+  toObject(includeInstance?: boolean): RequestClassCreateAsManager.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestClassCreateAsManager): RequestClassCreateAsManager.AsObject;
+  static serializeBinaryToWriter(message: RequestClassCreateAsManager, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestClassCreateAsManager;
+  static deserializeBinaryFromReader(message: RequestClassCreateAsManager, reader: jspb.BinaryReader): RequestClassCreateAsManager;
 }
 
-export namespace RequestClassCreate {
+export namespace RequestClassCreateAsManager {
   export type AsObject = {
     pb_class?: class_class_message_pb.Class.AsObject,
   }
 }
 
-export class ResponseClassCreate extends jspb.Message {
+export class ResponseClassCreateAsManager extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ResponseClassCreate.AsObject;
-  static toObject(includeInstance: boolean, msg: ResponseClassCreate): ResponseClassCreate.AsObject;
-  static serializeBinaryToWriter(message: ResponseClassCreate, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ResponseClassCreate;
-  static deserializeBinaryFromReader(message: ResponseClassCreate, reader: jspb.BinaryReader): ResponseClassCreate;
+  toObject(includeInstance?: boolean): ResponseClassCreateAsManager.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseClassCreateAsManager): ResponseClassCreateAsManager.AsObject;
+  static serializeBinaryToWriter(message: ResponseClassCreateAsManager, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseClassCreateAsManager;
+  static deserializeBinaryFromReader(message: ResponseClassCreateAsManager, reader: jspb.BinaryReader): ResponseClassCreateAsManager;
 }
 
-export namespace ResponseClassCreate {
+export namespace ResponseClassCreateAsManager {
+  export type AsObject = {
+  }
+}
+
+export class RequestClassCreateWithoutManager extends jspb.Message {
+  getClass(): class_class_message_pb.Class | undefined;
+  setClass(value?: class_class_message_pb.Class): RequestClassCreateWithoutManager;
+  hasClass(): boolean;
+  clearClass(): RequestClassCreateWithoutManager;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestClassCreateWithoutManager.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestClassCreateWithoutManager): RequestClassCreateWithoutManager.AsObject;
+  static serializeBinaryToWriter(message: RequestClassCreateWithoutManager, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestClassCreateWithoutManager;
+  static deserializeBinaryFromReader(message: RequestClassCreateWithoutManager, reader: jspb.BinaryReader): RequestClassCreateWithoutManager;
+}
+
+export namespace RequestClassCreateWithoutManager {
+  export type AsObject = {
+    pb_class?: class_class_message_pb.Class.AsObject,
+  }
+}
+
+export class ResponseClassCreateWithoutManager extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ResponseClassCreateWithoutManager.AsObject;
+  static toObject(includeInstance: boolean, msg: ResponseClassCreateWithoutManager): ResponseClassCreateWithoutManager.AsObject;
+  static serializeBinaryToWriter(message: ResponseClassCreateWithoutManager, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ResponseClassCreateWithoutManager;
+  static deserializeBinaryFromReader(message: ResponseClassCreateWithoutManager, reader: jspb.BinaryReader): ResponseClassCreateWithoutManager;
+}
+
+export namespace ResponseClassCreateWithoutManager {
   export type AsObject = {
   }
 }
 
 export class RequestClassGet extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): RequestClassGet;
+  getId(): string;
+  setId(value: string): RequestClassGet;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestClassGet.AsObject;
@@ -53,7 +87,7 @@ export class RequestClassGet extends jspb.Message {
 
 export namespace RequestClassGet {
   export type AsObject = {
-    uid: string,
+    id: string,
   }
 }
 
@@ -78,13 +112,13 @@ export namespace ResponseClassGet {
 }
 
 export class RequestClassListGet extends jspb.Message {
-  getClassLabelUidsList(): Array<string>;
-  setClassLabelUidsList(value: Array<string>): RequestClassListGet;
-  clearClassLabelUidsList(): RequestClassListGet;
-  addClassLabelUids(value: string, index?: number): RequestClassListGet;
+  getClosed(): boolean;
+  setClosed(value: boolean): RequestClassListGet;
 
-  getClosedClass(): boolean;
-  setClosedClass(value: boolean): RequestClassListGet;
+  getClassLabelIdsList(): Array<string>;
+  setClassLabelIdsList(value: Array<string>): RequestClassListGet;
+  clearClassLabelIdsList(): RequestClassListGet;
+  addClassLabelIds(value: string, index?: number): RequestClassListGet;
 
   getPagination(): utils_utils_pb.Pagination | undefined;
   setPagination(value?: utils_utils_pb.Pagination): RequestClassListGet;
@@ -101,8 +135,8 @@ export class RequestClassListGet extends jspb.Message {
 
 export namespace RequestClassListGet {
   export type AsObject = {
-    classLabelUidsList: Array<string>,
-    closedClass: boolean,
+    closed: boolean,
+    classLabelIdsList: Array<string>,
     pagination?: utils_utils_pb.Pagination.AsObject,
   }
 }

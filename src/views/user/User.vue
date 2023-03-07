@@ -59,7 +59,7 @@
             <div class="buttons">
               <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
                       data-tooltip="검색조건"
-                      @click="reload">
+                      @click="userGrid.setShowGridSearch">
                 <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
               </button>
               <button class="button is-small has-background-grey-lighter has-tooltip-arrow"
@@ -70,6 +70,24 @@
             </div>
           </div>
         </template>
+        <template v-slot:gridSearchContent>
+          <nav class="panel is-link">
+            <p class="panel-heading">검색조건</p>
+            <div class="panel-block">
+              <Text :label="'이름'" icons-left="fa-solid fa-user"
+                    :placeholder="'이름을 입력해주세요'" :is-small="true" />
+            </div>
+            <div class="panel-block">
+              <LabelSelect :label="'레이블'" :is-small="true"
+                           v-model="userLabels" />
+            </div>
+            <div class="panel-block">
+                <button class="button is-small is-link is-outlined is-fullwidth" @click="read">
+                  조회
+                </button>
+            </div>
+          </nav>
+        </template>
       </PagingGrid>
     </div>
   </div>
@@ -79,6 +97,7 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, onMounted, reactive, ref, watch } from "vue"
+import { Label } from "@/models/label/label"
 import { bindPaginationInstance, Pagination } from "@/models/util/util"
 import { AuthLevel } from "@/models/auth/auth.level"
 import { UpdateUser} from "@/models/user/update.user"
@@ -93,6 +112,8 @@ import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
 import PagingGrid from "@/components/grid/PagingGrid.vue"
 import UserDetail from "@/views/user/UserDetail.vue"
+import LabelSelect from "@/components/label/LabelSelect.vue"
+import Text from "@/components/input/Text.vue"
 
 import userUiService from "@/services/user.ui.service"
 import userGrpcService from "@/services/user.grpc.service"
@@ -106,13 +127,18 @@ export default defineComponent({
   components: {
     AppNavbar,
     AppFooter,
-    PagingGrid
+    PagingGrid,
+    Text,
+    LabelSelect
   },
   setup() {
     const userGrid = ref()
     const currentAuthLevel = ref(AuthLevel.AUTH_LEVEL_UNSPECIFIED)
     const selectedItemList = ref([] as object[])
     const showParentFunctionButtons = ref(false)
+    const userLabels = ref([] as Label)
+
+    // AG Grid
     const gridApi = ref()
     const gridColumnApi = ref()
     const gridOptions = reactive({
@@ -156,9 +182,9 @@ export default defineComponent({
     // 조회
     const read = async (pageInfo: Pagination | null = null) => {
       // parameter set
-      const id: string[] = ['lwbdkXa9Z4QgvVl9L1M1t'] // TODO remove
+      const userLabelIdList: string[] = _.map(userLabels.value, 'id')
       const page = bindPaginationInstance(pageInfo)
-      const res: any = await userGrpcService.getUserList(id, currentAuthLevel.value, page)
+      const res: any = await userGrpcService.getUserList(userLabelIdList, currentAuthLevel.value, page)
       // 1. pagination set
       await userGrid.value.setPageInfo(res.pageInfo)
       // 2. rowData Set
@@ -234,19 +260,26 @@ export default defineComponent({
       }
       router.push(ModalManageUserLabel)
     }
+    // 텝이 선택될 때 사용자 목록 재조회
     const setCurrentAuthLevel = (authLevel: AuthLevel) => {
       currentAuthLevel.value = authLevel
+      // 그리드 컬럼 숨김
       gridColumnApi.value.setColumnVisible('isParentInfo', utils.authority.isStudent(authLevel))
       gridApi.value.sizeColumnsToFit()
-    }
-    // 텝이 선택될 때 사용자 목록 재조회
-    watch(() => currentAuthLevel.value, () => {
-      read()
       // 체크박스 목록 초기화
       selectedItemList.value = []
       // 부모님정보 기능 버튼 보이기 초기화
       showParentFunctionButtons.value = false
-    })
+      // 리스트 조회
+      read()
+    }
+
+    watch(() => selectedItemList.value, () => {
+        // 그리드에 선택한 목록 공유
+        userGrid.value.setSelectedItemList(selectedItemList.value)
+      }, {deep: true}
+    )
+
     // mount 사이클에서 사용자 조회
     onMounted(() => {
       read()
@@ -264,6 +297,7 @@ export default defineComponent({
     }
     return {
       userGrid,
+      userLabels,
       currentAuthLevel,
       selectedItemList,
       showParentFunctionButtons,

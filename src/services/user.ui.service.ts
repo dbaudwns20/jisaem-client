@@ -10,7 +10,12 @@ export default {
         lockPosition: 'left',
         sortable: false,
         resizable: false,
-        cellStyle: {justifyContent: 'center', display: 'flex', alignItems: 'center'},
+        cellStyle: {
+          justifyContent: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          cursor: 'Pointer'
+        },
         cellRenderer: (params: any) => {
           if (!params.data.isExpanded)
             return `<a><i class="fa-solid fa-angle-right"></i></a>`

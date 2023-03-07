@@ -6,8 +6,8 @@ import * as label_label_message_pb from '../label/label_message_pb';
 
 
 export class Class extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): Class;
+  getId(): string;
+  setId(value: string): Class;
 
   getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): Class;
@@ -19,10 +19,10 @@ export class Class extends jspb.Message {
   hasUpdatedAt(): boolean;
   clearUpdatedAt(): Class;
 
-  getTeachersList(): Array<ClassParticipant>;
-  setTeachersList(value: Array<ClassParticipant>): Class;
-  clearTeachersList(): Class;
-  addTeachers(value?: ClassParticipant, index?: number): ClassParticipant;
+  getManagersList(): Array<ClassParticipant>;
+  setManagersList(value: Array<ClassParticipant>): Class;
+  clearManagersList(): Class;
+  addManagers(value?: ClassParticipant, index?: number): ClassParticipant;
 
   getName(): string;
   setName(value: string): Class;
@@ -30,10 +30,10 @@ export class Class extends jspb.Message {
   getDescription(): string;
   setDescription(value: string): Class;
 
-  getClassLabel(): label_label_message_pb.Label | undefined;
-  setClassLabel(value?: label_label_message_pb.Label): Class;
-  hasClassLabel(): boolean;
-  clearClassLabel(): Class;
+  getClassLabelsList(): Array<label_label_message_pb.ClassLabel>;
+  setClassLabelsList(value: Array<label_label_message_pb.ClassLabel>): Class;
+  clearClassLabelsList(): Class;
+  addClassLabels(value?: label_label_message_pb.ClassLabel, index?: number): label_label_message_pb.ClassLabel;
 
   getStartDate(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setStartDate(value?: google_protobuf_timestamp_pb.Timestamp): Class;
@@ -55,10 +55,10 @@ export class Class extends jspb.Message {
   hasPublicExposedAt(): boolean;
   clearPublicExposedAt(): Class;
 
-  getClassParticipantsList(): Array<ClassParticipant>;
-  setClassParticipantsList(value: Array<ClassParticipant>): Class;
-  clearClassParticipantsList(): Class;
-  addClassParticipants(value?: ClassParticipant, index?: number): ClassParticipant;
+  getParticipantsList(): Array<ClassParticipant>;
+  setParticipantsList(value: Array<ClassParticipant>): Class;
+  clearParticipantsList(): Class;
+  addParticipants(value?: ClassParticipant, index?: number): ClassParticipant;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Class.AsObject;
@@ -70,35 +70,30 @@ export class Class extends jspb.Message {
 
 export namespace Class {
   export type AsObject = {
-    uid: string,
+    id: string,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updatedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    teachersList: Array<ClassParticipant.AsObject>,
+    managersList: Array<ClassParticipant.AsObject>,
     name: string,
     description: string,
-    classLabel?: label_label_message_pb.Label.AsObject,
+    classLabelsList: Array<label_label_message_pb.ClassLabel.AsObject>,
     startDate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     endDate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     closedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     publicExposedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    classParticipantsList: Array<ClassParticipant.AsObject>,
+    participantsList: Array<ClassParticipant.AsObject>,
   }
 }
 
 export class ClassParticipant extends jspb.Message {
-  getUserUid(): string;
-  setUserUid(value: string): ClassParticipant;
+  getUserId(): string;
+  setUserId(value: string): ClassParticipant;
 
   getAuthLevel(): auth_auth_message_pb.Level;
   setAuthLevel(value: auth_auth_message_pb.Level): ClassParticipant;
 
   getName(): string;
   setName(value: string): ClassParticipant;
-
-  getUserLabel(): label_label_message_pb.Label | undefined;
-  setUserLabel(value?: label_label_message_pb.Label): ClassParticipant;
-  hasUserLabel(): boolean;
-  clearUserLabel(): ClassParticipant;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ClassParticipant.AsObject;
@@ -110,10 +105,9 @@ export class ClassParticipant extends jspb.Message {
 
 export namespace ClassParticipant {
   export type AsObject = {
-    userUid: string,
+    userId: string,
     authLevel: auth_auth_message_pb.Level,
     name: string,
-    userLabel?: label_label_message_pb.Label.AsObject,
   }
 }
 

@@ -144,36 +144,6 @@ export namespace ResponseManagerCreate {
   }
 }
 
-export class RequestUserListGet extends jspb.Message {
-  getAuthLevel(): auth_auth_message_pb.Level;
-  setAuthLevel(value: auth_auth_message_pb.Level): RequestUserListGet;
-
-  getUserLabelIdsList(): Array<string>;
-  setUserLabelIdsList(value: Array<string>): RequestUserListGet;
-  clearUserLabelIdsList(): RequestUserListGet;
-  addUserLabelIds(value: string, index?: number): RequestUserListGet;
-
-  getPagination(): utils_utils_pb.Pagination | undefined;
-  setPagination(value?: utils_utils_pb.Pagination): RequestUserListGet;
-  hasPagination(): boolean;
-  clearPagination(): RequestUserListGet;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): RequestUserListGet.AsObject;
-  static toObject(includeInstance: boolean, msg: RequestUserListGet): RequestUserListGet.AsObject;
-  static serializeBinaryToWriter(message: RequestUserListGet, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): RequestUserListGet;
-  static deserializeBinaryFromReader(message: RequestUserListGet, reader: jspb.BinaryReader): RequestUserListGet;
-}
-
-export namespace RequestUserListGet {
-  export type AsObject = {
-    authLevel: auth_auth_message_pb.Level,
-    userLabelIdsList: Array<string>,
-    pagination?: utils_utils_pb.Pagination.AsObject,
-  }
-}
-
 export class RequestUserGet extends jspb.Message {
   getId(): string;
   setId(value: string): RequestUserGet;
@@ -209,6 +179,36 @@ export class ResponseUserGet extends jspb.Message {
 export namespace ResponseUserGet {
   export type AsObject = {
     user?: auth_auth_message_pb.User.AsObject,
+  }
+}
+
+export class RequestUserListGet extends jspb.Message {
+  getAuthLevel(): auth_auth_message_pb.Level;
+  setAuthLevel(value: auth_auth_message_pb.Level): RequestUserListGet;
+
+  getUserLabelIdsList(): Array<string>;
+  setUserLabelIdsList(value: Array<string>): RequestUserListGet;
+  clearUserLabelIdsList(): RequestUserListGet;
+  addUserLabelIds(value: string, index?: number): RequestUserListGet;
+
+  getPagination(): utils_utils_pb.Pagination | undefined;
+  setPagination(value?: utils_utils_pb.Pagination): RequestUserListGet;
+  hasPagination(): boolean;
+  clearPagination(): RequestUserListGet;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestUserListGet.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestUserListGet): RequestUserListGet.AsObject;
+  static serializeBinaryToWriter(message: RequestUserListGet, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestUserListGet;
+  static deserializeBinaryFromReader(message: RequestUserListGet, reader: jspb.BinaryReader): RequestUserListGet;
+}
+
+export namespace RequestUserListGet {
+  export type AsObject = {
+    authLevel: auth_auth_message_pb.Level,
+    userLabelIdsList: Array<string>,
+    pagination?: utils_utils_pb.Pagination.AsObject,
   }
 }
 

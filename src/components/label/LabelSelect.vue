@@ -1,19 +1,22 @@
 <template>
   <div class="field">
-    <label class="label" :class="{ 'required': isRequired }" v-if="label">
+    <label class="label" :class="[{ 'required': isRequired }, { 'is-small': isSmall }]" v-if="label">
       {{ label }}
     </label>
     <div class="dropdown" :class="[{ 'is-active': isActive }, {'is-up': isUp}]">
       <div class="dropdown-trigger">
         <div class="control has-icons-left">
           <div ref="labelSelect" class="labels" aria-haspopup="true" aria-controls="dropdown-menu"
+               @click="onLabelInputClick"
                :key="componentKey"
-               :class="checkClass">
+               :class="[checkClass, { 'is-small': isSmall }]">
             <LabelElement v-for="(label, key) in selectedLabels" :key=key
                           :params="{data: {name: label.name, color: label.color, id: label.id}}"
+                          :size="isSmall ? 'is-small' : 'is-medium'"
                           :is-deletable="true"
                           @remove-label="removeLabel"/>
-            <input ref="labelInput" type="text" class="input labels-input"
+            <input ref="labelInput" type="text" class="labels-input"
+                   :class="{ 'is-small': isSmall }"
                    :disabled="isDisabled"
                    :required="isRequired"
                    :placeholder="showPlaceholder"
@@ -56,6 +59,7 @@ export default defineComponent({
     isUp: { type: Boolean, default: false },
     isRequired: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
+    isSmall: { type: Boolean, default: false },
     placeholder: { type: String, default: '레이블을 선택해주세요' },
     labelType: { type: Number },
     modelValue: { type: Array, default: () => [] }
@@ -143,6 +147,13 @@ export default defineComponent({
         labelInput.value.focus()
       })
     }
+    // labelInput focus
+    const setLabelInputFocusout = () => {
+      setTimeout(() => {
+        checkClass.value = ''
+        labelInput.value.blur()
+      })
+    }
     // LabelInput 클릭 시
     const onLabelInputClick = () => {
       setLabelInputFocus()
@@ -155,6 +166,7 @@ export default defineComponent({
     // blur 시 처리
     const blur = (event: any) => {
       isActive.value = false
+      setLabelInputFocusout()
     }
     // 레이블 focus
     const setLabelFocus = (id: string | null = null)  => {
@@ -230,8 +242,8 @@ export default defineComponent({
     const keepActiveClasses: string[] = ['dropdown-item', 'label-description', 'tag is-rounded', 'fa-regular fa-circle-check']
     const clickListener: EventListener = (event: any) => {
       const className: string = event.target.className
-      if (className === 'input labels-input')
-        onLabelInputClick() // 레이블 인풋 클릭
+      if (className === 'labels-input' || className === 'labels-input is-small')
+        return
       else if (className === 'delete-label')
         return // 레이블 삭제 버튼 클릭 시
       else {
@@ -276,7 +288,8 @@ export default defineComponent({
       blur,
       keydown,
       removeLabel,
-      setLabelInputFocus
+      setLabelInputFocus,
+      onLabelInputClick
     }
   }
 })

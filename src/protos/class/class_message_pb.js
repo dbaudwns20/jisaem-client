@@ -71,7 +71,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.jisaem.class.Class.repeatedFields_ = [4,12];
+proto.jisaem.class.Class.repeatedFields_ = [4,7,12];
 
 
 
@@ -104,19 +104,20 @@ proto.jisaem.class.Class.prototype.toObject = function(opt_includeInstance) {
  */
 proto.jisaem.class.Class.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     createdAt: (f = msg.getCreatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     updatedAt: (f = msg.getUpdatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    teachersList: jspb.Message.toObjectList(msg.getTeachersList(),
+    managersList: jspb.Message.toObjectList(msg.getManagersList(),
     proto.jisaem.class.ClassParticipant.toObject, includeInstance),
     name: jspb.Message.getFieldWithDefault(msg, 5, ""),
     description: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    classLabel: (f = msg.getClassLabel()) && label_label_message_pb.Label.toObject(includeInstance, f),
+    classLabelsList: jspb.Message.toObjectList(msg.getClassLabelsList(),
+    label_label_message_pb.ClassLabel.toObject, includeInstance),
     startDate: (f = msg.getStartDate()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     endDate: (f = msg.getEndDate()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     closedAt: (f = msg.getClosedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     publicExposedAt: (f = msg.getPublicExposedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
-    classParticipantsList: jspb.Message.toObjectList(msg.getClassParticipantsList(),
+    participantsList: jspb.Message.toObjectList(msg.getParticipantsList(),
     proto.jisaem.class.ClassParticipant.toObject, includeInstance)
   };
 
@@ -156,7 +157,7 @@ proto.jisaem.class.Class.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUid(value);
+      msg.setId(value);
       break;
     case 2:
       var value = new google_protobuf_timestamp_pb.Timestamp;
@@ -171,7 +172,7 @@ proto.jisaem.class.Class.deserializeBinaryFromReader = function(msg, reader) {
     case 4:
       var value = new proto.jisaem.class.ClassParticipant;
       reader.readMessage(value,proto.jisaem.class.ClassParticipant.deserializeBinaryFromReader);
-      msg.addTeachers(value);
+      msg.addManagers(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
@@ -182,9 +183,9 @@ proto.jisaem.class.Class.deserializeBinaryFromReader = function(msg, reader) {
       msg.setDescription(value);
       break;
     case 7:
-      var value = new label_label_message_pb.Label;
-      reader.readMessage(value,label_label_message_pb.Label.deserializeBinaryFromReader);
-      msg.setClassLabel(value);
+      var value = new label_label_message_pb.ClassLabel;
+      reader.readMessage(value,label_label_message_pb.ClassLabel.deserializeBinaryFromReader);
+      msg.addClassLabels(value);
       break;
     case 8:
       var value = new google_protobuf_timestamp_pb.Timestamp;
@@ -209,7 +210,7 @@ proto.jisaem.class.Class.deserializeBinaryFromReader = function(msg, reader) {
     case 12:
       var value = new proto.jisaem.class.ClassParticipant;
       reader.readMessage(value,proto.jisaem.class.ClassParticipant.deserializeBinaryFromReader);
-      msg.addClassParticipants(value);
+      msg.addParticipants(value);
       break;
     default:
       reader.skipField();
@@ -240,7 +241,7 @@ proto.jisaem.class.Class.prototype.serializeBinary = function() {
  */
 proto.jisaem.class.Class.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUid();
+  f = message.getId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -263,7 +264,7 @@ proto.jisaem.class.Class.serializeBinaryToWriter = function(message, writer) {
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
-  f = message.getTeachersList();
+  f = message.getManagersList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       4,
@@ -285,12 +286,12 @@ proto.jisaem.class.Class.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getClassLabel();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getClassLabelsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
       7,
       f,
-      label_label_message_pb.Label.serializeBinaryToWriter
+      label_label_message_pb.ClassLabel.serializeBinaryToWriter
     );
   }
   f = message.getStartDate();
@@ -325,7 +326,7 @@ proto.jisaem.class.Class.serializeBinaryToWriter = function(message, writer) {
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
-  f = message.getClassParticipantsList();
+  f = message.getParticipantsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       12,
@@ -337,10 +338,10 @@ proto.jisaem.class.Class.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string uid = 1;
+ * optional string id = 1;
  * @return {string}
  */
-proto.jisaem.class.Class.prototype.getUid = function() {
+proto.jisaem.class.Class.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -349,7 +350,7 @@ proto.jisaem.class.Class.prototype.getUid = function() {
  * @param {string} value
  * @return {!proto.jisaem.class.Class} returns this
  */
-proto.jisaem.class.Class.prototype.setUid = function(value) {
+proto.jisaem.class.Class.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -429,10 +430,10 @@ proto.jisaem.class.Class.prototype.hasUpdatedAt = function() {
 
 
 /**
- * repeated ClassParticipant teachers = 4;
+ * repeated ClassParticipant managers = 4;
  * @return {!Array<!proto.jisaem.class.ClassParticipant>}
  */
-proto.jisaem.class.Class.prototype.getTeachersList = function() {
+proto.jisaem.class.Class.prototype.getManagersList = function() {
   return /** @type{!Array<!proto.jisaem.class.ClassParticipant>} */ (
     jspb.Message.getRepeatedWrapperField(this, proto.jisaem.class.ClassParticipant, 4));
 };
@@ -442,7 +443,7 @@ proto.jisaem.class.Class.prototype.getTeachersList = function() {
  * @param {!Array<!proto.jisaem.class.ClassParticipant>} value
  * @return {!proto.jisaem.class.Class} returns this
 */
-proto.jisaem.class.Class.prototype.setTeachersList = function(value) {
+proto.jisaem.class.Class.prototype.setManagersList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 4, value);
 };
 
@@ -452,7 +453,7 @@ proto.jisaem.class.Class.prototype.setTeachersList = function(value) {
  * @param {number=} opt_index
  * @return {!proto.jisaem.class.ClassParticipant}
  */
-proto.jisaem.class.Class.prototype.addTeachers = function(opt_value, opt_index) {
+proto.jisaem.class.Class.prototype.addManagers = function(opt_value, opt_index) {
   return jspb.Message.addToRepeatedWrapperField(this, 4, opt_value, proto.jisaem.class.ClassParticipant, opt_index);
 };
 
@@ -461,8 +462,8 @@ proto.jisaem.class.Class.prototype.addTeachers = function(opt_value, opt_index) 
  * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.class.Class} returns this
  */
-proto.jisaem.class.Class.prototype.clearTeachersList = function() {
-  return this.setTeachersList([]);
+proto.jisaem.class.Class.prototype.clearManagersList = function() {
+  return this.setManagersList([]);
 };
 
 
@@ -503,39 +504,40 @@ proto.jisaem.class.Class.prototype.setDescription = function(value) {
 
 
 /**
- * optional jisaem.label.Label class_label = 7;
- * @return {?proto.jisaem.label.Label}
+ * repeated jisaem.label.ClassLabel class_labels = 7;
+ * @return {!Array<!proto.jisaem.label.ClassLabel>}
  */
-proto.jisaem.class.Class.prototype.getClassLabel = function() {
-  return /** @type{?proto.jisaem.label.Label} */ (
-    jspb.Message.getWrapperField(this, label_label_message_pb.Label, 7));
+proto.jisaem.class.Class.prototype.getClassLabelsList = function() {
+  return /** @type{!Array<!proto.jisaem.label.ClassLabel>} */ (
+    jspb.Message.getRepeatedWrapperField(this, label_label_message_pb.ClassLabel, 7));
 };
 
 
 /**
- * @param {?proto.jisaem.label.Label|undefined} value
+ * @param {!Array<!proto.jisaem.label.ClassLabel>} value
  * @return {!proto.jisaem.class.Class} returns this
 */
-proto.jisaem.class.Class.prototype.setClassLabel = function(value) {
-  return jspb.Message.setWrapperField(this, 7, value);
+proto.jisaem.class.Class.prototype.setClassLabelsList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 7, value);
 };
 
 
 /**
- * Clears the message field making it undefined.
+ * @param {!proto.jisaem.label.ClassLabel=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.jisaem.label.ClassLabel}
+ */
+proto.jisaem.class.Class.prototype.addClassLabels = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 7, opt_value, proto.jisaem.label.ClassLabel, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.class.Class} returns this
  */
-proto.jisaem.class.Class.prototype.clearClassLabel = function() {
-  return this.setClassLabel(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.jisaem.class.Class.prototype.hasClassLabel = function() {
-  return jspb.Message.getField(this, 7) != null;
+proto.jisaem.class.Class.prototype.clearClassLabelsList = function() {
+  return this.setClassLabelsList([]);
 };
 
 
@@ -688,10 +690,10 @@ proto.jisaem.class.Class.prototype.hasPublicExposedAt = function() {
 
 
 /**
- * repeated ClassParticipant class_participants = 12;
+ * repeated ClassParticipant participants = 12;
  * @return {!Array<!proto.jisaem.class.ClassParticipant>}
  */
-proto.jisaem.class.Class.prototype.getClassParticipantsList = function() {
+proto.jisaem.class.Class.prototype.getParticipantsList = function() {
   return /** @type{!Array<!proto.jisaem.class.ClassParticipant>} */ (
     jspb.Message.getRepeatedWrapperField(this, proto.jisaem.class.ClassParticipant, 12));
 };
@@ -701,7 +703,7 @@ proto.jisaem.class.Class.prototype.getClassParticipantsList = function() {
  * @param {!Array<!proto.jisaem.class.ClassParticipant>} value
  * @return {!proto.jisaem.class.Class} returns this
 */
-proto.jisaem.class.Class.prototype.setClassParticipantsList = function(value) {
+proto.jisaem.class.Class.prototype.setParticipantsList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 12, value);
 };
 
@@ -711,7 +713,7 @@ proto.jisaem.class.Class.prototype.setClassParticipantsList = function(value) {
  * @param {number=} opt_index
  * @return {!proto.jisaem.class.ClassParticipant}
  */
-proto.jisaem.class.Class.prototype.addClassParticipants = function(opt_value, opt_index) {
+proto.jisaem.class.Class.prototype.addParticipants = function(opt_value, opt_index) {
   return jspb.Message.addToRepeatedWrapperField(this, 12, opt_value, proto.jisaem.class.ClassParticipant, opt_index);
 };
 
@@ -720,8 +722,8 @@ proto.jisaem.class.Class.prototype.addClassParticipants = function(opt_value, op
  * Clears the list making it empty but non-null.
  * @return {!proto.jisaem.class.Class} returns this
  */
-proto.jisaem.class.Class.prototype.clearClassParticipantsList = function() {
-  return this.setClassParticipantsList([]);
+proto.jisaem.class.Class.prototype.clearParticipantsList = function() {
+  return this.setParticipantsList([]);
 };
 
 
@@ -757,10 +759,9 @@ proto.jisaem.class.ClassParticipant.prototype.toObject = function(opt_includeIns
  */
 proto.jisaem.class.ClassParticipant.toObject = function(includeInstance, msg) {
   var f, obj = {
-    userUid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     authLevel: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    name: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    userLabel: (f = msg.getUserLabel()) && label_label_message_pb.Label.toObject(includeInstance, f)
+    name: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -799,7 +800,7 @@ proto.jisaem.class.ClassParticipant.deserializeBinaryFromReader = function(msg, 
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUserUid(value);
+      msg.setUserId(value);
       break;
     case 2:
       var value = /** @type {!proto.jisaem.auth.Level} */ (reader.readEnum());
@@ -808,11 +809,6 @@ proto.jisaem.class.ClassParticipant.deserializeBinaryFromReader = function(msg, 
     case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setName(value);
-      break;
-    case 4:
-      var value = new label_label_message_pb.Label;
-      reader.readMessage(value,label_label_message_pb.Label.deserializeBinaryFromReader);
-      msg.setUserLabel(value);
       break;
     default:
       reader.skipField();
@@ -843,7 +839,7 @@ proto.jisaem.class.ClassParticipant.prototype.serializeBinary = function() {
  */
 proto.jisaem.class.ClassParticipant.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUserUid();
+  f = message.getUserId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -864,22 +860,14 @@ proto.jisaem.class.ClassParticipant.serializeBinaryToWriter = function(message, 
       f
     );
   }
-  f = message.getUserLabel();
-  if (f != null) {
-    writer.writeMessage(
-      4,
-      f,
-      label_label_message_pb.Label.serializeBinaryToWriter
-    );
-  }
 };
 
 
 /**
- * optional string user_uid = 1;
+ * optional string user_id = 1;
  * @return {string}
  */
-proto.jisaem.class.ClassParticipant.prototype.getUserUid = function() {
+proto.jisaem.class.ClassParticipant.prototype.getUserId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -888,7 +876,7 @@ proto.jisaem.class.ClassParticipant.prototype.getUserUid = function() {
  * @param {string} value
  * @return {!proto.jisaem.class.ClassParticipant} returns this
  */
-proto.jisaem.class.ClassParticipant.prototype.setUserUid = function(value) {
+proto.jisaem.class.ClassParticipant.prototype.setUserId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -926,43 +914,6 @@ proto.jisaem.class.ClassParticipant.prototype.getName = function() {
  */
 proto.jisaem.class.ClassParticipant.prototype.setName = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional jisaem.label.Label user_label = 4;
- * @return {?proto.jisaem.label.Label}
- */
-proto.jisaem.class.ClassParticipant.prototype.getUserLabel = function() {
-  return /** @type{?proto.jisaem.label.Label} */ (
-    jspb.Message.getWrapperField(this, label_label_message_pb.Label, 4));
-};
-
-
-/**
- * @param {?proto.jisaem.label.Label|undefined} value
- * @return {!proto.jisaem.class.ClassParticipant} returns this
-*/
-proto.jisaem.class.ClassParticipant.prototype.setUserLabel = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.jisaem.class.ClassParticipant} returns this
- */
-proto.jisaem.class.ClassParticipant.prototype.clearUserLabel = function() {
-  return this.setUserLabel(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.jisaem.class.ClassParticipant.prototype.hasUserLabel = function() {
-  return jspb.Message.getField(this, 4) != null;
 };
 
 

@@ -39,47 +39,90 @@ export class ClassServiceClient {
     this.options_ = options;
   }
 
-  methodDescriptorClassCreate = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ClassCreate',
+  methodDescriptorClassCreateAsManager = new grpcWeb.MethodDescriptor(
+    '/jisaem.class.ClassService/ClassCreateAsManager',
     grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestClassCreate,
-    class_class_communication_pb.ResponseClassCreate,
-    (request: class_class_communication_pb.RequestClassCreate) => {
+    class_class_communication_pb.RequestClassCreateAsManager,
+    class_class_communication_pb.ResponseClassCreateAsManager,
+    (request: class_class_communication_pb.RequestClassCreateAsManager) => {
       return request.serializeBinary();
     },
-    class_class_communication_pb.ResponseClassCreate.deserializeBinary
+    class_class_communication_pb.ResponseClassCreateAsManager.deserializeBinary
   );
 
-  classCreate(
-    request: class_class_communication_pb.RequestClassCreate,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassCreate>;
+  classCreateAsManager(
+    request: class_class_communication_pb.RequestClassCreateAsManager,
+    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassCreateAsManager>;
 
-  classCreate(
-    request: class_class_communication_pb.RequestClassCreate,
+  classCreateAsManager(
+    request: class_class_communication_pb.RequestClassCreateAsManager,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassCreate) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassCreate>;
+               response: class_class_communication_pb.ResponseClassCreateAsManager) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassCreateAsManager>;
 
-  classCreate(
-    request: class_class_communication_pb.RequestClassCreate,
+  classCreateAsManager(
+    request: class_class_communication_pb.RequestClassCreateAsManager,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassCreate) => void) {
+               response: class_class_communication_pb.ResponseClassCreateAsManager) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/jisaem.class.ClassService/ClassCreate',
+          '/jisaem.class.ClassService/ClassCreateAsManager',
         request,
         metadata || {},
-        this.methodDescriptorClassCreate,
+        this.methodDescriptorClassCreateAsManager,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/jisaem.class.ClassService/ClassCreate',
+      '/jisaem.class.ClassService/ClassCreateAsManager',
     request,
     metadata || {},
-    this.methodDescriptorClassCreate);
+    this.methodDescriptorClassCreateAsManager);
+  }
+
+  methodDescriptorClassCreateWithoutManager = new grpcWeb.MethodDescriptor(
+    '/jisaem.class.ClassService/ClassCreateWithoutManager',
+    grpcWeb.MethodType.UNARY,
+    class_class_communication_pb.RequestClassCreateWithoutManager,
+    class_class_communication_pb.ResponseClassCreateWithoutManager,
+    (request: class_class_communication_pb.RequestClassCreateWithoutManager) => {
+      return request.serializeBinary();
+    },
+    class_class_communication_pb.ResponseClassCreateWithoutManager.deserializeBinary
+  );
+
+  classCreateWithoutManager(
+    request: class_class_communication_pb.RequestClassCreateWithoutManager,
+    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassCreateWithoutManager>;
+
+  classCreateWithoutManager(
+    request: class_class_communication_pb.RequestClassCreateWithoutManager,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: class_class_communication_pb.ResponseClassCreateWithoutManager) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassCreateWithoutManager>;
+
+  classCreateWithoutManager(
+    request: class_class_communication_pb.RequestClassCreateWithoutManager,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: class_class_communication_pb.ResponseClassCreateWithoutManager) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.class.ClassService/ClassCreateWithoutManager',
+        request,
+        metadata || {},
+        this.methodDescriptorClassCreateWithoutManager,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.class.ClassService/ClassCreateWithoutManager',
+    request,
+    metadata || {},
+    this.methodDescriptorClassCreateWithoutManager);
   }
 
   methodDescriptorClassGet = new grpcWeb.MethodDescriptor(
