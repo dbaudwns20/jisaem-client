@@ -78,7 +78,8 @@
               레이블
             </label>
             <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
-                                        labelClass: 'detail-label-list'}"/>
+                                        target: 'userLabelList',
+                                        labelClass: 'profile-label-list'}"/>
           </div>
         </form>
         <!-- 학생 계정 폼 -->
@@ -112,7 +113,8 @@
               레이블
             </label>
             <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
-                                        labelClass: 'detail-label-list'}"/>
+                                        target: 'userLabelList',
+                                        labelClass: 'profile-label-list'}"/>
           </div>
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>
@@ -162,7 +164,8 @@
               레이블
             </label>
             <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
-                                        labelClass: 'detail-label-list'}"/>
+                                        target: 'userLabelList',
+                                        labelClass: 'profile-label-list'}"/>
           </div>
           <div class="buttons is-right">
             <button class="button is-info" type="submit">개인정보변경</button>

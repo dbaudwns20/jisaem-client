@@ -20,7 +20,7 @@ const _client: UserServiceClient = new UserServiceClient(grpcService.GRPC_HOST)
 
 export default {
 
-  async getUserList(userLabelIdList: string[], authLevel: AuthLevel ,pagination: Pagination) {
+  async getUserList(userLabelIdList: string[], authLevel: AuthLevel, pagination: Pagination) {
     const req = new RequestUserListGet()
     req.setUserLabelIdsList(userLabelIdList)
     req.setPagination(bindPaginationToProto(pagination))
@@ -161,23 +161,6 @@ export default {
           reject(err)
         } else {
           resolve(res!)
-        }
-      })
-    }))
-  },
-
-  async updateUserParentInfo(userId: string, parentInfo: ParentInfo) {
-    const req = new RequestParentUpdate()
-    req.setId(userId)
-    req.setPhone(parentInfo.phone)
-    req.setUsername(parentInfo.username)
-    return await new Promise(((resolve, reject) => {
-      _client.parentUpdate(req, grpcService.setToken(), async (err, res) => {
-        if (err) {
-          grpcService.handlingError(err)
-          reject(err)
-        } else {
-          resolve(res)
         }
       })
     }))

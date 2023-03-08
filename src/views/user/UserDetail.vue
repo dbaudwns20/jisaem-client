@@ -9,6 +9,7 @@
           <div class="field">
             <LabelElementList :params="{data: {userLabelList: userInfo.userLabelList},
                                         size: 'is-small',
+                                        target: 'userLabelList',
                                         labelClass: 'detail-label-list'}"/>
           </div>
         </div>

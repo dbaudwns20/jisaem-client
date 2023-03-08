@@ -19,10 +19,10 @@ export class Class extends jspb.Message {
   hasUpdatedAt(): boolean;
   clearUpdatedAt(): Class;
 
-  getManagersList(): Array<ClassParticipant>;
-  setManagersList(value: Array<ClassParticipant>): Class;
+  getManagersList(): Array<ClassManager>;
+  setManagersList(value: Array<ClassManager>): Class;
   clearManagersList(): Class;
-  addManagers(value?: ClassParticipant, index?: number): ClassParticipant;
+  addManagers(value?: ClassManager, index?: number): ClassManager;
 
   getName(): string;
   setName(value: string): Class;
@@ -73,7 +73,7 @@ export namespace Class {
     id: string,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updatedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    managersList: Array<ClassParticipant.AsObject>,
+    managersList: Array<ClassManager.AsObject>,
     name: string,
     description: string,
     classLabelsList: Array<label_label_message_pb.ClassLabel.AsObject>,
@@ -82,6 +82,32 @@ export namespace Class {
     closedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     publicExposedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     participantsList: Array<ClassParticipant.AsObject>,
+  }
+}
+
+export class ClassManager extends jspb.Message {
+  getUserId(): string;
+  setUserId(value: string): ClassManager;
+
+  getAuthLevel(): auth_auth_message_pb.Level;
+  setAuthLevel(value: auth_auth_message_pb.Level): ClassManager;
+
+  getName(): string;
+  setName(value: string): ClassManager;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ClassManager.AsObject;
+  static toObject(includeInstance: boolean, msg: ClassManager): ClassManager.AsObject;
+  static serializeBinaryToWriter(message: ClassManager, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ClassManager;
+  static deserializeBinaryFromReader(message: ClassManager, reader: jspb.BinaryReader): ClassManager;
+}
+
+export namespace ClassManager {
+  export type AsObject = {
+    userId: string,
+    authLevel: auth_auth_message_pb.Level,
+    name: string,
   }
 }
 

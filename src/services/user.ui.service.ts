@@ -50,6 +50,7 @@ export default {
         cellRenderer: LabelElementList,
         cellRendererParams: {
           labelClass: 'cell-label-list',
+          target: 'userLabelList'
         },
         autoHeight: true
       },

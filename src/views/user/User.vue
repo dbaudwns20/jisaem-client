@@ -77,6 +77,7 @@
             </div>
             <div class="panel-block">
               <LabelSelect :label="'레이블'" :is-small="true"
+                           :label-type="labelType.LABEL_TYPE_USER"
                            v-model="userLabels" />
             </div>
             <div class="panel-block">
@@ -96,6 +97,7 @@
 <script lang="ts">
 import { defineComponent, getCurrentInstance, onMounted, reactive, ref, watch } from "vue"
 import { Label } from "@/models/label/label"
+import { LabelType } from '@/models/label/label.type'
 import { bindPaginationInstance, Pagination } from "@/models/util/util"
 import { AuthLevel } from "@/models/auth/auth.level"
 import { UpdateUser} from "@/models/user/update.user"
@@ -317,6 +319,7 @@ export default defineComponent({
       isParent: utils.authority.isParent,
       isTeacher: utils.authority.isTeacher,
       isManager: utils.authority.isManager,
+      labelType: LabelType
     }
   }
 })
