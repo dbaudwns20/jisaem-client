@@ -1,7 +1,12 @@
 <template>
   <div class="grid-header">
     <div class="grid-header-buttons">
-      <slot name="gridHeaderContent"></slot>
+      <div class="grid-header-left">
+        <slot name="gridHeaderLeftContent"></slot>
+      </div>
+      <div class="grid-header-right">
+        <slot name="gridHeaderRightContent"></slot>
+      </div>
     </div>
   </div>
   <ag-grid-vue id="myGrid" class="ag-theme-alpine"

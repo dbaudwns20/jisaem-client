@@ -217,12 +217,12 @@ const manageUserLabel = (event: any) => {
 // 이용자 조회
 const getUser = async () => {
   const res = await userGrpcService.getUser(params.data.id)
-  await Object.assign(userInfo, res)
-  await Object.assign(studentInfo, res.studentInfo)
-  await Object.assign(parentInfo, res.parentInfo)
-  await Object.assign(defaultUserInfo, _.cloneDeep(userInfo))
-  await Object.assign(defaultStudentInfo, _.cloneDeep(studentInfo))
-  await Object.assign(defaultParentInfo, _.cloneDeep(parentInfo))
+  Object.assign(userInfo, res)
+  Object.assign(studentInfo, res.studentInfo)
+  Object.assign(parentInfo, res.parentInfo)
+  Object.assign(defaultUserInfo, _.cloneDeep(userInfo))
+  Object.assign(defaultStudentInfo, _.cloneDeep(studentInfo))
+  Object.assign(defaultParentInfo, _.cloneDeep(parentInfo))
 }
 onMounted(() => {
   getUser()
