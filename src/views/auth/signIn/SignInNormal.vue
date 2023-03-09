@@ -61,7 +61,7 @@ export default defineComponent({
     async signIn(form: any) {
       if (!utils.validator.validateForm(form.target)) return
       const res = await authGrpcService.signInNormal(this.username, this.password)
-      await store.commit('sessionStore/signIn', res)
+      store.commit('sessionStore/signIn', res)
       await router.push(Dashboard.path)
     }
   }

@@ -1,4 +1,4 @@
-import {UserServiceClient} from "@/protos/user/User_serviceServiceClientPb"
+import { UserServiceClient } from "@/protos/user/User_serviceServiceClientPb"
 import {
   RequestManagerCreate,
   RequestParentCreate, RequestParentDelete, RequestParentPasswordUpdate, RequestParentUpdate,
@@ -6,13 +6,13 @@ import {
   RequestTeacherCreate,
   RequestUserDelete,
   RequestUserGet, RequestUserLabelUpdate,
-  RequestUserListGet, RequestUserPasswordUpdate, RequestUserUpdate
+  RequestUserListGet, RequestUserPasswordUpdate
 } from "@/protos/user/user_communication_pb"
 import { bindUserToProto, User } from "@/models/user/user"
 import { bindPaginationInstance, bindPaginationToProto, Pagination} from "@/models/util/util"
 import { bindParentInfoToProto, ParentInfo } from "@/models/user/parent.info"
 import { AuthLevel, AuthLevelToProto } from "@/models/auth/auth.level"
-import { getRequestProfileUpdate, getRequestUserUpdate, UpdateUser } from "@/models/user/update.user"
+import { getRequestUserUpdate, UpdateUser } from "@/models/user/update.user"
 
 import grpcService from '@/services/grpc.service'
 
@@ -20,9 +20,9 @@ const _client: UserServiceClient = new UserServiceClient(grpcService.GRPC_HOST)
 
 export default {
 
-  async getUserList(labelIdList: string[], authLevel: AuthLevel ,pagination: Pagination) {
+  async getUserList(userLabelIdList: string[], authLevel: AuthLevel, pagination: Pagination) {
     const req = new RequestUserListGet()
-    // req.setUserLabelIdsList(labelIdList)
+    req.setUserLabelIdsList(userLabelIdList)
     req.setPagination(bindPaginationToProto(pagination))
     req.setAuthLevel(AuthLevelToProto(authLevel))
     return await new Promise(((resolve, reject) => {
@@ -161,23 +161,6 @@ export default {
           reject(err)
         } else {
           resolve(res!)
-        }
-      })
-    }))
-  },
-
-  async updateUserParentInfo(userId: string, parentInfo: ParentInfo) {
-    const req = new RequestParentUpdate()
-    req.setId(userId)
-    req.setPhone(parentInfo.phone)
-    req.setUsername(parentInfo.username)
-    return await new Promise(((resolve, reject) => {
-      _client.parentUpdate(req, grpcService.setToken(), async (err, res) => {
-        if (err) {
-          grpcService.handlingError(err)
-          reject(err)
-        } else {
-          resolve(res)
         }
       })
     }))

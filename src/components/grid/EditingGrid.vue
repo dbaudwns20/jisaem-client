@@ -4,7 +4,12 @@
                :row-data="rowData"
                :localeText="{ noRowsToShow: '조회 결과가 없습니다.' }">
   </ag-grid-vue>
-  <div class="grid-footer"></div>
+  <div class="grid-footer">
+    <nav class="pagination is-small is-centered" role="navigation" aria-label="pagination">
+      <span class="pagination-range"></span>
+      <span class="pagination-total">{{ totalPageText }}</span>
+    </nav>
+  </div>
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, ref} from 'vue'
@@ -24,6 +29,7 @@ export default defineComponent({
   },
   setup(props) {
     const rowData = ref([])
+    const totalPageText = ref('총 0 건')
     const gridOptions = props.gridOptions
     // 체크박스 다중 선택
     gridOptions.rowSelection = 'multiple'
@@ -83,9 +89,14 @@ export default defineComponent({
     }
     const updateRowData = (newRowData: []) => {
       rowData.value = newRowData
+      setTotalCount()
+    }
+    const setTotalCount = () => {
+      totalPageText.value = "총 " + rowData.value.length + " 건"
     }
     return {
       rowData,
+      totalPageText,
       getRowData,
       updateRowData
     }

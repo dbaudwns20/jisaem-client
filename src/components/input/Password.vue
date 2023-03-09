@@ -5,7 +5,7 @@
         {{ label }}
       </label>
       <div class="control has-icons-left has-icons-right">
-        <input type="password" name="password" class="input"
+        <input type="password" name="password" class="input" ref="verticalInput"
                :class="checkClass"
                :required="isRequired"
                :disabled="isDisabled"
@@ -50,7 +50,7 @@
             {{ label }}
           </label>
           <div class="control has-icons-left has-icons-right">
-            <input type="password" name="password" class="input"
+            <input type="password" name="password" class="input" ref="verticalInput"
                    :class="checkClass"
                    :required="isRequired"
                    :disabled="isDisabled"
@@ -120,6 +120,8 @@ export default defineComponent({
     const inputValue = ref(props.modelValue)
     const confirmPassword = ref('')
 
+    const verticalInput = ref()
+
     /**
      * 입력한 값이 비밀번호 규칙에 충족하는지 체크
      * @param target
@@ -185,6 +187,12 @@ export default defineComponent({
       }
     }
 
+    const focusin = () => {
+      setTimeout(() => {
+        verticalInput.value.focus()
+      })
+    }
+
     return {
       checkClass,
       checkMsg,
@@ -192,9 +200,11 @@ export default defineComponent({
       checkConfirmClass,
       checkConfirmMsg,
       confirmPassword,
+      verticalInput,
       checkOnPasswordRule,
       doConfirmPassword,
-      checkIfIsInvalid
+      checkIfIsInvalid,
+      focusin
     }
   }
 })

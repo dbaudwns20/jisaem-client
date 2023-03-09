@@ -5,12 +5,17 @@ export default {
   setColumns() {
     return [
       {
-        maxWidth: 45,
-        minWidth: 45,
+        maxWidth: 40,
+        minWidth: 40,
         lockPosition: 'left',
         sortable: false,
         resizable: false,
-        cellStyle: {justifyContent: 'center', display: 'flex', alignItems: 'center'},
+        cellStyle: {
+          justifyContent: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          cursor: 'Pointer'
+        },
         cellRenderer: (params: any) => {
           if (!params.data.isExpanded)
             return `<a><i class="fa-solid fa-angle-right"></i></a>`
@@ -19,8 +24,8 @@ export default {
         }
       },
       {
-        maxWidth: 52,
-        minWidth: 52,
+        maxWidth: 45,
+        minWidth: 45,
         lockPosition: 'left',
         sortable: false,
         resizable: false,
@@ -30,22 +35,22 @@ export default {
       },
       {
         headerName: '순번',
+        field: 'cellNo',
         maxWidth: 65,
         minWidth: 65,
+        lockPosition: 'left',
         sortable: false,
         resizable: false,
-        cellStyle: { textAlign: 'center' },
-        cellRenderer: (params: any) => {
-          return parseInt(params.node.id) + 1
-        }
+        cellStyle: {justifyContent: 'center', display: 'flex', alignItems: 'center'},
       },
       {
-        minWidth: 180,
+        minWidth: 250,
         headerName: "레이블",
         cellStyle: {display: 'flex', alignItems: 'center'},
         cellRenderer: LabelElementList,
         cellRendererParams: {
           labelClass: 'cell-label-list',
+          target: 'userLabelList'
         },
         autoHeight: true
       },
@@ -73,7 +78,8 @@ export default {
         headerName: "생성일",
         field: "createdAt",
         cellStyle: {textAlign: 'center'},
-        minWidth: 80,
+        minWidth: 140,
+        maxWidth: 140,
         cellRenderer: (params: any) => {
           return utils.convertDateToString(params.data.createdAt)
         }

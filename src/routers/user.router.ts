@@ -8,20 +8,8 @@ export const ModalCreateUser = {
     needLogin: true,
     accessiblePaths: ['/user'],
     accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
-  }
-}
-
-export const ModalEditUser = {
-  path: '/user/edit',
-  name: 'ModalEditUser',
-  component: () => import('../views/user/ModalEditUser.vue'),
-  meta: {
-    needLogin: true,
-    accessiblePaths: ['/user'],
-    accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
   },
   props: {
-    userId: '',
     userAuthLevel: 0
   }
 }
@@ -37,21 +25,6 @@ export const ModalCreateParent = {
   },
   props: {
     userId: ''
-  }
-}
-
-export const ModalEditParent = {
-  path: '/user/edit-parent',
-  name: 'ModalEditParent',
-  component: () => import('../views/user/ModalEditParent.vue'),
-  meta: {
-    needLogin: true,
-    accessiblePaths: ['/user'],
-    accessibleAuths: [AuthLevel.AUTH_LEVEL_MANAGER, AuthLevel.AUTH_LEVEL_SUPER, AuthLevel.AUTH_LEVEL_TEACHER]
-  },
-  props: {
-    userId: '',
-    userParentInfo: {}
   }
 }
 
@@ -97,8 +70,6 @@ export const User = {
     ModalCreateUser,
     ModalCreateParent,
     ModalManageUserLabel,
-    ModalEditUser,
-    ModalEditParent,
     ModalUpdatePassword
   ]
 }

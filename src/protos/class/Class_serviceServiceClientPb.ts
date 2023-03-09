@@ -39,90 +39,90 @@ export class ClassServiceClient {
     this.options_ = options;
   }
 
-  methodDescriptorClassCreate = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ClassCreate',
+  methodDescriptorClassCreateAsManager = new grpcWeb.MethodDescriptor(
+    '/jisaem.class.ClassService/ClassCreateAsManager',
     grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestClassCreate,
-    class_class_communication_pb.ResponseClassCreate,
-    (request: class_class_communication_pb.RequestClassCreate) => {
+    class_class_communication_pb.RequestClassCreateAsManager,
+    class_class_communication_pb.ResponseClassCreateAsManager,
+    (request: class_class_communication_pb.RequestClassCreateAsManager) => {
       return request.serializeBinary();
     },
-    class_class_communication_pb.ResponseClassCreate.deserializeBinary
+    class_class_communication_pb.ResponseClassCreateAsManager.deserializeBinary
   );
 
-  classCreate(
-    request: class_class_communication_pb.RequestClassCreate,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassCreate>;
+  classCreateAsManager(
+    request: class_class_communication_pb.RequestClassCreateAsManager,
+    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassCreateAsManager>;
 
-  classCreate(
-    request: class_class_communication_pb.RequestClassCreate,
+  classCreateAsManager(
+    request: class_class_communication_pb.RequestClassCreateAsManager,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassCreate) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassCreate>;
+               response: class_class_communication_pb.ResponseClassCreateAsManager) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassCreateAsManager>;
 
-  classCreate(
-    request: class_class_communication_pb.RequestClassCreate,
+  classCreateAsManager(
+    request: class_class_communication_pb.RequestClassCreateAsManager,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassCreate) => void) {
+               response: class_class_communication_pb.ResponseClassCreateAsManager) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/jisaem.class.ClassService/ClassCreate',
+          '/jisaem.class.ClassService/ClassCreateAsManager',
         request,
         metadata || {},
-        this.methodDescriptorClassCreate,
+        this.methodDescriptorClassCreateAsManager,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/jisaem.class.ClassService/ClassCreate',
+      '/jisaem.class.ClassService/ClassCreateAsManager',
     request,
     metadata || {},
-    this.methodDescriptorClassCreate);
+    this.methodDescriptorClassCreateAsManager);
   }
 
-  methodDescriptorClassGet = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ClassGet',
+  methodDescriptorClassCreateWithoutManager = new grpcWeb.MethodDescriptor(
+    '/jisaem.class.ClassService/ClassCreateWithoutManager',
     grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestClassGet,
-    class_class_communication_pb.ResponseClassGet,
-    (request: class_class_communication_pb.RequestClassGet) => {
+    class_class_communication_pb.RequestClassCreateWithoutManager,
+    class_class_communication_pb.ResponseClassCreateWithoutManager,
+    (request: class_class_communication_pb.RequestClassCreateWithoutManager) => {
       return request.serializeBinary();
     },
-    class_class_communication_pb.ResponseClassGet.deserializeBinary
+    class_class_communication_pb.ResponseClassCreateWithoutManager.deserializeBinary
   );
 
-  classGet(
-    request: class_class_communication_pb.RequestClassGet,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassGet>;
+  classCreateWithoutManager(
+    request: class_class_communication_pb.RequestClassCreateWithoutManager,
+    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassCreateWithoutManager>;
 
-  classGet(
-    request: class_class_communication_pb.RequestClassGet,
+  classCreateWithoutManager(
+    request: class_class_communication_pb.RequestClassCreateWithoutManager,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassGet) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassGet>;
+               response: class_class_communication_pb.ResponseClassCreateWithoutManager) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassCreateWithoutManager>;
 
-  classGet(
-    request: class_class_communication_pb.RequestClassGet,
+  classCreateWithoutManager(
+    request: class_class_communication_pb.RequestClassCreateWithoutManager,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassGet) => void) {
+               response: class_class_communication_pb.ResponseClassCreateWithoutManager) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/jisaem.class.ClassService/ClassGet',
+          '/jisaem.class.ClassService/ClassCreateWithoutManager',
         request,
         metadata || {},
-        this.methodDescriptorClassGet,
+        this.methodDescriptorClassCreateWithoutManager,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/jisaem.class.ClassService/ClassGet',
+      '/jisaem.class.ClassService/ClassCreateWithoutManager',
     request,
     metadata || {},
-    this.methodDescriptorClassGet);
+    this.methodDescriptorClassCreateWithoutManager);
   }
 
   methodDescriptorClassListGet = new grpcWeb.MethodDescriptor(
@@ -168,49 +168,6 @@ export class ClassServiceClient {
     this.methodDescriptorClassListGet);
   }
 
-  methodDescriptorClassUpdate = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ClassUpdate',
-    grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestClassUpdate,
-    class_class_communication_pb.ResponseClassUpdate,
-    (request: class_class_communication_pb.RequestClassUpdate) => {
-      return request.serializeBinary();
-    },
-    class_class_communication_pb.ResponseClassUpdate.deserializeBinary
-  );
-
-  classUpdate(
-    request: class_class_communication_pb.RequestClassUpdate,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassUpdate>;
-
-  classUpdate(
-    request: class_class_communication_pb.RequestClassUpdate,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassUpdate) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassUpdate>;
-
-  classUpdate(
-    request: class_class_communication_pb.RequestClassUpdate,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassUpdate) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/jisaem.class.ClassService/ClassUpdate',
-        request,
-        metadata || {},
-        this.methodDescriptorClassUpdate,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/jisaem.class.ClassService/ClassUpdate',
-    request,
-    metadata || {},
-    this.methodDescriptorClassUpdate);
-  }
-
   methodDescriptorClassDelete = new grpcWeb.MethodDescriptor(
     '/jisaem.class.ClassService/ClassDelete',
     grpcWeb.MethodType.UNARY,
@@ -254,47 +211,133 @@ export class ClassServiceClient {
     this.methodDescriptorClassDelete);
   }
 
-  methodDescriptorClassTeacherUpdate = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ClassTeacherUpdate',
+  methodDescriptorClassManagerInvite = new grpcWeb.MethodDescriptor(
+    '/jisaem.class.ClassService/ClassManagerInvite',
     grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestClassTeacherUpdate,
-    class_class_communication_pb.ResponseClassTeacherUpdate,
-    (request: class_class_communication_pb.RequestClassTeacherUpdate) => {
+    class_class_communication_pb.RequestClassManagerInvite,
+    class_class_communication_pb.ResponseClassManagerInvite,
+    (request: class_class_communication_pb.RequestClassManagerInvite) => {
       return request.serializeBinary();
     },
-    class_class_communication_pb.ResponseClassTeacherUpdate.deserializeBinary
+    class_class_communication_pb.ResponseClassManagerInvite.deserializeBinary
   );
 
-  classTeacherUpdate(
-    request: class_class_communication_pb.RequestClassTeacherUpdate,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassTeacherUpdate>;
+  classManagerInvite(
+    request: class_class_communication_pb.RequestClassManagerInvite,
+    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassManagerInvite>;
 
-  classTeacherUpdate(
-    request: class_class_communication_pb.RequestClassTeacherUpdate,
+  classManagerInvite(
+    request: class_class_communication_pb.RequestClassManagerInvite,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassTeacherUpdate) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassTeacherUpdate>;
+               response: class_class_communication_pb.ResponseClassManagerInvite) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassManagerInvite>;
 
-  classTeacherUpdate(
-    request: class_class_communication_pb.RequestClassTeacherUpdate,
+  classManagerInvite(
+    request: class_class_communication_pb.RequestClassManagerInvite,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassTeacherUpdate) => void) {
+               response: class_class_communication_pb.ResponseClassManagerInvite) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/jisaem.class.ClassService/ClassTeacherUpdate',
+          '/jisaem.class.ClassService/ClassManagerInvite',
         request,
         metadata || {},
-        this.methodDescriptorClassTeacherUpdate,
+        this.methodDescriptorClassManagerInvite,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/jisaem.class.ClassService/ClassTeacherUpdate',
+      '/jisaem.class.ClassService/ClassManagerInvite',
     request,
     metadata || {},
-    this.methodDescriptorClassTeacherUpdate);
+    this.methodDescriptorClassManagerInvite);
+  }
+
+  methodDescriptorClassManagerListGet = new grpcWeb.MethodDescriptor(
+    '/jisaem.class.ClassService/ClassManagerListGet',
+    grpcWeb.MethodType.UNARY,
+    class_class_communication_pb.RequestClassManagerListGet,
+    class_class_communication_pb.ResponseClassManagerListGet,
+    (request: class_class_communication_pb.RequestClassManagerListGet) => {
+      return request.serializeBinary();
+    },
+    class_class_communication_pb.ResponseClassManagerListGet.deserializeBinary
+  );
+
+  classManagerListGet(
+    request: class_class_communication_pb.RequestClassManagerListGet,
+    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassManagerListGet>;
+
+  classManagerListGet(
+    request: class_class_communication_pb.RequestClassManagerListGet,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: class_class_communication_pb.ResponseClassManagerListGet) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassManagerListGet>;
+
+  classManagerListGet(
+    request: class_class_communication_pb.RequestClassManagerListGet,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: class_class_communication_pb.ResponseClassManagerListGet) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.class.ClassService/ClassManagerListGet',
+        request,
+        metadata || {},
+        this.methodDescriptorClassManagerListGet,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.class.ClassService/ClassManagerListGet',
+    request,
+    metadata || {},
+    this.methodDescriptorClassManagerListGet);
+  }
+
+  methodDescriptorClassManagerKick = new grpcWeb.MethodDescriptor(
+    '/jisaem.class.ClassService/ClassManagerKick',
+    grpcWeb.MethodType.UNARY,
+    class_class_communication_pb.RequestClassManagerKick,
+    class_class_communication_pb.ResponseClassManagerKick,
+    (request: class_class_communication_pb.RequestClassManagerKick) => {
+      return request.serializeBinary();
+    },
+    class_class_communication_pb.ResponseClassManagerKick.deserializeBinary
+  );
+
+  classManagerKick(
+    request: class_class_communication_pb.RequestClassManagerKick,
+    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassManagerKick>;
+
+  classManagerKick(
+    request: class_class_communication_pb.RequestClassManagerKick,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: class_class_communication_pb.ResponseClassManagerKick) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassManagerKick>;
+
+  classManagerKick(
+    request: class_class_communication_pb.RequestClassManagerKick,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: class_class_communication_pb.ResponseClassManagerKick) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/jisaem.class.ClassService/ClassManagerKick',
+        request,
+        metadata || {},
+        this.methodDescriptorClassManagerKick,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/jisaem.class.ClassService/ClassManagerKick',
+    request,
+    metadata || {},
+    this.methodDescriptorClassManagerKick);
   }
 
   methodDescriptorClassLabelUpdate = new grpcWeb.MethodDescriptor(
@@ -338,221 +381,6 @@ export class ClassServiceClient {
     request,
     metadata || {},
     this.methodDescriptorClassLabelUpdate);
-  }
-
-  methodDescriptorClassOpenStatusChange = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ClassOpenStatusChange',
-    grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestClassOpenStatusChange,
-    class_class_communication_pb.ResponseClassOpenStatusChange,
-    (request: class_class_communication_pb.RequestClassOpenStatusChange) => {
-      return request.serializeBinary();
-    },
-    class_class_communication_pb.ResponseClassOpenStatusChange.deserializeBinary
-  );
-
-  classOpenStatusChange(
-    request: class_class_communication_pb.RequestClassOpenStatusChange,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassOpenStatusChange>;
-
-  classOpenStatusChange(
-    request: class_class_communication_pb.RequestClassOpenStatusChange,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassOpenStatusChange) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassOpenStatusChange>;
-
-  classOpenStatusChange(
-    request: class_class_communication_pb.RequestClassOpenStatusChange,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassOpenStatusChange) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/jisaem.class.ClassService/ClassOpenStatusChange',
-        request,
-        metadata || {},
-        this.methodDescriptorClassOpenStatusChange,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/jisaem.class.ClassService/ClassOpenStatusChange',
-    request,
-    metadata || {},
-    this.methodDescriptorClassOpenStatusChange);
-  }
-
-  methodDescriptorClassPublicExposeStatusChange = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ClassPublicExposeStatusChange',
-    grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestClassPublicExposeStatusChange,
-    class_class_communication_pb.ResponseClassPublicExposeStatusChange,
-    (request: class_class_communication_pb.RequestClassPublicExposeStatusChange) => {
-      return request.serializeBinary();
-    },
-    class_class_communication_pb.ResponseClassPublicExposeStatusChange.deserializeBinary
-  );
-
-  classPublicExposeStatusChange(
-    request: class_class_communication_pb.RequestClassPublicExposeStatusChange,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseClassPublicExposeStatusChange>;
-
-  classPublicExposeStatusChange(
-    request: class_class_communication_pb.RequestClassPublicExposeStatusChange,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassPublicExposeStatusChange) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseClassPublicExposeStatusChange>;
-
-  classPublicExposeStatusChange(
-    request: class_class_communication_pb.RequestClassPublicExposeStatusChange,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseClassPublicExposeStatusChange) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/jisaem.class.ClassService/ClassPublicExposeStatusChange',
-        request,
-        metadata || {},
-        this.methodDescriptorClassPublicExposeStatusChange,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/jisaem.class.ClassService/ClassPublicExposeStatusChange',
-    request,
-    metadata || {},
-    this.methodDescriptorClassPublicExposeStatusChange);
-  }
-
-  methodDescriptorParticipantInvite = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ParticipantInvite',
-    grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestParticipantInvite,
-    class_class_communication_pb.ResponseParticipantInvite,
-    (request: class_class_communication_pb.RequestParticipantInvite) => {
-      return request.serializeBinary();
-    },
-    class_class_communication_pb.ResponseParticipantInvite.deserializeBinary
-  );
-
-  participantInvite(
-    request: class_class_communication_pb.RequestParticipantInvite,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseParticipantInvite>;
-
-  participantInvite(
-    request: class_class_communication_pb.RequestParticipantInvite,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseParticipantInvite) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseParticipantInvite>;
-
-  participantInvite(
-    request: class_class_communication_pb.RequestParticipantInvite,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseParticipantInvite) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/jisaem.class.ClassService/ParticipantInvite',
-        request,
-        metadata || {},
-        this.methodDescriptorParticipantInvite,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/jisaem.class.ClassService/ParticipantInvite',
-    request,
-    metadata || {},
-    this.methodDescriptorParticipantInvite);
-  }
-
-  methodDescriptorParticipantListGet = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ParticipantListGet',
-    grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestParticipantListGet,
-    class_class_communication_pb.ResponseParticipantListGet,
-    (request: class_class_communication_pb.RequestParticipantListGet) => {
-      return request.serializeBinary();
-    },
-    class_class_communication_pb.ResponseParticipantListGet.deserializeBinary
-  );
-
-  participantListGet(
-    request: class_class_communication_pb.RequestParticipantListGet,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseParticipantListGet>;
-
-  participantListGet(
-    request: class_class_communication_pb.RequestParticipantListGet,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseParticipantListGet) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseParticipantListGet>;
-
-  participantListGet(
-    request: class_class_communication_pb.RequestParticipantListGet,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseParticipantListGet) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/jisaem.class.ClassService/ParticipantListGet',
-        request,
-        metadata || {},
-        this.methodDescriptorParticipantListGet,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/jisaem.class.ClassService/ParticipantListGet',
-    request,
-    metadata || {},
-    this.methodDescriptorParticipantListGet);
-  }
-
-  methodDescriptorParticipantKick = new grpcWeb.MethodDescriptor(
-    '/jisaem.class.ClassService/ParticipantKick',
-    grpcWeb.MethodType.UNARY,
-    class_class_communication_pb.RequestParticipantKick,
-    class_class_communication_pb.ResponseParticipantKick,
-    (request: class_class_communication_pb.RequestParticipantKick) => {
-      return request.serializeBinary();
-    },
-    class_class_communication_pb.ResponseParticipantKick.deserializeBinary
-  );
-
-  participantKick(
-    request: class_class_communication_pb.RequestParticipantKick,
-    metadata: grpcWeb.Metadata | null): Promise<class_class_communication_pb.ResponseParticipantKick>;
-
-  participantKick(
-    request: class_class_communication_pb.RequestParticipantKick,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseParticipantKick) => void): grpcWeb.ClientReadableStream<class_class_communication_pb.ResponseParticipantKick>;
-
-  participantKick(
-    request: class_class_communication_pb.RequestParticipantKick,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: class_class_communication_pb.ResponseParticipantKick) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/jisaem.class.ClassService/ParticipantKick',
-        request,
-        metadata || {},
-        this.methodDescriptorParticipantKick,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/jisaem.class.ClassService/ParticipantKick',
-    request,
-    metadata || {},
-    this.methodDescriptorParticipantKick);
   }
 
 }

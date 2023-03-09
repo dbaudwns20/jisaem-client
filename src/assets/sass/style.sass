@@ -6,10 +6,34 @@
 // Bulma Extensions bulma-divider
 @import '~@creativebulma/bulma-divider'
 
+// tooltip
+[data-tooltip]:not(.is-loading)::before, [data-tooltip]:not(.is-disabled)::before, [data-tooltip]:not([disabled])::before
+  padding: .3rem
+
 // label required 뒤에 * 표시
 .label.required:after
   content: " *"
   color: darkorange
+
+.detail-label
+  @extend .label
+
+  &.required:before
+    content: "* "
+    color: darkorange
+
+  &.required:after
+    content: none
+
+// 모바일 화면일때는 한줄로 표시
+@media screen and (max-width: 769px)
+  .detail-label
+    &.required:after
+      content: " *"
+      color: darkorange
+
+    &.required:before
+      content: none
 
 // footer
 .footer
@@ -60,19 +84,24 @@
 
   > ul
     border-bottom: 0
+
     > li
       border-right: 0.5px solid #babfc7
+
       > a
         background-color: #F9F9F9
         font-weight: normal
+
     > li:first-child
       border-left: 0
+
     > li:last-child
       border-right: 0
 
 .tabs.is-boxed li.is-active a
   border: 0
   font-weight: bold
+
   &:before
     font-family: "Font Awesome 5 Free", serif
     content: '\f3c5'
@@ -108,6 +137,7 @@
 
     &.selected
       background-color: #EFF2F7
+
       &:before
         font-family: "Font Awesome 5 Free", serif
         content: '\f058'
@@ -129,10 +159,7 @@
   align-content: flex-start
   display: flex
   flex-wrap: wrap
-  height: auto
-  min-height: 2.5em
   padding: 0
-  position: relative
 
   > span
     margin-right: 5px
@@ -144,8 +171,7 @@
     box-shadow: none !important
     display: inline-block
     flex: 1 0 auto
-    height: 2.3rem
-    margin: .1rem
+    height: 100%
     width: 0
 
   .labels-input:hover
@@ -167,3 +193,10 @@
     overflow: visible
     border-bottom-right-radius: 6px
     border-bottom-left-radius: 6px
+
+.profile-label-list
+  > span:first-child
+    padding-left: 0
+
+  > span
+    padding-left: 4px

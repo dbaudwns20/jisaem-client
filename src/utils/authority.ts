@@ -33,7 +33,7 @@ export default {
     if (_.isUndefined(authLevel)) authLevel = this.getMyAuthLevel()
     return authLevel === AuthLevel.AUTH_LEVEL_MANAGER
   },
-  // 수퍼관리지 권한인지 체크
+  // 수퍼관리자 권한인지 체크
   isSuper(authLevel?: AuthLevel): boolean {
     if (_.isUndefined(authLevel)) authLevel = this.getMyAuthLevel()
     return authLevel === AuthLevel.AUTH_LEVEL_SUPER

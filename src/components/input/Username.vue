@@ -1,15 +1,15 @@
 <template>
-  <div class="field">
+  <div class="field" v-if="!isHorizontal">
     <label class="label" :class="{ 'required': isRequired }" v-if="label">
       {{ label }}
     </label>
     <div class="control has-icons-right has-icons-left">
-      <input type="text" class="input"
+      <input type="text" class="input" ref="verticalInput"
              :class="checkClass"
              :placeholder="placeholder"
              :required="isRequired"
              :disabled="isDisabled"
-             :readonly="isReadOnly"
+             :readonly="isReadonly"
              :value="modelValue"
              @invalid="checkIfIsInvalid($event.target.value)"
              @keyup="checkValue($event.target)"
@@ -22,6 +22,36 @@
     <p class="help" :class="checkClass">
       {{ checkMsg }}
     </p>
+  </div>
+  <div class="field is-horizontal" v-if="isHorizontal">
+    <div class="field-label is-small">
+      <label class="detail-label" :class="{ 'required': isRequired }" v-if="label">
+        {{ label }}
+      </label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control has-icons-right has-icons-left">
+          <input type="text" class="input is-small" ref="horizontalInput"
+                 :class="checkClass"
+                 :placeholder="placeholder"
+                 :required="isRequired"
+                 :disabled="isDisabled"
+                 :readonly="isReadonly"
+                 :value="modelValue"
+                 @invalid="checkIfIsInvalid($event.target.value)"
+                 @keyup="checkValue($event.target)"
+                 @input="$emit('update:modelValue', $event.target.value)" />
+          <span class="icon is-small is-left"><i class="fa-solid fa-user"></i></span>
+          <span v-if="isRequired" class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
+                                                                              'fas fa-exclamation-triangle': checkClass === 'is-danger',
+                                                                              '': checkClass === ''}"></i></span>
+        </div>
+        <p class="help" :class="checkClass" style="font-size: 10px;">
+          {{ checkMsg }}
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -37,8 +67,9 @@ export default defineComponent({
     label: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     isRequired: { type: Boolean, default: false },
-    isReadOnly: { type: Boolean, default: false },
+    isReadonly: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
+    isHorizontal: { type: Boolean, default: false },
     dupCheckTarget: { type: String, default: null },
     isLogin: { type: Boolean, default: false },
     modelValue: { type: String, default: '' }
@@ -46,6 +77,10 @@ export default defineComponent({
   setup(props) {
     const checkClass = ref('')
     const checkMsg = ref('')
+
+    const verticalInput = ref()
+    const horizontalInput = ref()
+
     let originUsername: string = ''
     let oldValue = ''
 
@@ -107,6 +142,13 @@ export default defineComponent({
       }
     }
 
+    const focusin = () => {
+      setTimeout(() => {
+        if (props.isHorizontal) horizontalInput.value.focus()
+        else verticalInput.value.focus()
+      })
+    }
+
     watch(() => props.modelValue, (newVal: string, preVal: string) => {
         if (_.isEmpty(originUsername) && _.isEmpty(preVal) && !_.isEmpty(newVal)) {
           originUsername = newVal
@@ -117,6 +159,9 @@ export default defineComponent({
     return {
       checkClass,
       checkMsg,
+      verticalInput,
+      horizontalInput,
+      focusin,
       checkValue,
       checkIfIsInvalid
     }

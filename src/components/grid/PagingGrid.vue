@@ -1,14 +1,25 @@
 <template>
+  <div class="grid-header">
+    <div class="grid-header-buttons">
+      <div class="grid-header-left">
+        <slot name="gridHeaderLeftContent"></slot>
+      </div>
+      <div class="grid-header-right">
+        <slot name="gridHeaderRightContent"></slot>
+      </div>
+    </div>
+  </div>
   <ag-grid-vue id="myGrid" class="ag-theme-alpine"
                :rowData="rowData"
                :grid-options="gridOptions"
-               :pagination="true"
                :isFullWidthRow="isFullWidth"
                :fullWidthCellRenderer="fullWidthCellRenderer"
                :localeText="{noRowsToShow: '조회 결과가 없습니다.'}">
   </ag-grid-vue>
   <div class="grid-footer">
     <nav class="pagination is-small is-centered" role="navigation" aria-label="pagination">
+      <span class="pagination-range">{{ pageRangeText }}</span>
+      <span class="pagination-total">{{ totalPageText }}</span>
       <ul class="pagination-list">
         <li>
           <a class="pagination-link" :class="{'is-disabled': getCurrentPage() === 1}"
@@ -40,6 +51,11 @@
       </ul>
     </nav>
   </div>
+  <div class="grid-search" :class="{ 'is-active': showGridSearch }">
+    <div class="grid-search-content">
+      <slot name="gridSearchContent"></slot>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -63,6 +79,8 @@ export default defineComponent({
   setup(props, { emit }) {
     // 그리드 데이터
     const rowData = ref([] as any[])
+    const pageRangeText = ref('0 - 0')
+    const totalPageText = ref('총 0 건')
     // 페이지 범위 최대 5개까지
     const pageRange = ref([{page: 0, isCurrent: false}])
     // 페이지 정보
@@ -72,10 +90,12 @@ export default defineComponent({
       totalCount: 0,
       totalPage: 1
     }))
+    // 체크 리스트
+    let selectedItemList: any = []
+    // 그리드 검색조건
+    const showGridSearch = ref(false)
     // 그리드 옵션
     const gridOptions = props.gridOptions
-    // 기본 페이징 관리 부분 숨기기 (API 컨트롤 불가)
-    gridOptions.suppressPaginationPanel = true
     // 체크박스 다중 선택
     gridOptions.rowSelection = 'multiple'
     // 행 클릭 시 체크박스가 선택되지 않음
@@ -86,7 +106,7 @@ export default defineComponent({
     gridOptions.onGridSizeChanged = (params: any) => {
       params.api.sizeColumnsToFit()
       // detail 이 확장된 경우 높이 재조정
-      _.forEach(params.api.getModel().rowsToDisplay, (rowNode: RowNode) => {
+      params.api.forEachNode((rowNode: RowNode) => {
         if (rowNode.data.isFullWidth) setDetailRowHeight(rowNode)
       })
     }
@@ -99,23 +119,32 @@ export default defineComponent({
     }
     // 셀 클릭 시
     gridOptions.onCellClicked = (params: any) => {
+      // 선택 영역 표시
+      gridOptions.api.forEachNode((rowNode: RowNode) => {
+        const newData: any = rowNode.data
+        // 디테일 영역은 적용되지 않도록 분기
+        if (!rowNode.data.isFullWidth) {
+          newData.selected = params.data.id === newData.id
+          rowNode.setData(newData)
+        }
+      })
       // 첫번째 셀 (디테일 확장) 버튼을 클릭하면
       if (params.column.colId === '0') {
         if (!params.data.isExpanded) {
+          collapseExpandingRow(params)
           expandRow(params)
         } else {
           collapseRow(params)
         }
       }
-      // 선택 영역 표시
-      gridOptions.api.forEachNode((rowNode: any) => {
-        const newData = rowNode.data
-        newData.selected = params.data.id === newData.id
-        rowNode.setData(newData)
-      })
     }
     // 행이 detail(isFullWidth) 인지 체크
     const isFullWidth = (params: any) => {
+      // 체크박스로 선택된 대상이라면 체크 유지
+      _.forEach(selectedItemList, (item: any) => {
+        if (item.id === params.rowNode.data.id && !params.rowNode.data?.isFullWidth)
+          params.rowNode.selected = !params.rowNode.selected
+      })
       if (params.rowNode.data?.isFullWidth) {
         // 확장된 상태에서 '전체선택' 시 선택 방지
         params.rowNode.selectable = false
@@ -130,12 +159,26 @@ export default defineComponent({
       setTimeout(() => {
         const detailParent: any = document.querySelectorAll(`div[row-index="${rowNode.rowIndex}"]`)
         if (detailParent[0]?.childElementCount === 1) {
-          const detailHeight: number = detailParent[0].childNodes[0].offsetHeight + 1
+          const detailHeight: number = detailParent[0].childNodes[0].offsetHeight + 45
           rowNode.setRowHeight(detailHeight)
           gridOptions.api.onRowHeightChanged()
           gridOptions.api.ensureIndexVisible(rowNode.rowIndex, 'middle')
         }
       }, 100)
+    }
+    // 다른 셀이 확장되어있다면 접기
+    const collapseExpandingRow = (params: any) => {
+      setTimeout(() => {
+        let expandedRow: RowNode | undefined = undefined
+        for (const rowNode of params.api.getModel().rowsToDisplay) {
+          if (rowNode.data.isExpanded && rowNode.rowIndex !== params.rowIndex) {
+            expandedRow = rowNode
+            break
+          }
+        }
+        if (_.isUndefined(expandedRow)) return
+        collapseRow(expandedRow)
+      })
     }
     // 행 확장
     const expandRow = (params: any) => {
@@ -153,6 +196,10 @@ export default defineComponent({
       const newRowData = _.cloneDeep(getRowData())
       newRowData.splice(params.rowIndex + 1, 1)
       updateRowData(newRowData)
+      // 닫은 스크롤 위치 고정
+      setTimeout(() => {
+        gridOptions.api.ensureIndexVisible(params.rowIndex, 'middle')
+      })
     }
     // 상세 컴포넌트 설정
     const fullWidthCellRenderer = gridOptions.fullWidthCellRenderer
@@ -160,9 +207,27 @@ export default defineComponent({
     const getRowData = () => {
       return rowData.value
     }
+    // 페이지정보 텍스트 Set
+    const setPageText = () => {
+      if (rowData.value.length < 1) {
+        pageRangeText.value = '0 - 0'
+        totalPageText.value = '총 0 건'
+      } else {
+        pageRangeText.value = rowData.value[0].cellNo + " - " + rowData.value[rowData.value.length - 1].cellNo
+        totalPageText.value = "총 " + pagination.totalCount + " 건"
+      }
+    }
     // 그리드 리스트 업테이트
     const updateRowData = (newRowData: any[]) => {
+      // 기본 데이터 set
+      let cellNo: number = 1 + (getCurrentPage() - 1) * pagination.unit
+      for (const rowData of newRowData) {
+        if (rowData.isFullWidth) continue
+        rowData.cellNo = cellNo
+        cellNo++
+      }
       rowData.value = newRowData
+      setPageText()
     }
     // 현재 페이지 가져오기
     const getCurrentPage = (): number => {
@@ -189,7 +254,7 @@ export default defineComponent({
       // 이동할려는 페이지가 현 페이지 범위내에 존재하지 않는다면 or 디폴트 데이터인 경우
       if (!_.inRange(pagination.page, _.min(pageArray)!, _.max(pageArray)! + 1) || pageArray[0] === 0 || getMaxPage() != pagination.totalPage) {
         // 새로은 페이지 범위 생성
-        let newPageRange: any[] = []
+        const newPageRange: any[] = []
         let startPage: number = 1
         if (pagination.page - pageArray[0] === 5) {
           startPage = pagination.page
@@ -221,11 +286,22 @@ export default defineComponent({
       pagination.page = page!
       emit('read', pagination)
     }
+    // 체크박스 리스트 동기화
+    const setSelectedItemList = (list: any) => {
+      selectedItemList = list
+    }
+    //
+    const setShowGridSearch = () => {
+      showGridSearch.value = !showGridSearch.value
+    }
     return {
       rowData,
+      pageRangeText,
+      totalPageText,
       pageRange,
       pagination,
       fullWidthCellRenderer,
+      showGridSearch,
       isFullWidth,
       getRowData,
       updateRowData,
@@ -234,7 +310,9 @@ export default defineComponent({
       goToPage,
       getCurrentPage,
       getCurrentPageNums,
-      getMaxPage
+      getMaxPage,
+      setSelectedItemList,
+      setShowGridSearch
     }
   }
 })

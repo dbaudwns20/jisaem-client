@@ -1,24 +1,35 @@
-import { Label as ProtoLabel } from "@/protos/label/label_message_pb"
 import { ClassParticipant as ProtoClassParticipant } from "@/protos/class/class_message_pb"
+import { AuthLevel, AuthLevelFromProto, AuthLevelToProto } from "@/models/auth/auth.level"
 
-import { Label } from "@/models/label/label"
-import { Model } from "@/models/model"
-import { AuthLevel, AuthLevelFromProto } from "@/models/auth/auth.level";
+import _ from "lodash"
 
 /**
  * 수업 참여자 Class
  */
-export class ClassParticipant extends Model {
-  userUid: string
+export class ClassParticipant {
+  userId: string
   authLevel: AuthLevel
   name: string
-  userLabel?: Label | null
 
   constructor(data: ProtoClassParticipant) {
-    super()
-    this.userUid = data.getUserUid()
+    this.userId = data.getUserId()
     this.authLevel = AuthLevelFromProto(data.getAuthLevel())
     this.name = data.getName()
-    this.userLabel = super.set(Label, data.getUserLabel() as ProtoLabel)
   }
+}
+
+export function bindClassParticipant(classParticipant: ClassParticipant): ProtoClassParticipant {
+  const protoClassParticipant: ProtoClassParticipant = new ProtoClassParticipant()
+  protoClassParticipant.setUserId(classParticipant.userId)
+  protoClassParticipant.setName(classParticipant.name)
+  protoClassParticipant.setAuthLevel(AuthLevelToProto(classParticipant.authLevel))
+  return protoClassParticipant
+}
+
+export function bindClassParticipantListToProto(classParticipantList: ClassParticipant[]): ProtoClassParticipant[] {
+  const protoClassParticipantList: ProtoClassParticipant[] = []
+  _.forEach(classParticipantList, it => {
+    protoClassParticipantList.push(bindClassParticipant(it))
+  })
+  return protoClassParticipantList
 }
