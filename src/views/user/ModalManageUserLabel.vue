@@ -50,7 +50,7 @@ export default defineComponent({
       const userIdList: string[] = _.indexOf(props.userId, ",") ? props.userId.split(',') : [props.userId]
       const labelIdList: string[] = _.map(userLabelList.value, 'id')
       await userGrpcService.updateUserLabel(userIdList, labelIdList)
-      await emit("complete-function", '처리되었습니다', true)
+      emit("complete-function", '처리되었습니다', true, true)
     }
 
     onMounted(() => {

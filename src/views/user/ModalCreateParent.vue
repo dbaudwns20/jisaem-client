@@ -52,7 +52,7 @@ export default defineComponent({
     const createParent = async (form: any) => {
       if (!utils.validator.validateForm(form.target)) return
       await userGrpcService.createParent(newParentInfo, props.userId)
-      await emit("complete-function", '생성되었습니다', true)
+      emit("complete-function", '생성되었습니다', true, true)
     }
 
     onMounted(() => {

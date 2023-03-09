@@ -145,7 +145,7 @@ export default defineComponent({
       columnDefs: userUiService.setColumns(),
       defaultColDef: {
         resizable: true,
-        sortable: true
+        sortable: false
       },
       // 레이블 인스턴스 Set (기능 호출을 위해)
       context: {
@@ -176,8 +176,6 @@ export default defineComponent({
     // 그리드 새로고침
     const reload = () => {
       read(userGrid.value.getPageInfo())
-      // 체크박스 목록 초기화
-      selectedItemList.value = []
     }
     // 조회
     const read = async (pageInfo: Pagination | null = null) => {
@@ -186,9 +184,11 @@ export default defineComponent({
       const page = bindPaginationInstance(pageInfo)
       const res: any = await userGrpcService.getUserList(userLabelIdList, currentAuthLevel.value, page)
       // 1. pagination set
-      await userGrid.value.setPageInfo(res.pageInfo)
+      userGrid.value.setPageInfo(res.pageInfo)
       // 2. rowData Set
-      await userGrid.value.updateRowData(res.list)
+      userGrid.value.updateRowData(res.list)
+      // 체크박스 목록 초기화
+      selectedItemList.value = []
     }
     // 사용자 신규
     const addNewUser = () => {
@@ -198,7 +198,7 @@ export default defineComponent({
     // 사용자 편집
     const editUser = async (userId: string, updateUser: UpdateUser) => {
       await userGrpcService.updateUser(userId, updateUser)
-      completeFunction('수정되었습니다')
+      completeFunction('수정되었습니다', false, true)
     }
     // 사용자 삭제
     const deleteUser = async (userId: string | null) => {
@@ -217,13 +217,14 @@ export default defineComponent({
     }
     // 사용자 or 부모님 비밀번호 변경
     const updatePassword = (isParent: boolean, userId: string | null) => {
+      let _userId: string | null = userId
       if (_.isNull(userId)) {
         if (isParent)
-          ModalUpdatePassword.props.userId = _.map(_.filter(selectedItemList.value, (it: any) => {return it.parentInfo?.active}), 'id').join(",")
+          _userId = _.map(_.filter(selectedItemList.value, (it: any) => {return it.parentInfo?.active}), 'id').join(",")
         else
-          ModalUpdatePassword.props.userId = _.map(selectedItemList.value, 'id').join(",")
-      } else
-        ModalUpdatePassword.props.userId = userId!
+          _userId = _.map(selectedItemList.value, 'id').join(",")
+      }
+      ModalUpdatePassword.props.userId = _userId!
       ModalUpdatePassword.props.isParent = isParent
       router.push(ModalUpdatePassword)
     }
@@ -242,7 +243,7 @@ export default defineComponent({
         else
           idList.push(userId)
         await userGrpcService.deleteUserParentInfo(idList)
-        completeFunction('삭제되었습니다')
+        completeFunction('삭제되었습니다', false, true)
       } else {
         return
       }
@@ -253,7 +254,7 @@ export default defineComponent({
         ModalManageUserLabel.props.userId = _.map(selectedItemList.value, 'id').join(",")
         ModalManageUserLabel.props.labelList = []
       } else {
-        ModalManageUserLabel.props.userId = userId!
+        ModalManageUserLabel.props.userId = userId
         ModalManageUserLabel.props.labelList = userLabelList
       }
       router.push(ModalManageUserLabel)
@@ -264,10 +265,6 @@ export default defineComponent({
       // 그리드 컬럼 숨김
       gridColumnApi.value.setColumnVisible('isParentInfo', utils.authority.isStudent(authLevel))
       gridApi.value.sizeColumnsToFit()
-      // 체크박스 목록 초기화
-      selectedItemList.value = []
-      // 부모님정보 기능 버튼 보이기 초기화
-      showParentFunctionButtons.value = false
       // 리스트 조회
       read()
     }
@@ -283,15 +280,13 @@ export default defineComponent({
       read()
     })
     // 함수 호출 후 처리
-    const completeFunction = (msg: string = '처리되었습니다', isFromModal: boolean = false) => {
+    const completeFunction = (msg: string = '처리되었습니다', isFromModal: boolean = false, keepPage: boolean = false) => {
       // 모달에서 호출된거라면 모달 닫기
       if (isFromModal) router.go(-1)
       // 메시지 출력
       utils.message.showSuccessToastMsg(msg)
-      // 체크박스 목록 초기화
-      selectedItemList.value = []
       // 페이지 리로드
-      read()
+      read(keepPage ? userGrid.value.getPageInfo() : null)
     }
     return {
       userGrid,
@@ -324,6 +319,3 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="sass">
-@import "~@/assets/sass/grid.sass"
-</style>

@@ -44,7 +44,7 @@ export default {
         cellStyle: {justifyContent: 'center', display: 'flex', alignItems: 'center'},
       },
       {
-        minWidth: 180,
+        minWidth: 250,
         headerName: "레이블",
         cellStyle: {display: 'flex', alignItems: 'center'},
         cellRenderer: LabelElementList,
@@ -78,7 +78,8 @@ export default {
         headerName: "생성일",
         field: "createdAt",
         cellStyle: {textAlign: 'center'},
-        minWidth: 80,
+        minWidth: 140,
+        maxWidth: 140,
         cellRenderer: (params: any) => {
           return utils.convertDateToString(params.data.createdAt)
         }

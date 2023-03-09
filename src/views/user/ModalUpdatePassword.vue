@@ -41,7 +41,7 @@ export default defineComponent({
         await userGrpcService.updateUserParentPassword(userIdList, newPassword.value)
       else
         await userGrpcService.updateUserPassword(userIdList, newPassword.value)
-      await emit("complete-function", '수정되었습니다', true)
+      emit("complete-function", '비밀번호가 변경되었습니다', true, true)
     }
 
     onMounted(() => {
