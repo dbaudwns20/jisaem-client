@@ -8,6 +8,8 @@ import { bindClassLabelListToProto, ClassLabel } from "@/models/label/class.labe
 import { bindClassManagerListToProto } from "@/models/class/class.manager"
 import { Model } from "@/models/model"
 
+import { Timestamp } from 'google-protobuf/google/protobuf/timestamp_pb'
+
 /**
  * 수업 Class
  */
@@ -46,8 +48,8 @@ export function bindClassToProto(classData: Class): ProtoClass {
   const protoClass: ProtoClass = new ProtoClass()
   protoClass.setName(classData.name)
   protoClass.setDescription(classData.description)
-  protoClass.setStartDate(classData.startDate)
-  protoClass.setEndDate(classData.endDate)
+  protoClass.setStartDate(new Timestamp.fromDate(classData.startDate))
+  protoClass.setEndDate(new Timestamp.fromDate(classData.endDate))
   protoClass.setClassLabelsList(bindClassLabelListToProto(classData.classLabelList!))
   protoClass.setParticipantsList(bindClassParticipantListToProto(classData.classParticipantList!))
   protoClass.setManagersList(bindClassManagerListToProto(classData.managerList!))
@@ -58,8 +60,8 @@ export function bindClassInstance(data: any): Class {
   return {
     name: data.name,
     description: data.description,
-    startDate: data.startDate,
-    endDate: data.endDate,
+    startDate: new Date(data.startDate),
+    endDate: new Date(data.endDate),
     managerList: data.managerList,
     classLabelList: data.classLabelList,
     classParticipantList: data.classParticipantList,

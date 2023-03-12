@@ -71,7 +71,7 @@ export default defineComponent({
     labelTo: { type: String, default: "" },
     placeholderFrom: { type: String, default: "날짜를 선택해주세요" },
     placeholderTo: { type: String, default: "날짜를 선택해주세요" },
-    isRequired: { type: Boolean, default: true },
+    isRequired: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
     from: { type: String, default: '' },
     to: { type: String, default: '' },

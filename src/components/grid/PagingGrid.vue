@@ -22,7 +22,7 @@
       <span class="pagination-total">{{ totalPageText }}</span>
       <ul class="pagination-list">
         <li>
-          <a class="pagination-link" :class="{'is-disabled': getCurrentPage() === 1}"
+          <a class="pagination-link" :class="{'is-disabled': getCurrentPage() <= 1}"
              @click="goToPage(pagination.page - 1)">
             <i class="fa-solid fa-angle-left"></i>
           </a>
@@ -264,12 +264,19 @@ export default defineComponent({
           startPage = 1 + Math.floor(pagination.page / 5) * 5
         }
         const endPage: number = pagination.totalPage < startPage + 4 ? pagination.totalPage + 1 : startPage + 5
-        _.forEach(_.range(startPage, endPage), it => {
+        if (startPage === 1 && endPage === 1) {
           newPageRange.push({
-            page: it,
-            isCurrent: it === pagination.page
+            page: 0,
+            isCurrent: true
           })
-        })
+        } else {
+          _.forEach(_.range(startPage, endPage), it => {
+            newPageRange.push({
+              page: it,
+              isCurrent: it === pagination.page
+            })
+          })
+        }
         pageRange.value = newPageRange
       } else {
         _.forEach(pageRange.value, it => { it.isCurrent = it.page === pagination.page })

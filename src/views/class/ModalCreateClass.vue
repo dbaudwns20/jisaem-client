@@ -1,10 +1,14 @@
 <template>
-  <AppModal :title="'클래스신규'">
+  <AppModal :title="'클래스 신규'">
     <template v-slot:modalContent>
       <form @submit.prevent="createClass" novalidate>
         <Text :label="'클래스명'" icons-left="fa-solid fa-user"
               :is-required="true" :placeholder="'클래스명을 입력해주세요'"
               v-model="newClass.name" />
+        <DateRangePicker :label-from="'시작일'"
+                         :label-to="'종료일'"
+                         v-model:from="newClass.startDate"
+                         v-model:to="newClass.endDate" />
         <div class="field">
           <label class="label">
             {{ '설명' }}
@@ -29,6 +33,7 @@ import { bindClassInstance, Class } from "@/models/class/class"
 
 import AppModal from '@/components/AppModal.vue'
 import Text from "@/components/input/Text.vue"
+import DateRangePicker from "@/components/input/DateRangePicker.vue"
 
 import classGrpcService from "@/services/class.grpc.service"
 
@@ -38,7 +43,8 @@ export default defineComponent({
   name: "ModalCreateClass",
   components: {
     AppModal,
-    Text
+    Text,
+    DateRangePicker
   },
   setup(props, { emit }) {
     const newClass = reactive({} as Class)

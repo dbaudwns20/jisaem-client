@@ -352,11 +352,6 @@ export class RequestClassManagerListGet extends jspb.Message {
   getId(): string;
   setId(value: string): RequestClassManagerListGet;
 
-  getPagination(): utils_utils_pb.Pagination | undefined;
-  setPagination(value?: utils_utils_pb.Pagination): RequestClassManagerListGet;
-  hasPagination(): boolean;
-  clearPagination(): RequestClassManagerListGet;
-
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestClassManagerListGet.AsObject;
   static toObject(includeInstance: boolean, msg: RequestClassManagerListGet): RequestClassManagerListGet.AsObject;
@@ -368,7 +363,6 @@ export class RequestClassManagerListGet extends jspb.Message {
 export namespace RequestClassManagerListGet {
   export type AsObject = {
     id: string,
-    pagination?: utils_utils_pb.Pagination.AsObject,
   }
 }
 
@@ -377,11 +371,6 @@ export class ResponseClassManagerListGet extends jspb.Message {
   setManagersList(value: Array<class_class_message_pb.ClassManager>): ResponseClassManagerListGet;
   clearManagersList(): ResponseClassManagerListGet;
   addManagers(value?: class_class_message_pb.ClassManager, index?: number): class_class_message_pb.ClassManager;
-
-  getPagination(): utils_utils_pb.Pagination | undefined;
-  setPagination(value?: utils_utils_pb.Pagination): ResponseClassManagerListGet;
-  hasPagination(): boolean;
-  clearPagination(): ResponseClassManagerListGet;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ResponseClassManagerListGet.AsObject;
@@ -394,7 +383,6 @@ export class ResponseClassManagerListGet extends jspb.Message {
 export namespace ResponseClassManagerListGet {
   export type AsObject = {
     managersList: Array<class_class_message_pb.ClassManager.AsObject>,
-    pagination?: utils_utils_pb.Pagination.AsObject,
   }
 }
 
@@ -553,13 +541,13 @@ export namespace ResponseClassPublicExposeStatusChange {
 }
 
 export class RequestParticipantInvite extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): RequestParticipantInvite;
+  getId(): string;
+  setId(value: string): RequestParticipantInvite;
 
-  getUserIdsList(): Array<string>;
-  setUserIdsList(value: Array<string>): RequestParticipantInvite;
-  clearUserIdsList(): RequestParticipantInvite;
-  addUserIds(value: string, index?: number): RequestParticipantInvite;
+  getParticipantIdsList(): Array<string>;
+  setParticipantIdsList(value: Array<string>): RequestParticipantInvite;
+  clearParticipantIdsList(): RequestParticipantInvite;
+  addParticipantIds(value: string, index?: number): RequestParticipantInvite;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestParticipantInvite.AsObject;
@@ -571,8 +559,8 @@ export class RequestParticipantInvite extends jspb.Message {
 
 export namespace RequestParticipantInvite {
   export type AsObject = {
-    uid: string,
-    userIdsList: Array<string>,
+    id: string,
+    participantIdsList: Array<string>,
   }
 }
 
@@ -609,10 +597,10 @@ export namespace RequestParticipantListGet {
 }
 
 export class ResponseParticipantListGet extends jspb.Message {
-  getClassParticipantsList(): Array<class_class_message_pb.ClassParticipant>;
-  setClassParticipantsList(value: Array<class_class_message_pb.ClassParticipant>): ResponseParticipantListGet;
-  clearClassParticipantsList(): ResponseParticipantListGet;
-  addClassParticipants(value?: class_class_message_pb.ClassParticipant, index?: number): class_class_message_pb.ClassParticipant;
+  getParticipantsList(): Array<class_class_message_pb.ClassParticipant>;
+  setParticipantsList(value: Array<class_class_message_pb.ClassParticipant>): ResponseParticipantListGet;
+  clearParticipantsList(): ResponseParticipantListGet;
+  addParticipants(value?: class_class_message_pb.ClassParticipant, index?: number): class_class_message_pb.ClassParticipant;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ResponseParticipantListGet.AsObject;
@@ -624,18 +612,18 @@ export class ResponseParticipantListGet extends jspb.Message {
 
 export namespace ResponseParticipantListGet {
   export type AsObject = {
-    classParticipantsList: Array<class_class_message_pb.ClassParticipant.AsObject>,
+    participantsList: Array<class_class_message_pb.ClassParticipant.AsObject>,
   }
 }
 
 export class RequestParticipantKick extends jspb.Message {
-  getUid(): string;
-  setUid(value: string): RequestParticipantKick;
+  getId(): string;
+  setId(value: string): RequestParticipantKick;
 
-  getUserIdsList(): Array<string>;
-  setUserIdsList(value: Array<string>): RequestParticipantKick;
-  clearUserIdsList(): RequestParticipantKick;
-  addUserIds(value: string, index?: number): RequestParticipantKick;
+  getParticipantIdsList(): Array<string>;
+  setParticipantIdsList(value: Array<string>): RequestParticipantKick;
+  clearParticipantIdsList(): RequestParticipantKick;
+  addParticipantIds(value: string, index?: number): RequestParticipantKick;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RequestParticipantKick.AsObject;
@@ -647,8 +635,8 @@ export class RequestParticipantKick extends jspb.Message {
 
 export namespace RequestParticipantKick {
   export type AsObject = {
-    uid: string,
-    userIdsList: Array<string>,
+    id: string,
+    participantIdsList: Array<string>,
   }
 }
 

@@ -6,3 +6,5 @@ declare module '*.vue' {
 
 // declare bulma-calendar
 declare module 'bulma-calendar/dist/js/bulma-calendar.min.js'
+// declare google-protobuf
+declare module 'google-protobuf/google/protobuf/timestamp_pb'
