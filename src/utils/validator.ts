@@ -5,6 +5,7 @@ const KOR_RULE: RegExp = new RegExp(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/)
 const BLANK_RULE: RegExp = new RegExp(/[\s]/gm)
 const COLOR_CODE_RULE: RegExp = new RegExp(/^#(?:[0-9a-fA-F]{6}){1,2}$/)
 const PHONE_RULE: RegExp = new RegExp(/^\d{3}\d{3,4}\d{4}$/)
+const DATE_FORMAT_RULE: RegExp = new RegExp(/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/)
 
 export default {
   /**
@@ -77,6 +78,22 @@ export default {
    */
   checkPhoneNumber(value: string): boolean {
     return PHONE_RULE.test(value)
+  },
+
+  /**
+   * 날짜 포맷 체크 (YYYY-MM-DD)
+   * @param value
+   */
+  checkDateFormat(value: string): boolean {
+    return DATE_FORMAT_RULE.test(value)
+  },
+
+  /**
+   * 날짜 타입인지 체크
+   * @param date
+   */
+  isDate(date: any): boolean {
+    return date instanceof Date && !isNaN(date.getTime())
   }
 
 }
