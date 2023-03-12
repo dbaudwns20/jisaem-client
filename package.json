@@ -12,6 +12,7 @@
     "ag-grid-community": "^29.0.0",
     "ag-grid-vue3": "^29.0.0",
     "bulma": "^0.9.4",
+    "bulma-calendar": "^6.1.19",
     "core-js": "^3.8.3",
     "google-protobuf": "^3.21.2",
     "grpc-web": "^1.4.2",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@creativebulma/bulma-divider": "^1.1.0",
+    "@types/bulma-calendar": "^6.0.2",
     "@types/lodash": "^4.14.191",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",

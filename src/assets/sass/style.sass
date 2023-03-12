@@ -5,10 +5,20 @@
 @import '~@creativebulma/bulma-tooltip'
 // Bulma Extensions bulma-divider
 @import '~@creativebulma/bulma-divider'
+// Bulma Calendar
+@import "~bulma-calendar"
 
 // tooltip
 [data-tooltip]:not(.is-loading)::before, [data-tooltip]:not(.is-disabled)::before, [data-tooltip]:not([disabled])::before
   padding: .3rem
+
+.input.is-danger
+  &:focus, &:hover
+    border-color: #f14668
+
+.input.is-success
+  &:focus, &:hover
+    border-color: #48c78e
 
 // label required 뒤에 * 표시
 .label.required:after
@@ -200,3 +210,83 @@
 
   > span
     padding-left: 4px
+
+.field
+  @extend .field
+  width: 100%
+
+  &.is-half
+    display: inline-table
+    width: 50%
+    margin-bottom: 0
+
+  &.is-half:first-child
+    padding-right: 10px
+
+  &.is-half:last-child
+    padding-left: 10px
+
+// 모바일 화면일때는 한줄로 표시
+@media screen and (max-width: 769px)
+  .field.is-half
+    width: 100%
+    display: block
+
+    &:first-child
+      padding-right: 0
+      margin-bottom: 0.75rem
+
+    &:last-child
+      padding-left: 0
+
+// Bulma Datepicker Custom Design
+.datetimepicker-container
+  display: none
+
+  &::before, &::after
+    display: none
+
+.datetimepicker-dummy
+  display: none
+
+.datetimepicker-dummy-wrapper, .datetimepicker-dummy-wrapper.is-active
+  display: none
+
+  &:before
+    display: none
+
+.datepicker-nav-previous.button.is-small.is-text, .datepicker-nav-next.button.is-small.is-text
+  background: #485fc7
+
+.datepicker-body
+  .datepicker-months.is-active
+    .datepicker-month
+      &:hover
+        border-color: #485fc7 !important
+
+      &.is-active
+        border-color: #485fc7 !important
+        background: #485fc7 !important
+
+  .datepicker-years.is-active
+    .datepicker-year
+      &:hover
+        border-color: #485fc7 !important
+
+      &.is-active
+        border-color: #485fc7 !important
+        background: #485fc7 !important
+
+.control.has-icons-right.has-icons-left
+  .clear-date-button
+    @extend .icon
+    @extend .is-small
+    @extend .is-right
+
+    > a
+      cursor: pointer !important
+      pointer-events: auto !important
+      color: hsl(0deg, 0%, 86%)
+
+      &:hover
+        color: #485fc7
