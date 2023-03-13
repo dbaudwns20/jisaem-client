@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <div class="field is-half">
+    <div class="field" :class="{ 'is-half': showInline }">
       <label class="label" :class="{ 'required': isRequired }" v-if="labelFrom">
         {{ labelFrom }}
       </label>
@@ -27,7 +27,7 @@
         {{ checkMsgFrom }}
       </p>
     </div>
-    <div class="field is-half">
+    <div class="field" :class="{ 'is-half': showInline }">
       <label class="label" :class="{ 'required': isRequired }" v-if="labelTo">
         {{ labelTo }}
       </label>
@@ -73,6 +73,7 @@ export default defineComponent({
     placeholderTo: { type: String, default: "날짜를 선택해주세요" },
     isRequired: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
+    showInline: { type: Boolean, default: false },
     from: { type: String, default: '' },
     to: { type: String, default: '' },
   },

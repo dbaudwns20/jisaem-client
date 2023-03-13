@@ -1,7 +1,7 @@
-import {bindClassToProto, Class} from "@/models/class/class"
+import { bindClassToProto, Class } from "@/models/class/class"
 import {
   RequestClassCreateAsManager,
-  RequestClassDelete, RequestClassLabelUpdate,
+  RequestClassDelete, RequestClassGet, RequestClassLabelUpdate,
   RequestClassListGet
 } from "@/protos/class/class_communication_pb"
 import { bindPaginationInstance, bindPaginationToProto, Pagination } from "@/models/util/util"
@@ -29,6 +29,13 @@ export default {
       })
     }))
   },
+
+  // async getClass(classId: string): Promise<Class> {
+  //   const req = new RequestClassGet()
+  //   req.setId(classId)
+  //   return await new Promise(((resolve, reject) => {
+  //   }))
+  // },
 
   async _createClassAsManager(newClass: Class) {
     const req = new RequestClassCreateAsManager()

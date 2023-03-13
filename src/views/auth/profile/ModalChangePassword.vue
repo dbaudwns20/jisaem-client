@@ -1,8 +1,8 @@
 <template>
-  <AppModal :title="'비밀번호변경'">
+  <AppModal :title="'비밀번호 변경'">
     <template v-slot:modalContent>
       <form @submit.prevent="updatePassword" novalidate>
-        <Password :label="'기존비밀번호'"
+        <Password :label="'기존비밀번호'" ref="passwordComp"
                   :is-required="true"
                   :is-login="true"
                   v-model="prevPassword" />
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import AppModal from "@/components/AppModal.vue"
 import Password from "@/components/input/Password.vue"
 import authGrpcService from "@/services/auth.grpc.service"
@@ -35,6 +35,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const prevPassword = ref('')
     const newPassword = ref('')
+    const passwordComp = ref()
 
     const updatePassword = async (form: any) => {
       if (!utils.validator.validateForm(form.target)) return
@@ -42,9 +43,14 @@ export default defineComponent({
       await emit("complete-function", '수정되었습니다', true)
     }
 
+    onMounted(() => {
+      passwordComp.value.focusin()
+    })
+
     return {
       prevPassword,
       newPassword,
+      passwordComp,
       updatePassword
     }
   }

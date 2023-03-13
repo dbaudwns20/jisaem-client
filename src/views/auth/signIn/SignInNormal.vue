@@ -4,14 +4,16 @@
       <form class="login-form" @submit.prevent="signIn($event)" novalidate>
         <div class="field">
           <div class="level is-mobile label">
-            <p class="level-left"><label class="label required">아이디</label></p>
+            <p class="level-left">
+              <label class="label required">아이디</label>
+            </p>
             <p class="level-right">
               <router-link :to="signInParentPath" tag="a" tabindex="-1">
                 <small>부모님 계정이신가요?</small>
               </router-link>
             </p>
           </div>
-          <Username :placeholder="'아이디를 입력해주세요'"
+          <Username :placeholder="'아이디를 입력해주세요'" ref="usernameComp"
                     :is-required="true"
                     :is-login="true"
                     v-model="username" />
@@ -29,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { SignInParent } from '@/routers/auth.router'
 import { Dashboard } from '@/routers/dashboard.router'
 
@@ -51,18 +53,25 @@ export default defineComponent({
   setup() {
     const username = ref('')
     const password = ref('')
+    const usernameComp = ref()
+
+    onMounted(() => {
+      usernameComp.value.focusin()
+    })
+
+    const signIn = async (form: any) => {
+      if (!utils.validator.validateForm(form.target)) return
+      const res = await authGrpcService.signInNormal(username.value, password.value)
+      store.commit('sessionStore/signIn', res)
+      await router.push(Dashboard.path)
+    }
+
     return {
       username,
       password,
+      usernameComp,
+      signIn,
       signInParentPath: SignInParent.path
-    }
-  },
-  methods: {
-    async signIn(form: any) {
-      if (!utils.validator.validateForm(form.target)) return
-      const res = await authGrpcService.signInNormal(this.username, this.password)
-      store.commit('sessionStore/signIn', res)
-      await router.push(Dashboard.path)
     }
   }
 })

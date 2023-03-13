@@ -1,30 +1,34 @@
 <template>
-  <AppModal :title="'사용자신규'">
+  <AppModal :title="'사용자 생성'">
     <template v-slot:modalContent>
       <form @submit.prevent="createUser" novalidate v-if="isStudent">
-        <Username :label="'아이디'" ref="usernameComp"
-                  :is-required="true"
-                  :dup-check-target="'user'"
-                  :placeholder="'아이디를 입력해주세요'"
-                  v-model="newUser.username"/>
+        <div class="field">
+          <div class="field is-half">
+            <Username :label="'아이디'" ref="usernameComp"
+                      :is-required="true"
+                      :dup-check-target="'user'"
+                      :placeholder="'아이디를 입력해주세요'"
+                      v-model="newUser.username"/>
+          </div>
+          <div class="field is-half">
+            <Text :label="'이름'" icons-left="fa-solid fa-user"
+                  :is-required="true" :placeholder="'이름을 입력해주세요'"
+                  v-model="newUser.name" />
+          </div>
+        </div>
         <Password :label="'비밀번호'" :show-inline="true"
                   :is-required="true"
                   :is-login="false"
                   v-model="newUser.password" />
-        <Text :label="'이름'" icons-left="fa-solid fa-user"
-              :is-required="true" :placeholder="'이름을 입력해주세요'"
-              v-model="newUser.name" />
         <div class="field">
-          <div class="columns">
-            <div class="column">
-              <Email :label="'이메일'"
-                     :placeholder="'이메일을 입력해주세요'"
-                     v-model="newUser.email" />
-            </div>
-            <div class="column">
-              <Phone :label="'전화번호'"
-                     v-model="newUser.phone" />
-            </div>
+          <div class="field is-half">
+            <Email :label="'이메일'"
+                   :placeholder="'이메일을 입력해주세요'"
+                   v-model="newUser.email" />
+          </div>
+          <div class="field is-half">
+            <Phone :label="'전화번호'"
+                   v-model="newUser.phone" />
           </div>
         </div>
         <Text :label="'학교명'" icons-left="fa-solid fa-school"
@@ -45,18 +49,24 @@
         </div>
       </form>
       <form @submit.prevent="createUser" novalidate v-if="!isStudent">
-        <Username :label="'아이디'" ref="usernameComp"
-                  :is-required="true"
-                  :dup-check-target="'user'"
-                  :placeholder="'아이디를 입력해주세요'"
-                  v-model="newUser.username"/>
+        <div class="field">
+          <div class="field is-half">
+            <Username :label="'아이디'" ref="usernameComp"
+                      :is-required="true"
+                      :dup-check-target="'user'"
+                      :placeholder="'아이디를 입력해주세요'"
+                      v-model="newUser.username"/>
+          </div>
+          <div class="field is-half">
+            <Text :label="'이름'" icons-left="fa-solid fa-user"
+                  :is-required="true" :placeholder="'이름을 입력해주세요'"
+                  v-model="newUser.name" />
+          </div>
+        </div>
         <Password :label="'비밀번호'" :show-inline="true"
                   :is-required="true"
                   :is-login="false"
                   v-model="newUser.password" />
-        <Text :label="'이름'" icons-left="fa-solid fa-user"
-              :is-required="true" :placeholder="'이름을 입력해주세요'"
-              v-model="newUser.name" />
         <Email :label="'이메일'"
                :placeholder="'이메일을 입력해주세요'"
                v-model="newUser.email" />

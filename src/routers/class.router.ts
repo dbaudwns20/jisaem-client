@@ -39,6 +39,20 @@ export const Class = {
   ]
 }
 
+export const ClassDetail = {
+  path: '/class-detail',
+  name: 'ClassDetail',
+  component: () => import('../views/class/ClassDetail.vue'),
+  meta: {
+    needLogin: true,
+    // accessiblePaths: ['/class'],
+  },
+  props: {
+    classId: '',
+  }
+}
+
 export default [
-  Class
+  Class,
+  ClassDetail
 ]

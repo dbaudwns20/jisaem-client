@@ -80,7 +80,7 @@ import { defineComponent, getCurrentInstance, onMounted, reactive, ref, watch } 
 import { bindPaginationInstance, Pagination } from "@/models/util/util"
 import { Label } from "@/models/label/label"
 import { LabelType } from "@/models/label/label.type"
-import { ModalCreateClass, ModalManageClassLabel } from "@/routers/class.router"
+import { ModalCreateClass, ModalManageClassLabel, ClassDetail } from "@/routers/class.router"
 
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
@@ -132,6 +132,10 @@ export default defineComponent({
         } else {
           selectedItemList.value.splice(idx, 1)
         }
+      },
+      onCellDoubleClicked: (params: any) => {
+        ClassDetail.props.classId = params.data.id
+        router.push(ClassDetail)
       },
       onGridReady: (params: any) => {
         gridApi.value = params.api

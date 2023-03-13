@@ -9,171 +9,147 @@
       </div>
     </section>
     <div class="container">
-    <div class="columns">
-      <div class="column is-3">
-        <div class="card">
-          <div class="card-image">
-            <figure class="image is-square">
-              <img src="@/assets/user_image_sample.png" alt="Profile Photo">
-            </figure>
-          </div>
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-3 is-marginless">{{ showData.name }}<span class="profile-auth-level">{{ authName }}</span></p>
-                <p class="subtitle is-4 is-marginless profile-username">
-                  {{ isParent ? parentInfo.username : showData.username }}
-                </p>
-                <hr class="profile-hr">
-                <p class="subtitle is-6">
-                  <span class="icon-text profile-info" v-if="showData.email">
-                    <span class="icon"><i class="fas fa-envelope"></i></span>
-                    <span>{{ showData.email }}</span>
-                  </span>
-                  <span class="icon-text profile-info" v-if="showData.phone">
-                    <span class="icon"><i class="fa-solid fa-mobile"></i></span>
-                    <span>{{ isParent ? parentInfo.phone : showData.phone }}</span>
-                  </span>
-                  <span class="icon-text profile-info" v-if="showData.studentInfo?.school">
-                    <span class="icon"><i class="fa-solid fa-school"></i></span>
-                    <span>{{ showData.studentInfo?.school }}</span>
-                  </span>
-                </p>
+      <div class="columns">
+        <div class="column is-3">
+          <div class="card">
+            <div class="card-image">
+              <figure class="image is-square">
+                <img src="@/assets/user_image_sample.png" alt="Profile Photo">
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-3 is-marginless">{{ showData.name }}<span class="profile-auth-level">{{ authName }}</span></p>
+                  <p class="subtitle is-4 is-marginless profile-username">
+                    {{ isParent ? parentInfo.username : showData.username }}
+                  </p>
+                  <hr class="profile-hr">
+                  <p class="subtitle is-6">
+                    <span class="icon-text profile-info" v-if="showData.email">
+                      <span class="icon"><i class="fas fa-envelope"></i></span>
+                      <span>{{ showData.email }}</span>
+                    </span>
+                    <span class="icon-text profile-info" v-if="showData.phone">
+                      <span class="icon"><i class="fa-solid fa-mobile"></i></span>
+                      <span>{{ isParent ? parentInfo.phone : showData.phone }}</span>
+                    </span>
+                    <span class="icon-text profile-info" v-if="showData.studentInfo?.school">
+                      <span class="icon"><i class="fa-solid fa-school"></i></span>
+                      <span>{{ showData.studentInfo?.school }}</span>
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="column">
-        <!-- 부모님 계정 폼 -->
-        <form class="box" v-if="isParent" novalidate>
-          <Username :label="'부모님 아이디'" :is-disabled="true" :is-required="true"
-                    v-model="parentInfo.username" />
-          <div class="field">
-            <label class="label required">비밀번호</label>
-            <div class="field is-grouped">
-              <p class="control is-expanded">
-                <Password :is-disabled="true" v-model="passwordValue" />
-              </p>
-              <p class="control">
-                <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
-                             data-tooltip="비밀번호변경">
-                  <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
-                </router-link>
-              </p>
+        <div class="column is-9">
+          <!-- 부모님 계정 폼 -->
+          <form class="box" v-if="isParent" novalidate>
+            <Username :label="'부모님 아이디'" :is-disabled="true" :is-required="true"
+                      v-model="parentInfo.username" />
+            <div class="field">
+              <label class="label required">비밀번호</label>
+              <div class="field is-grouped">
+                <p class="control is-expanded">
+                  <Password :is-disabled="true" v-model="passwordValue" />
+                </p>
+                <p class="control">
+                  <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
+                               data-tooltip="비밀번호변경">
+                    <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
+                  </router-link>
+                </p>
+              </div>
             </div>
-          </div>
-          <Phone :label="'전화번호'" :key="componentKey" :is-disabled="true"
-                 v-model="parentInfo.phone" />
-          <div class="divider">자녀 정보</div>
-          <Text :label="'이름'" icons-left="fa-solid fa-user"
-                :is-required="true" :is-disabled="true"
-                v-model="editData.name" />
-          <Email :label="'이메일'" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
-                 v-model="editData.email" />
-          <Phone :label="'전화번호'" :key="componentKey" :is-disabled="true"
-                 v-model="editData.phone" />
-          <div class="field" v-if="showData?.userLabelList?.length > 0">
-            <label class="label">
-              레이블
-            </label>
-            <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
-                                        target: 'userLabelList',
-                                        labelClass: 'profile-label-list'}"/>
-          </div>
-        </form>
-        <!-- 학생 계정 폼 -->
-        <form class="box" v-if="isStudent" @submit.prevent="updateProfile" novalidate>
-          <Username :label="'아이디'" :is-disabled="true" :is-required="true"
-                    v-model="editData.username"/>
-          <div class="field">
-            <label class="label required">비밀번호</label>
-            <div class="field is-grouped">
-              <p class="control is-expanded">
-                <Password :is-disabled="true" v-model="passwordValue" />
-              </p>
-              <p class="control">
-                <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
-                             data-tooltip="비밀번호변경">
-                  <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
-                </router-link>
-              </p>
+            <Phone :label="'전화번호'" :key="componentKey" :is-disabled="true"
+                   v-model="parentInfo.phone" />
+            <div class="divider">자녀 정보</div>
+            <Text :label="'이름'" icons-left="fa-solid fa-user"
+                  :is-required="true" :is-disabled="true"
+                  v-model="editData.name" />
+            <Email :label="'이메일'" :is-disabled="true" :placeholder="'이메일을 입력해주세요'"
+                   v-model="editData.email" />
+            <Phone :label="'전화번호'" :key="componentKey" :is-disabled="true"
+                   v-model="editData.phone" />
+          </form>
+          <!-- 학생 계정 폼 -->
+          <form class="box" v-if="isStudent" @submit.prevent="updateProfile" novalidate>
+            <Username :label="'아이디'" :is-disabled="true" :is-required="true"
+                      v-model="editData.username"/>
+            <div class="field">
+              <label class="label required">비밀번호</label>
+              <div class="field is-grouped">
+                <p class="control is-expanded">
+                  <Password :is-disabled="true" v-model="passwordValue" />
+                </p>
+                <p class="control">
+                  <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
+                               data-tooltip="비밀번호변경">
+                    <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
+                  </router-link>
+                </p>
+              </div>
             </div>
-          </div>
-          <Text :label="'이름'" icons-left="fa-solid fa-user"
-                :is-required="true" :is-disabled="true"
-                v-model="editData.name" />
-          <Email :label="'이메일'"
-                 :key="componentKey" :placeholder="'이메일을 입력해주세요'"
-                 v-model="editData.email" />
-          <Phone :label="'전화번호'" :key="componentKey"
-                 v-model="editData.phone" />
-          <div class="field" v-if="showData?.userLabelList?.length > 0">
-            <label class="label">
-              레이블
-            </label>
-            <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
-                                        target: 'userLabelList',
-                                        labelClass: 'profile-label-list'}"/>
-          </div>
-          <div class="buttons is-right">
-            <button class="button is-info" type="submit">개인정보변경</button>
-          </div>
-        </form>
-        <!-- 매니저, 선생, 슈퍼관리자 계정 폼 -->
-        <form class="box" v-if="isManager || isSuper || isTeacher" @submit.prevent="updateProfile" novalidate>
-          <div class="field">
-            <label class="label required">아이디</label>
-            <div class="field is-grouped">
-              <p class="control is-expanded">
-                <Username :is-disabled="true" :is-required="true"
-                          v-model="editData.username"/>
-              </p>
-              <p class="control">
-                <router-link :to="changeUsernamePath" tag="a" class="button is-info is-light has-tooltip-arrow"
-                             data-tooltip="아이디변경">
-                  <span class="icon"><i class="fa-solid fa-user-pen"></i></span>
-                </router-link>
-              </p>
+            <Text :label="'이름'" icons-left="fa-solid fa-user"
+                  :is-required="true" :is-disabled="true"
+                  v-model="editData.name" />
+            <Email :label="'이메일'"
+                   :key="componentKey" :placeholder="'이메일을 입력해주세요'"
+                   v-model="editData.email" />
+            <Phone :label="'전화번호'" :key="componentKey"
+                   v-model="editData.phone" />
+            <div class="buttons is-right">
+              <button class="button is-info" type="submit">개인정보변경</button>
             </div>
-          </div>
-          <div class="field">
-            <label class="label required">비밀번호</label>
-            <div class="field is-grouped">
-              <p class="control is-expanded">
-                <Password :is-disabled="true" v-model="passwordValue" />
-              </p>
-              <p class="control">
-                <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
-                             data-tooltip="비밀번호변경">
-                  <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
-                </router-link>
-              </p>
+          </form>
+          <!-- 매니저, 선생, 슈퍼관리자 계정 폼 -->
+          <form class="box" v-if="isManager || isSuper || isTeacher" @submit.prevent="updateProfile" novalidate>
+            <div class="field">
+              <label class="label required">아이디</label>
+              <div class="field is-grouped">
+                <p class="control is-expanded">
+                  <Username :is-disabled="true" :is-required="true"
+                            v-model="editData.username"/>
+                </p>
+                <p class="control">
+                  <router-link :to="changeUsernamePath" tag="a" class="button is-info is-light has-tooltip-arrow"
+                               data-tooltip="아이디변경">
+                    <span class="icon"><i class="fa-solid fa-user-pen"></i></span>
+                  </router-link>
+                </p>
+              </div>
             </div>
-          </div>
-          <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
-                :is-required="true" :placeholder="'이름을 입력해주세요'"
-                v-model="editData.name" />
-          <Email :label="'이메일'"
-                 :key="componentKey" :placeholder="'이메일을 입력해주세요'"
-                 v-model="editData.email" />
-          <Phone :label="'전화번호'" :key="componentKey"
-                 v-model="editData.phone" />
-          <div class="field" v-if="showData?.userLabelList?.length > 0">
-            <label class="label">
-              레이블
-            </label>
-            <LabelElementList :params="{data: {userLabelList: showData.userLabelList},
-                                        target: 'userLabelList',
-                                        labelClass: 'profile-label-list'}"/>
-          </div>
-          <div class="buttons is-right">
-            <button class="button is-info" type="submit">개인정보변경</button>
-          </div>
-        </form>
+            <div class="field">
+              <label class="label required">비밀번호</label>
+              <div class="field is-grouped">
+                <p class="control is-expanded">
+                  <Password :is-disabled="true" v-model="passwordValue" />
+                </p>
+                <p class="control">
+                  <router-link :to="changePasswordPath" tag="a" class="button is-info is-light has-tooltip-arrow"
+                               data-tooltip="비밀번호변경">
+                    <span class="icon"><i class="fa-solid fa-user-lock"></i></span>
+                  </router-link>
+                </p>
+              </div>
+            </div>
+            <Text :label="'이름'" icons-left="fa-solid fa-user" :key="componentKey"
+                  :is-required="true" :placeholder="'이름을 입력해주세요'"
+                  v-model="editData.name" />
+            <Email :label="'이메일'"
+                   :key="componentKey" :placeholder="'이메일을 입력해주세요'"
+                   v-model="editData.email" />
+            <Phone :label="'전화번호'" :key="componentKey"
+                   v-model="editData.phone" />
+            <div class="buttons is-right">
+              <button class="button is-info" type="submit">개인정보변경</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
   </div>
   <router-view @complete-function="completeFunction" />
   <AppFooter />
@@ -185,7 +161,6 @@ import { User } from "@/models/user/user"
 import { ParentInfo } from '@/models/user/parent.info'
 import { getUpdateUserKeys, bindUpdateUser } from "@/models/user/update.user"
 import { ModalChangePassword, ModalChangeUsername } from "@/routers/auth.router"
-import { LabelType } from "@/models/label/label.type"
 
 import AppNavbar from "@/components/AppNavbar.vue"
 import AppFooter from "@/components/AppFooter.vue"
@@ -194,7 +169,6 @@ import Text from "@/components/input/Text.vue"
 import Email from "@/components/input/Email.vue"
 import Password from "@/components/input/Password.vue"
 import Phone from "@/components/input/Phone.vue"
-import LabelElementList from "@/components/label/LabelElementList.vue"
 
 import authGrpcService from "@/services/auth.grpc.service"
 
@@ -213,7 +187,6 @@ export default defineComponent({
     Email,
     Password,
     Phone,
-    LabelElementList
   },
   setup() {
     const showData = reactive({} as User)
@@ -279,7 +252,6 @@ export default defineComponent({
       isSuper: utils.authority.isSuper(myAuthLevel),
       changeUsernamePath: ModalChangeUsername.path,
       changePasswordPath: ModalChangePassword.path,
-      labelType: LabelType,
       reloadComponents,
       updateProfile,
       completeFunction

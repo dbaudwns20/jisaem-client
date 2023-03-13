@@ -1,5 +1,5 @@
 <template>
-  <AppModal :title="'레이블관리'">
+  <AppModal :title="'레이블 관리'">
     <template v-slot:modalContent>
       <form @submit.prevent="updateUserLabel" novalidate>
         <LabelSelect :label="'사용자레이블'" ref="labelSelectComp"

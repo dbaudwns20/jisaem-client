@@ -1,6 +1,6 @@
 <template>
-  <div class="field" v-if="!showInline">
-    <div class="field">
+  <div class="field">
+    <div class="field" :class="{ 'is-half': showInline }">
       <label class="label" :class="{ 'required': isRequired }" v-if="label">
         {{ label }}
       </label>
@@ -23,7 +23,10 @@
         </p>
       </div>
     </div>
-    <div class="field" v-if="!isLogin">
+    <div class="field" :class="{ 'is-half': showInline }" v-if="!isLogin">
+      <label class="label" :class="{ 'required': isRequired }" v-if="showInline">
+        {{ '비밀번호확인' }}
+      </label>
       <div class="control has-icons-left has-icons-right">
         <input type="password" name="passwordConfirm" class="input"
                :class="checkConfirmClass"
@@ -42,64 +45,13 @@
       </div>
     </div>
   </div>
-  <div class="field" v-if="showInline">
-    <div class="columns">
-      <div class="column">
-        <div class="field">
-          <label class="label" :class="{ 'required': isRequired }" v-if="label">
-            {{ label }}
-          </label>
-          <div class="control has-icons-left has-icons-right">
-            <input type="password" name="password" class="input" ref="verticalInput"
-                   :class="checkClass"
-                   :required="isRequired"
-                   :disabled="isDisabled"
-                   :placeholder="placeholder"
-                   :value="modelValue"
-                   @input="$emit('update:modelValue', $event.target.value)"
-                   @invalid="checkIfIsInvalid($event.target)"
-                   @keyup="checkOnPasswordRule($event.target)">
-            <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
-            <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkClass === 'is-success',
-                                                              'fas fa-exclamation-triangle': checkClass === 'is-danger',
-                                                              '': checkClass === ''}"></i></span>
-            <p class="help" :class="checkClass">
-              {{ checkMsg }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="field" v-if="!isLogin">
-          <label class="label required">
-            {{ '비밀번호확인' }}
-          </label>
-          <div class="control has-icons-left has-icons-right">
-            <input type="password" name="passwordConfirm" class="input"
-                   :class="checkConfirmClass"
-                   placeholder="비밀번호를 확인해주세요"
-                   :required="isRequired"
-                   v-model="confirmPassword"
-                   @invalid="checkIfIsInvalid($event.target)"
-                   @keyup="doConfirmPassword($event.target)">
-            <span class="icon is-small is-left"><i class="fa-solid fa-lock"></i></span>
-            <span class="icon is-small is-right"><i :class="{ 'fas fa-check': checkConfirmClass === 'is-success',
-                                                              'fas fa-exclamation-triangle': checkConfirmClass === 'is-danger',
-                                                              '': checkConfirmClass === ''}"></i></span>
-            <p class="help" :class="checkConfirmClass">
-              {{ checkConfirmMsg }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import utils from "@/utils/utils"
 import _ from 'lodash'
+import Label from "@/views/label/Label.vue";
 
 export default defineComponent({
   name: "Password",

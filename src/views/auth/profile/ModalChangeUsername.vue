@@ -1,8 +1,8 @@
 <template>
-  <AppModal :title="'아이디변경'">
+  <AppModal :title="'아이디 변경'">
     <template v-slot:modalContent>
       <form @submit.prevent="updateUsername($event)" novalidate>
-        <Username :label="'아이디'"
+        <Username :label="'아이디'" ref="usernameComp"
                   :is-required="true"
                   :dup-check-target="dupCheckTarget"
                   :placeholder="'변경할 아이디를 입력해주세요'"
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import AppModal from "@/components/AppModal.vue"
 import Username from "@/components/input/Username.vue"
 import AuthGrpcService from "@/services/auth.grpc.service"
@@ -31,6 +31,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const newUsername = ref('')
+    const usernameComp = ref()
     const dupCheckTarget = ref(utils.authority.isParent() ? 'parent' : 'user')
 
     const updateUsername = async (form: any) => {
@@ -39,8 +40,13 @@ export default defineComponent({
       await emit("complete-function", '수정되었습니다', true)
     }
 
+    onMounted(() => {
+      usernameComp.value.focusin()
+    })
+
     return {
       newUsername,
+      usernameComp,
       dupCheckTarget,
       updateUsername
     }
